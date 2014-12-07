@@ -4,7 +4,7 @@
   <subtitle><![CDATA[to be better]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-07T13:45:42.959Z</updated>
+  <updated>2014-12-07T13:52:07.709Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://vernonzheng.com/2014/12/07/linux%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%A7%A3%E7%96%91/"/>
     <id>http://vernonzheng.com/2014/12/07/linux环境变量解疑/</id>
     <published>2014-12-07T09:02:59.000Z</published>
-    <updated>2014-12-07T13:45:36.000Z</updated>
+    <updated>2014-12-07T13:52:00.000Z</updated>
     <content type="html"><![CDATA[<h1 id="什么是环境变量">什么是环境变量</h1>
 <pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作环境的信息。
 </code></pre><p>环境变量有两类：全局变量和局部变量。<br>局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。</p>
@@ -60,6 +60,8 @@
       <category term="linux" scheme="http://vernonzheng.com/tags/linux/"/>
     
       <category term="环境变量" scheme="http://vernonzheng.com/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/"/>
+    
+      <category term="linux" scheme="http://vernonzheng.com/categories/linux/"/>
     
   </entry>
   
