@@ -106,7 +106,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 <blockquote>
 <p>$test=testing<br>$echo $test<br>testing<br>$</p>
 </blockquote>
-<p>设置全局变量：通过将局部变量导出为全部变量的方式，如</p>
+<p>设置全局变量：通过将局部变量导出为全局变量的方式，如</p>
 <blockquote>
 <p>$echo $test<br>testing a long string<br>$export test<br>$bash<br>$echo $test<br>testing a long string<br>$</p>
 </blockquote>
@@ -125,7 +125,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 <p>记住，交互式shell的启动文件知会再每次有新的交互式shell启动时才运行，因此任何子shell都会自动执行这个交互式shell的启动文件。</p>
 <p>还能看出，/etc/bashrc文件也会执行位于/etc/profile.d 目录下的那些应用专属的启动文件。</p>
 <h2 id="（3）作为运行脚本的非交互shell">（3）作为运行脚本的非交互shell</h2>
-<p>系统执行shell脚本时用的就是这种shell。你不用担心它没有命令行提示符，但当你每次再系统上运行脚本时人妖运行特定的启动命令。</p>
+<p>系统执行shell脚本时用的就是这种shell。你不用担心它没有命令行提示符，但当你每次再系统上运行脚本时仍要运行特定的启动命令。</p>
 <p>为了处理这种情况，bash shell提供了BASH_ENV环境变量。<br>当shell启动一个非交互式shell进程时，它会检查这个环境变量来查看要执行的启动文件。如果有指定，shell会执行文件里的命令。在这个linux发行版里，默认情况下这个环境变量并未设置。</p>
   
 	</div>
