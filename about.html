@@ -1,10 +1,11 @@
 
-  <!DOCTYPE HTML>
+  
+    <!DOCTYPE HTML>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   
-    <title>Archives: 2014/12 | vernonzheng blog</title>
+    <title>Me | vernonzheng blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
@@ -27,9 +28,9 @@
 
 </head>
 
-    <body>
-      <header>
-        <div>
+      <body>
+        <header>
+          <div>
 		
 			<div id="imglogo">
 				<a href="/"><img src="/img/logo.png" alt="vernonzheng blog" title="vernonzheng blog"/></a>
@@ -63,53 +64,55 @@
 				</ul>
 			</nav>			
 </div>
-      </header>
-      <div id="container">
-        
+        </header>
+        <div id="container">
+          <div id="main" class="page" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/about.html" title="Me" itemprop="url">Me</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
+		
+  <p class="article-time">
+    <time datetime="2014-12-07T15:18:11.000Z" itemprop="datePublished"> 发表于 12月 7 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<blockquote>
+<p>程序猿：不要给自己设定界限。喜欢旅游，球类，音乐，偶尔翻书。</p>
+<p>希望：写得了好代码，装的了x，走的了全世界</p>
+<p>互相学习</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
 
-<div class="archive-title" >
-  <h2 class="archive-icon">2014/12</h2>
-  
-  <div class="archiveslist archive-float clearfix">
-   <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">2014 年 12 月</a><span class="archive-list-count">2</span></li></ul>
- </div>
-  
+
 </div>
-<div id="main" class="archive-part clearfix">
-  <div id="archive-page">
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/12/07/linux环境变量解疑/" title="linux环境变量解疑" itemprop="url">
-  
-
-    <time datetime="2014-12-07T09:02:59.000Z" itemprop="datePublished">12月 7 2014</time>
 
 
-    <h1 itemprop="name">linux环境变量解疑</h1>
+<div class="article-share" id="share">
 
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/12/01/hello-world/" title="Hello World" itemprop="url">
-  
-
-    <time datetime="2014-12-01T14:28:12.000Z" itemprop="datePublished">12月 1 2014</time>
-
-
-    <h1 itemprop="name">Hello World</h1>
-
-  </a>
-</section>
-
-
+  <div data-url="http://vernonzheng.com/about.html" data-title="Me | vernonzheng blog" data-tsina="null" class="share clearfix">
   </div>
-</div>
 
-      </div>
-      <footer><div id="footer" >
+</div>
+</footer>   	       
+	</article>
+	
+	
+
+</div>  
+        </div>
+        <footer><div id="footer" >
 	
 	<div class="line">
 		<span></span>
@@ -149,7 +152,7 @@
 		</p>
 </div>
 </footer>
-      <script src="/js/jquery-2.0.3.min.js"></script>
+        <script src="/js/jquery-2.0.3.min.js"></script>
 <script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 
@@ -199,10 +202,63 @@ $(document).ready(function(){
 </script>
 
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
 
 
 
 
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
 
 
 
@@ -229,5 +285,6 @@ $(document).ready(function(){
 
 <!-- MathJax End -->
 
-    </body>
-   </html>
+      </body>
+     </html>
+     
