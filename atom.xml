@@ -4,7 +4,7 @@
   <subtitle><![CDATA[to be better]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-10T13:47:43.956Z</updated>
+  <updated>2014-12-10T15:21:05.210Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -15,52 +15,182 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[linux环境变量解疑]]></title>
-    <link href="http://vernonzheng.com/2014/12/07/linux%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%A7%A3%E7%96%91/"/>
-    <id>http://vernonzheng.com/2014/12/07/linux环境变量解疑/</id>
+    <title><![CDATA[《Robust Java 中文版》 笔记总结]]></title>
+    <link href="http://vernonzheng.com/2014/12/10/%E3%80%8ARobust-Java-%E4%B8%AD%E6%96%87%E7%89%88%E3%80%8B%E7%AC%94%E8%AE%B0%E6%80%BB%E7%BB%93/"/>
+    <id>http://vernonzheng.com/2014/12/10/《Robust-Java-中文版》笔记总结/</id>
+    <published>2014-12-10T14:08:49.000Z</published>
+    <updated>2014-12-10T15:20:56.000Z</updated>
+    <content type="html"><![CDATA[<pre><code><span class="comment">Robust</span> <span class="comment">Java</span> <span class="comment">中文版</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">Java异常处理、测试与调试，这本书主要讲解了Java异常</span> <span class="comment">的原理及处理方法，系统地阐述了体系结构、设计、开发、测试和调试等主题，并讨论了如何构建健壮的系统。</span>
+</code></pre><h1 id="一、异常基础">一、异常基础</h1>
+<p>java异常的产生是代码处，异常会作为消息发送至应用程序的catch部分或者抛出。</p>
+<p><strong>1.1 Throwable的内部关系</strong></p>
+<p>异常的祖先是Throwable（可抛出），底下是Exception（异常）和Error（错误）<br>Exception异常：为“合理程序程序需要捕获的情况”，可预测，可恢复。<br>Error错误：合理应用程序不应试图捕获它，反常情况。</p>
+<p><strong>1.2 可检测异常与非检测异常</strong></p>
+<p><strong>区别</strong>：可检测异常经编译器验证，而非检测异常不需要。<br>主要的非检测异常：RuntimeException和Error。（对于RuntimeException，一般针对特定操作，请增加校验。）</p>
+<p><strong>1.3 Trowable的属性</strong></p>
+<p>Throwable 存储3个属性：</p>
+<ul>
+<li>message（消息）：String //描述性文本 读（只能在构造函数设置）</li>
+<li>stack trace（栈跟踪）：StackTraceElement[] //引发异常的所有方法调用的记录 读-写</li>
+<li>cause（原因）：Trowable //产生此异常的原因 读-写（只能设置一次） getCause和initCause获取和设置，或者构造函数设置</li>
+</ul>
+<p>除3个属性外，Throwable还包含toString和getLocalizedMessage 方法。<br>toString方法：覆盖Object类，返回异常名（对于非空消息字符串）。<br>getLocalizedMessge方法：返回消息字符串的值。</p>
+<h1 id="二、异常的实践">二、异常的实践</h1>
+<p><strong>2.1 处理还是声明异常</strong></p>
+<p><strong>经验法则</strong>：尽可能去处理异常，如果没有能力处理就声明异常。<br>从本质上讲，仅当方法缺少自我处理异常的信息、上下文或资源时，才将异常信息传给调用者。</p>
+<h1 id="三、异常高级特性">三、异常高级特性</h1>
+<p><strong>3.1 链表异常</strong></p>
+<p>就是异常允许设置两个异常之间的关联，称为链表异常。参考1.3里的cause属性。<br>设置方法有两种，作为构造函数参数传入，或者调用initCause(Throwable)方法设置，只能设置一次。</p>
+<p>一般不常用，处理链表异常的方式可以参考如下：</p>
+<blockquote>
+<p>try{<br>    throublesomeObject.riskyMethod();<br>}catch(ChainedException exc){<br>    System.out.println(“We’re in trouble now!!!”);<br>    Throwable currentException = exc;<br>    do{<br>         System.out.println(currentException.toString());<br>         currentException = currentException.getCause();<br>    }while(currentException != null)<br>}</p>
+</blockquote>
+<p><strong>3.2 异常的本地化和国际化</strong></p>
+<p>如果需要本地化异常相关文本，可在自定义异常中覆盖getLocalizedMessage(),以加载本地专用的异常信息。</p>
+<p>java使用java.util和java.text包的类支持110n和i18n.java.util.resourceBundle和java.util.Locale是两个关键类。</p>
+<p>实现步骤为：</p>
+<ul>
+<li>创建ResourceBundle子类来存储消息</li>
+<li>为不同地区继承ResourceBundle类</li>
+<li>创建覆盖getLocalizedMessage的自定义异常类并用ResourceBundle检索消息</li>
+<li>具体大家自己查下吧，就不贴代码了。</li>
+</ul>
+<p><strong>3.3 不声明异常，声明异常，try-catch处理异常的性能比较</strong></p>
+<p>有兴趣的可以自己写个测试类，javap -c -verbose一下。</p>
+<p>可以看到：<br>声明异常和不声明的两个方法字节码相同，声明异常的抛出语句在类的方法查找表中声明。<br>而内部try-catch的方法，会增加一些如goto， astore等的字节码指令，以及一个与该方法相关的异常表（Exception table）。若产生异常，异常表控制代码路由。实际上行为与前两者类似。</p>
+<p>那么这三者的性能比较会怎样？<strong>实际测试是区别不明显</strong>。</p>
+<p>总结下<strong>最佳实践</strong>：<br>尽量避免抛出异常。<br>如果条件允许就处理异常。<br>如果条件不允许就声明异常。</p>
+<h1 id="四、异常与多线程">四、异常与多线程</h1>
+<p><strong>4.1 多线程与异常的关系</strong></p>
+<p>看run方法签名，知道线程的异常都必须内部处理。<br>当run方法抛出非检测异常（RuntimeException或Error）时，负责该执行路径的Thread将终止，而其他线程无感知，理想情况下，多线程不抛出受检或非受检异常。</p>
+<p><strong>关于dumpstack</strong>：</p>
+<p>多线程程序中，每个线程都有自己的执行路径，也有自己的栈跟踪。要分析Thread的栈跟踪，调用Thread类的dumpStack方法，将其显示在标准错误流中（System.err)。<br>如果正常运行时执行该操作，显示Thread在其调用栈的当前位置。<br>如果产生异常，则显示标准异常栈跟踪。</p>
+<p><strong>4.2 同步代码块中的异常</strong></p>
+<p>比较正确的写法：除非保证不损坏同步块，决不抛出传到同步块意外的异常：</p>
+<blockquote>
+<p>try{<br>    synchronized(this){<br>    }<br>}catch(RuntimeException exc){</p>
+<p>}</p>
+</blockquote>
+<h1 id="五、异常设计的最佳实践">五、异常设计的最佳实践</h1>
+<ul>
+<li>（1）在应用程序中，可根据潜在故障集来描述各个用例。可根据在运行程序中出现的可能性及严重程度，按层次定义这些故障。</li>
+<li>（2）只解决对程序有重大影响且不可避免的问题和错误。</li>
+<li>（3）方法只传递程序中需要广而告之的错误，或传递因为方法缺少上下文或资源而无法解决的错误。</li>
+<li>（4）方法应根据使用者的角色和职责，以使用者可轻易理解的方式传递错误。</li>
+<li>（5）方法仅在以下情况下抛出多个异常：<br>a.互相排斥（起因不同）<br>b.对使用者有不同作用<br>c.表示完全不同的故障<br>+（6）在任何软件实体中（类、组件、系统、架构或API），异常都应称为实体合约（实体与外部的接口）的标准部分。</li>
+</ul>
+<h1 id="六、测试技术体系">六、测试技术体系</h1>
+<p><strong>6.1 测试角色和职责</strong></p>
+<ul>
+<li>6.1.1 开发人员（TDD适合开发人员的单元测试，集成测试）<br>白盒：静态和动态测试，包括单元，集成，烟雾（smoke）和回归测试<br>体系结构：大多数测试形式，但有效性测试最好由用户来执行</li>
+<li>6.1.2 测试人员<br>黑盒：大多数测试形式，特别是探索和基于风险的测试<br>系统结构：大多数测试形式</li>
+<li>6.1.3 用户<br>黑盒：alpha，beta和用户满意度测试<br>体系结构：有效性测试</li>
+</ul>
+<h1 id="七、调试技术体系">七、调试技术体系</h1>
+<p><strong>低级：code-resident技术</strong></p>
+<ul>
+<li>日志记录API</li>
+<li>异常和错误</li>
+<li>专用测试方法</li>
+</ul>
+<p><strong>中级：模式和架构技术</strong></p>
+<ul>
+<li>收集器（被动数据收集）</li>
+<li>监控器（被动数据监控）</li>
+<li>模仿器（主动被调用行为）</li>
+<li>模拟器（主动调用行为）</li>
+</ul>
+<p><strong>高级：系统技术</strong></p>
+<ul>
+<li>体系结构测试方法和架构</li>
+<li>基础结构收集方法</li>
+<li>JPDA（java平台调试器体系结构）</li>
+</ul>
+<hr>
+<p>参考：</p>
+<ul>
+<li>《Robust Java 中文版》:<a href="http://book.douban.com/subject/1681498/" target="_blank" rel="external">http://book.douban.com/subject/1681498/</a></li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code><span class="comment">Robust</span> <span class="comment">Java</span> <span class="comment">中文版</span><span class="literal">-</sp]]>
+    </summary>
+    
+      <category term="读书笔记" scheme="http://vernonzheng.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="java" scheme="http://vernonzheng.com/tags/java/"/>
+    
+      <category term="读书笔记" scheme="http://vernonzheng.com/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Linux环境变量解疑]]></title>
+    <link href="http://vernonzheng.com/2014/12/07/Linux%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%A7%A3%E7%96%91/"/>
+    <id>http://vernonzheng.com/2014/12/07/Linux环境变量解疑/</id>
     <published>2014-12-07T09:02:59.000Z</published>
-    <updated>2014-12-07T14:10:39.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="什么是环境变量">什么是环境变量</h1>
+    <updated>2014-12-10T15:20:14.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="一、什么是环境变量">一、什么是环境变量</h1>
 <pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作环境的信息。
-</code></pre><p>环境变量有两类：全局变量和局部变量。<br>局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。</p>
-<h2 id="显示环境变量">显示环境变量</h2>
-<p>显示全局变量：printenv<br>显示局部变量：set</p>
-<h2 id="设置环境变量">设置环境变量</h2>
-<p>设置局部变量：通过等号来给环境变量赋值，如</p>
+</code></pre><p>环境变量有两类：<strong>全局变量</strong>和<strong>局部变量</strong>。<br>局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。</p>
+<p><strong>1.1 显示环境变量</strong></p>
+<ul>
+<li>显示全局变量：printenv</li>
+<li>显示局部变量：set</li>
+</ul>
+<p><strong>1.2 设置环境变量</strong></p>
+<ul>
+<li>设置局部变量：通过等号来给环境变量赋值，如</li>
+</ul>
 <blockquote>
 <p>$test=testing<br>$echo $test<br>testing<br>$</p>
 </blockquote>
-<p>设置全局变量：通过将局部变量导出为全局变量的方式，如</p>
+<ul>
+<li>设置全局变量：通过将局部变量导出为全局变量的方式，如</li>
+</ul>
 <blockquote>
 <p>$echo $test<br>testing a long string<br>$export test<br>$bash<br>$echo $test<br>testing a long string<br>$</p>
 </blockquote>
-<h2 id="删除环境变量">删除环境变量</h2>
-<p>局部变量：unset test<br>全局变量：unset test 需要注意的是：如果你是在子进程中删除一个全局环境变量，它只对子进程失效。全局环境变量在父进程仍然有效。</p>
-<h1 id="易混淆的系统环境变量">易混淆的系统环境变量</h1>
-<p>linux启动启动一个bash shell时，默认情况下bash在几个文件中查找命令。这些文件称为启动文件，根据bash shell启动方式的不同，查找文件不同。</p>
+<p><strong>1.3删除环境变量</strong></p>
+<ul>
+<li>局部变量：unset test</li>
+<li>全局变量：unset test 需要注意的是：如果你是在子进程中删除一个全局环境变量，它只对子进程失效。全局环境变量在父进程仍然有效。</li>
+</ul>
+<h1 id="二、系统环境变量">二、系统环境变量</h1>
+<p>linux启动启动一个bash shell时，默认情况下bash在几个文件中查找命令。这些文件称为启动文件，<strong>根据bash shell启动方式的不同，查找文件不同</strong>。</p>
 <p>bash shell有三种方式：</p>
-<h2 id="（1）登陆时当做默认登陆shell">（1）登陆时当做默认登陆shell</h2>
+<p><strong>（1）登陆时当做默认登陆shell</strong></p>
 <p>会依次查找一下路径：</p>
-<blockquote>
-<p>/etc/profile<br>$HOME/.bash_profile<br>$HOME/.bash_login<br>$HOME/.profile</p>
-</blockquote>
-<p>/etc/profile文件是系统上默认的bash shell的主启动文件。每个用户登陆都会执行这个启动文件，另外3个启动文件是用户专有的，可根据用户定制。</p>
-<h2 id="（2）作为非登陆shell的交互式shell">（2）作为非登陆shell的交互式shell</h2>
+<ul>
+<li>/etc/profile</li>
+<li>$HOME/.bash_profile</li>
+<li>$HOME/.bash_login</li>
+<li>$HOME/.profile</li>
+</ul>
+<p><strong>/etc/profile</strong>文件是系统上默认的bash shell的主启动文件。每个用户登陆都会执行这个启动文件，另外3个启动文件是用户专有的，可根据用户定制。</p>
+<p><strong>（2）作为非登陆shell的交互式shell</strong></p>
 <p>如果你的bash shell不是登陆系统时启动的，称为交互式shell。</p>
 <p>交互式shell不会去访问/etc/profile文件，而会去用户的HOME目录检查<strong>.bashrc</strong>是否存在。</p>
+<p><strong>.bashrc</strong>文件的作用：<br>有两个作用：</p>
 <ul>
-<li><strong>.bashrc</strong>文件的作用：<br>有两个作用：<br>一是查看/etc目录下的公用bashrc文件<br>二是为用户提供一个定制自己的命令别名和私有脚本函数的地方。<br>（默认的文件会设置一些环境变量，但一般它没有执行export命令让它们称为全局的。）</li>
+<li>一是查看/etc目录下的公用bashrc文件</li>
+<li>二是为用户提供一个定制自己的命令别名和私有脚本函数的地方。<br>（默认的文件会设置一些环境变量，但一般它没有执行export命令让它们称为全局的。）</li>
 </ul>
 <p>记住，交互式shell的启动文件只会在每次有新的交互式shell启动时才运行，因此任何子shell都会自动执行这个交互式shell的启动文件。</p>
 <p>还能看出，/etc/bashrc文件也会执行位于/etc/profile.d 目录下的那些应用专属的启动文件。</p>
-<h2 id="（3）作为运行脚本的非交互shell">（3）作为运行脚本的非交互shell</h2>
+<p><strong>（3）作为运行脚本的非交互shell</strong></p>
 <p>系统执行shell脚本时用的就是这种shell。</p>
 <p>当你每次在系统上运行脚本时需要运行特定的启动命令。为了处理这种情况，bash shell提供了BASH_ENV环境变量。</p>
 <p>当shell启动一个非交互式shell进程时，它会检查这个环境变量来查看要执行的启动文件。如果有指定，shell会执行文件里的命令。<br>（在linux发行版里，默认情况下这个环境变量并未设置。）</p>
+<hr>
+<p>参考：</p>
+<ul>
+<li>《Linux命令行与shell脚本编程大全》:<a href="http://book.douban.com/subject/11589828/" target="_blank" rel="external">http://book.douban.com/subject/11589828/</a></li>
+</ul>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="什么是环境变量">什么是环境变量</h1>
-<pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作环境的信]]>
+    <![CDATA[<h1 id="一、什么是环境变量">一、什么是环境变量</h1>
+<pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作]]>
     </summary>
     
       <category term="linux" scheme="http://vernonzheng.com/tags/linux/"/>
