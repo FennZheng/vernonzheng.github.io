@@ -93,7 +93,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -118,7 +118,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 <blockquote>
 <p>$echo $test<br>testing a long string<br>$export test<br>$bash<br>$echo $test<br>testing a long string<br>$</p>
 </blockquote>
-<p><strong>1.3删除环境变量</strong></p>
+<p><strong>1.3 删除环境变量</strong></p>
 <ul>
 <li>局部变量：unset test</li>
 <li>全局变量：unset test 需要注意的是：如果你是在子进程中删除一个全局环境变量，它只对子进程失效。全局环境变量在父进程仍然有效。</li>
@@ -126,7 +126,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 <h1 id="二、系统环境变量">二、系统环境变量</h1>
 <p>linux启动启动一个bash shell时，默认情况下bash在几个文件中查找命令。这些文件称为启动文件，<strong>根据bash shell启动方式的不同，查找文件不同</strong>。</p>
 <p>bash shell有三种方式：</p>
-<p><strong>（1）登陆时当做默认登陆shell</strong></p>
+<h2 id="2-1_登陆时当做默认登陆shell">2.1 登陆时当做默认登陆shell</h2>
 <p>会依次查找一下路径：</p>
 <ul>
 <li>/etc/profile</li>
@@ -135,17 +135,17 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 <li>$HOME/.profile</li>
 </ul>
 <p><strong>/etc/profile</strong>文件是系统上默认的bash shell的主启动文件。每个用户登陆都会执行这个启动文件，另外3个启动文件是用户专有的，可根据用户定制。</p>
-<p><strong>（2）作为非登陆shell的交互式shell</strong></p>
+<h2 id="2-2_作为非登陆shell的交互式shell">2.2 作为非登陆shell的交互式shell</h2>
 <p>如果你的bash shell不是登陆系统时启动的，称为交互式shell。</p>
 <p>交互式shell不会去访问/etc/profile文件，而会去用户的HOME目录检查<strong>.bashrc</strong>是否存在。</p>
-<p><strong>.bashrc</strong>文件的作用：<br>有两个作用：</p>
+<p><strong>.bashrc文件的作用</strong>：<br>有两个作用：</p>
 <ul>
 <li>一是查看/etc目录下的公用bashrc文件</li>
 <li>二是为用户提供一个定制自己的命令别名和私有脚本函数的地方。<br>（默认的文件会设置一些环境变量，但一般它没有执行export命令让它们称为全局的。）</li>
 </ul>
 <p>记住，交互式shell的启动文件只会在每次有新的交互式shell启动时才运行，因此任何子shell都会自动执行这个交互式shell的启动文件。</p>
 <p>还能看出，/etc/bashrc文件也会执行位于/etc/profile.d 目录下的那些应用专属的启动文件。</p>
-<p><strong>（3）作为运行脚本的非交互shell</strong></p>
+<h2 id="2-3_作为运行脚本的非交互shell">2.3 作为运行脚本的非交互shell</h2>
 <p>系统执行shell脚本时用的就是这种shell。</p>
 <p>当你每次在系统上运行脚本时需要运行特定的启动命令。为了处理这种情况，bash shell提供了BASH_ENV环境变量。</p>
 <p>当shell启动一个非交互式shell进程时，它会检查这个环境变量来查看要执行的启动文件。如果有指定，shell会执行文件里的命令。<br>（在linux发行版里，默认情况下这个环境变量并未设置。）</p>
@@ -211,7 +211,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
  
   </div>
 
