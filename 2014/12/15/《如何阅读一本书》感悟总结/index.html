@@ -4,18 +4,16 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Linux环境变量解疑 | vernonzheng blog</title>
+    <title>《如何阅读一本书》感悟总结 | vernonzheng blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
     
-    <meta name="description" content="一、什么是环境变量
-bash shell用一个称为环境变量的特性来存储有关shell会话和工作环境的信息。
-环境变量有两类：全局变量和局部变量。局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。
-1.1 显示环境变量
+    <meta name="description" content="阅读一本书，就是和作者交流的过程。与直接面对面交流不同，阅读这种“静默”交流方式，需要不同的经验和技巧。刚看完《如何阅读一本书》，感触比较多，总结一下。
+读书太快或者太慢都会一无所获。要知道什么时候用什么速度阅读很重要。
+好的阅读是
 
-显示全局变量：printenv
-显示局部变量：s">
+（1）主动，包括主动的发现问题，思考问题，做一个自我要求的读者（">
     
     
     
@@ -77,14 +75,14 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/07/Linux环境变量解疑/" title="Linux环境变量解疑" itemprop="url">Linux环境变量解疑</a>
+      <a href="/2014/12/15/《如何阅读一本书》感悟总结/" title="《如何阅读一本书》感悟总结" itemprop="url">《如何阅读一本书》感悟总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2014-12-07T09:02:59.000Z" itemprop="datePublished"> 发表于 12月 7 2014</time>
+    <time datetime="2014-12-14T16:27:57.000Z" itemprop="datePublished"> 发表于 12月 15 2014</time>
     
   </p>
 </header>
@@ -93,67 +91,51 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
-		<h1 id="一、什么是环境变量">一、什么是环境变量</h1>
-<pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作环境的信息。
-</code></pre><p>环境变量有两类：<strong>全局变量</strong>和<strong>局部变量</strong>。<br>局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。</p>
-<p><strong>1.1 显示环境变量</strong></p>
+		<pre><code>阅读一本书，就是和作者交流的过程。与直接面对面交流不同，阅读这种“静默”交流方式，需要不同的经验和技巧。刚看完《如何阅读一本书》，感触比较多，总结一下。
+</code></pre><p>读书太快或者太慢都会一无所获。要知道什么时候用什么速度阅读很重要。</p>
+<p><strong>好的阅读是</strong></p>
 <ul>
-<li>显示全局变量：printenv</li>
-<li>显示局部变量：set</li>
+<li>（1）主动，包括主动的发现问题，思考问题，做一个自我要求的读者<br>（要去理解作者在说什么，为什么这么说，有道理吗，如果有道理怎么运用它等，最后善于做笔记）。</li>
+<li>（2）技巧，根据不同的阅读层次和目的，技巧不同，后面讲到。</li>
 </ul>
-<p><strong>1.2 设置环境变量</strong></p>
+<p><strong>阅读的目的有两种</strong></p>
+<p>一种是为获得咨询而读，一种是求得理解而读。<br>两种的技巧不同。<br>（为求得理解而读的一般发生在两种状况下：<br>一是一开始不对等的理解程度<br>二是阅读的人一定要把不对等的理解力克服到一定程度内。）</p>
+<p><strong>阅读的层次</strong></p>
 <ul>
-<li>设置局部变量：通过等号来给环境变量赋值，如</li>
+<li>基础阅读</li>
+<li>检视阅读：系统化略读。获得咨询或者消遣停留在这个层次。</li>
+<li>分析阅读：特别是在追求理解。</li>
+<li>主题阅读：又称比较阅读，根据主题，阅读很多本书，例举出书之间的相关之处，总结。</li>
 </ul>
-<blockquote>
-<p>$test=testing<br>$echo $test<br>testing<br>$</p>
-</blockquote>
+<p><strong>各层次阅读经验</strong></p>
 <ul>
-<li>设置全局变量：通过将局部变量导出为全局变量的方式，如</li>
+<li><p>检视阅读：<br>（1）头一次面对一本难读的时候，从头到尾先读一遍，碰到不懂的地方不要停下来查询或者思索。<br>（2）避免“逗留”和“倒退”的坏习惯。</p>
+</li>
+<li><p>分析阅读：<br>（1）根据顺序和关系，列出全书的重要部分，找出作者在问的问题，或作者想要解决的问题，诠释作者使用的关键字，与作者打成共识，找到论述，然后重构前因后果，明白哪些已解决，哪些未解决。<br>（2）应该为感到困扰的问题停留，而不是感兴趣的细节。</p>
+</li>
+<li><p>主题阅读：<br>略</p>
+</li>
 </ul>
-<blockquote>
-<p>$echo $test<br>testing a long string<br>$export test<br>$bash<br>$echo $test<br>testing a long string<br>$</p>
-</blockquote>
-<p><strong>1.3 删除环境变量</strong></p>
+<p><strong>各类型书的阅读经验</strong></p>
 <ul>
-<li>局部变量：unset test</li>
-<li>全局变量：unset test 需要注意的是：如果你是在子进程中删除一个全局环境变量，它只对子进程失效。全局环境变量在父进程仍然有效。</li>
+<li><p>实用型书：<br>（1）“任何实用型书都不能解决该书的实际问题”，原文有点绕。。我理解为提出是思维，而非答案，最后做解决方案的还是自己。<br>（2）好的阅读者，读实用型书总能读出言外之意，即衍生出来的规则，他会进一步找出这些规则应该如何应用。<br>（3）评断一本实用型书，所有的事都与结果及目标有关，是否与结果达成共识，而非方法。</p>
+</li>
+<li><p>想象性文学：<br>（1）论述性文学传达的是知识，而想象性文学传达的是经验。</p>
+</li>
+<li><p>故事书：<br>（1）快，全心全意的读。</p>
+</li>
+<li><p>戏剧：<br>（1）你在读剧本时，不是在读一个已经完成的作品。<br>（2）悲剧的精髓在于时间，或者说缺乏时间。</p>
+</li>
+<li><p>历史类，计算机数学类，哲学类，社科类略。</p>
+</li>
 </ul>
-<h1 id="二、系统环境变量">二、系统环境变量</h1>
-<p>linux启动启动一个bash shell时，默认情况下bash在几个文件中查找命令。这些文件称为启动文件，<strong>根据bash shell启动方式的不同，查找文件不同</strong>。</p>
-<p>bash shell有三种方式：</p>
-<h2 id="2-1_登陆时当做默认登陆shell">2.1 登陆时当做默认登陆shell</h2>
-<p>会依次查找一下路径：</p>
-<ul>
-<li>/etc/profile</li>
-<li>$HOME/.bash_profile</li>
-<li>$HOME/.bash_login</li>
-<li>$HOME/.profile</li>
-</ul>
-<p><strong>/etc/profile</strong>文件是系统上默认的bash shell的主启动文件。每个用户登陆都会执行这个启动文件，另外3个启动文件是用户专有的，可根据用户定制。</p>
-<h2 id="2-2_作为非登陆shell的交互式shell">2.2 作为非登陆shell的交互式shell</h2>
-<p>如果你的bash shell不是登陆系统时启动的，称为交互式shell。</p>
-<p>交互式shell不会去访问/etc/profile文件，而会去用户的HOME目录检查<strong>.bashrc</strong>是否存在。</p>
-<p><strong>.bashrc文件的作用</strong>：<br>有两个作用：</p>
-<ul>
-<li>一是查看/etc目录下的公用bashrc文件</li>
-<li>二是为用户提供一个定制自己的命令别名和私有脚本函数的地方。<br>（默认的文件会设置一些环境变量，但一般它没有执行export命令让它们称为全局的。）</li>
-</ul>
-<p>记住，交互式shell的启动文件只会在每次有新的交互式shell启动时才运行，因此任何子shell都会自动执行这个交互式shell的启动文件。</p>
-<p>还能看出，/etc/bashrc文件也会执行位于/etc/profile.d 目录下的那些应用专属的启动文件。</p>
-<h2 id="2-3_作为运行脚本的非交互shell">2.3 作为运行脚本的非交互shell</h2>
-<p>系统执行shell脚本时用的就是这种shell。</p>
-<p>当你每次在系统上运行脚本时需要运行特定的启动命令。为了处理这种情况，bash shell提供了BASH_ENV环境变量。</p>
-<p>当shell启动一个非交互式shell进程时，它会检查这个环境变量来查看要执行的启动文件。如果有指定，shell会执行文件里的命令。<br>（在linux发行版里，默认情况下这个环境变量并未设置。）</p>
+<p>最后感慨下，多读书，多总结出更适合自己的方式。</p>
 <hr>
-<p>参考：</p>
-<ul>
-<li>《Linux命令行与shell脚本编程大全》:<a href="http://book.douban.com/subject/11589828/" target="_blank" rel="external">http://book.douban.com/subject/11589828/</a></li>
-</ul>
+<p>参考：<br>《如何阅读一本书》：<a href="http://book.douban.com/subject/1013208/" target="_blank" rel="external">http://book.douban.com/subject/1013208/</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -161,13 +143,13 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/linux/">linux</a>
+  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/linux/">linux</a><a href="/tags/环境变量/">环境变量</a>
+  <span></span> <a href="/tags/阅读方法/">阅读方法</a><a href="/tags/读书笔记/">读书笔记</a>
   </div>
 
 </div>
@@ -175,7 +157,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2014/12/07/Linux环境变量解疑/" data-title="Linux环境变量解疑 | vernonzheng blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2014/12/15/《如何阅读一本书》感悟总结/" data-title="《如何阅读一本书》感悟总结 | vernonzheng blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -184,19 +166,11 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/10/《Robust-Java-中文版》笔记总结/" title="《Robust Java 中文版》 笔记总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  《Robust Java 中文版》 笔记总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/01/hello-world/"  title="Hello World">
+<a href="/2014/12/13/Linux常用命令小记/"  title="Linux常用命令小记">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>Linux常用命令小记
 </span>
 </a>
 </div>
@@ -211,7 +185,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
+ 
  
   </div>
 
