@@ -90,12 +90,12 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、异常基础"><span class="toc-number">1.</span> <span class="toc-text">一、异常基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、异常的实践"><span class="toc-number">2.</span> <span class="toc-text">二、异常的实践</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、异常高级特性"><span class="toc-number">3.</span> <span class="toc-text">三、异常高级特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、异常与多线程"><span class="toc-number">4.</span> <span class="toc-text">四、异常与多线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、异常设计的最佳实践"><span class="toc-number">5.</span> <span class="toc-text">五、异常设计的最佳实践</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#六、测试技术体系"><span class="toc-number">6.</span> <span class="toc-text">六、测试技术体系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#七、调试技术体系"><span class="toc-number">7.</span> <span class="toc-text">七、调试技术体系</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、异常基础"><span class="toc-number">1.</span> <span class="toc-text">一、异常基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、异常的实践"><span class="toc-number">2.</span> <span class="toc-text">二、异常的实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、异常高级特性"><span class="toc-number">3.</span> <span class="toc-text">三、异常高级特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、异常与多线程"><span class="toc-number">4.</span> <span class="toc-text">四、异常与多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、异常设计的最佳实践"><span class="toc-number">5.</span> <span class="toc-text">五、异常设计的最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、测试技术体系"><span class="toc-number">6.</span> <span class="toc-text">六、测试技术体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、调试技术体系"><span class="toc-number">7.</span> <span class="toc-text">七、调试技术体系</span></a></li></ol>
 		
 		</div>
 		
 		<pre><code><span class="comment">Robust</span> <span class="comment">Java</span> <span class="comment">中文版</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">Java异常处理、测试与调试，这本书主要讲解了Java异常</span> <span class="comment">的原理及处理方法，系统地阐述了体系结构、设计、开发、测试和调试等主题，并讨论了如何构建健壮的系统。</span>
-</code></pre><h1 id="一、异常基础">一、异常基础</h1>
+</code></pre><h2 id="一、异常基础">一、异常基础</h2>
 <p>java异常的产生是代码处，异常会作为消息发送至应用程序的catch部分或者抛出。</p>
 <p><strong>1.1 Throwable的内部关系</strong></p>
 <p>异常的祖先是Throwable（可抛出），底下是Exception（异常）和Error（错误）<br>Exception异常：为“合理程序程序需要捕获的情况”，可预测，可恢复。<br>Error错误：合理应用程序不应试图捕获它，反常情况。</p>
@@ -109,10 +109,10 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
 <li>cause（原因）：Trowable //产生此异常的原因 读-写（只能设置一次） getCause和initCause获取和设置，或者构造函数设置</li>
 </ul>
 <p>除3个属性外，Throwable还包含toString和getLocalizedMessage 方法。<br>toString方法：覆盖Object类，返回异常名（对于非空消息字符串）。<br>getLocalizedMessge方法：返回消息字符串的值。</p>
-<h1 id="二、异常的实践">二、异常的实践</h1>
+<h2 id="二、异常的实践">二、异常的实践</h2>
 <p><strong>2.1 处理还是声明异常</strong></p>
 <p><strong>经验法则</strong>：尽可能去处理异常，如果没有能力处理就声明异常。<br>从本质上讲，仅当方法缺少自我处理异常的信息、上下文或资源时，才将异常信息传给调用者。</p>
-<h1 id="三、异常高级特性">三、异常高级特性</h1>
+<h2 id="三、异常高级特性">三、异常高级特性</h2>
 <p><strong>3.1 链表异常</strong></p>
 <p>就是异常允许设置两个异常之间的关联，称为链表异常。参考1.3里的cause属性。<br>设置方法有两种，作为构造函数参数传入，或者调用initCause(Throwable)方法设置，只能设置一次。</p>
 <p>一般不常用，处理链表异常的方式可以参考如下：</p>
@@ -134,7 +134,7 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
 <p>可以看到：<br>声明异常和不声明的两个方法字节码相同，声明异常的抛出语句在类的方法查找表中声明。<br>而内部try-catch的方法，会增加一些如goto， astore等的字节码指令，以及一个与该方法相关的异常表（Exception table）。若产生异常，异常表控制代码路由。实际上行为与前两者类似。</p>
 <p>那么这三者的性能比较会怎样？<strong>实际测试是区别不明显</strong>。</p>
 <p>总结下<strong>最佳实践</strong>：<br>尽量避免抛出异常。<br>如果条件允许就处理异常。<br>如果条件不允许就声明异常。</p>
-<h1 id="四、异常与多线程">四、异常与多线程</h1>
+<h2 id="四、异常与多线程">四、异常与多线程</h2>
 <p><strong>4.1 多线程与异常的关系</strong></p>
 <p>看run方法签名，知道线程的异常都必须内部处理。<br>当run方法抛出非检测异常（RuntimeException或Error）时，负责该执行路径的Thread将终止，而其他线程无感知，理想情况下，多线程不抛出受检或非受检异常。</p>
 <p><strong>关于dumpstack</strong>：</p>
@@ -145,7 +145,7 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
 <p>try{<br>    synchronized(this){<br>    }<br>}catch(RuntimeException exc){</p>
 <p>}</p>
 </blockquote>
-<h1 id="五、异常设计的最佳实践">五、异常设计的最佳实践</h1>
+<h2 id="五、异常设计的最佳实践">五、异常设计的最佳实践</h2>
 <ul>
 <li>（1）在应用程序中，可根据潜在故障集来描述各个用例。可根据在运行程序中出现的可能性及严重程度，按层次定义这些故障。</li>
 <li>（2）只解决对程序有重大影响且不可避免的问题和错误。</li>
@@ -154,14 +154,14 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
 <li>（5）方法仅在以下情况下抛出多个异常：<br>a.互相排斥（起因不同）<br>b.对使用者有不同作用<br>c.表示完全不同的故障</li>
 <li>（6）在任何软件实体中（类、组件、系统、架构或API），异常都应称为实体合约（实体与外部的接口）的标准部分。</li>
 </ul>
-<h1 id="六、测试技术体系">六、测试技术体系</h1>
+<h2 id="六、测试技术体系">六、测试技术体系</h2>
 <p><strong>6.1 测试角色和职责</strong></p>
 <ul>
 <li>6.1.1 开发人员（TDD适合开发人员的单元测试，集成测试）<br>白盒：静态和动态测试，包括单元，集成，烟雾（smoke）和回归测试<br>体系结构：大多数测试形式，但有效性测试最好由用户来执行</li>
 <li>6.1.2 测试人员<br>黑盒：大多数测试形式，特别是探索和基于风险的测试<br>系统结构：大多数测试形式</li>
 <li>6.1.3 用户<br>黑盒：alpha，beta和用户满意度测试<br>体系结构：有效性测试</li>
 </ul>
-<h1 id="七、调试技术体系">七、调试技术体系</h1>
+<h2 id="七、调试技术体系">七、调试技术体系</h2>
 <p><strong>低级：code-resident技术</strong></p>
 <ul>
 <li>日志记录API</li>
@@ -248,7 +248,7 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、异常基础"><span class="toc-number">1.</span> <span class="toc-text">一、异常基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、异常的实践"><span class="toc-number">2.</span> <span class="toc-text">二、异常的实践</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、异常高级特性"><span class="toc-number">3.</span> <span class="toc-text">三、异常高级特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、异常与多线程"><span class="toc-number">4.</span> <span class="toc-text">四、异常与多线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#五、异常设计的最佳实践"><span class="toc-number">5.</span> <span class="toc-text">五、异常设计的最佳实践</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#六、测试技术体系"><span class="toc-number">6.</span> <span class="toc-text">六、测试技术体系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#七、调试技术体系"><span class="toc-number">7.</span> <span class="toc-text">七、调试技术体系</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、异常基础"><span class="toc-number">1.</span> <span class="toc-text">一、异常基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、异常的实践"><span class="toc-number">2.</span> <span class="toc-text">二、异常的实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、异常高级特性"><span class="toc-number">3.</span> <span class="toc-text">三、异常高级特性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、异常与多线程"><span class="toc-number">4.</span> <span class="toc-text">四、异常与多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、异常设计的最佳实践"><span class="toc-number">5.</span> <span class="toc-text">五、异常设计的最佳实践</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、测试技术体系"><span class="toc-number">6.</span> <span class="toc-text">六、测试技术体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、调试技术体系"><span class="toc-number">7.</span> <span class="toc-text">七、调试技术体系</span></a></li></ol>
  
   </div>
 
@@ -263,6 +263,8 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
 		
 			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
 		
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
 		</ul>
@@ -272,7 +274,7 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">6</span></li></ul>
   </div>
 
 
@@ -280,7 +282,7 @@ java异常的产生是代码处，异常会作为消息发送至应用程序的c
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+       <a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/nodejs/" style="font-size: 10.00px;">nodejs</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 10.00px;">基础</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
     </div>
   </div>
 

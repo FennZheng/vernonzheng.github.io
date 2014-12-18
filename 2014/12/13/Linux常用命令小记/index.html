@@ -90,12 +90,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、文件相关"><span class="toc-number">1.</span> <span class="toc-text">一、文件相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、线程相关"><span class="toc-number">2.</span> <span class="toc-text">二、线程相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、账号相关"><span class="toc-number">3.</span> <span class="toc-text">三、账号相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、磁盘设备相关"><span class="toc-number">4.</span> <span class="toc-text">四、磁盘设备相关</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、文件相关"><span class="toc-number">1.</span> <span class="toc-text">一、文件相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、线程相关"><span class="toc-number">2.</span> <span class="toc-text">二、线程相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、账号相关"><span class="toc-number">3.</span> <span class="toc-text">三、账号相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、磁盘设备相关"><span class="toc-number">4.</span> <span class="toc-text">四、磁盘设备相关</span></a></li></ol>
 		
 		</div>
 		
 		<pre><code>最近在翻《Linux命令行与<span class="keyword">shell</span>脚本编程大全》,整理了书中提到的常用的linux命令行。
-</code></pre><h1 id="一、文件相关">一、文件相关</h1>
+</code></pre><h2 id="一、文件相关">一、文件相关</h2>
 <ul>
 <li><p><strong>链接文件</strong><br>cp -l test1 test4 创建硬链接（一个独立文件，引用了源文件，索引节点号是一样的，只适用同一个挂载点下的文件）<br>cp -s test1 test5 创建符号链接，软链接（一个独立文件，只存储源文件的信息，不存储源文件数据，索引节点显示为test5 -&gt; test1）<br>ln 链接文件（硬链接）<br>ln -s 链接文件（软链接）</p>
 </li>
@@ -108,18 +108,18 @@
 <li><p><strong>文件压缩、归档</strong><br>zip -r test.zip test 递归压缩目录<br>unzip test.zip 解压<br>tar -cvf test.tar test/ test2/ 创建含有test和test2目录的test.tar归档文件。<br>tar -tf test.tar 列出test.tar 内容，不解压<br>tar -xvf test.tar 解压<br>tar -zxvf test.tgz 解压gzip压缩过的tar文件</p>
 </li>
 </ul>
-<h1 id="二、线程相关">二、线程相关</h1>
+<h2 id="二、线程相关">二、线程相关</h2>
 <ul>
 <li><p><strong>监控性能</strong><br>top 实时监控进行，系统负载等</p>
 </li>
 <li><p><strong>线程消息</strong><br>kill -s 信号（线程传递信息，比如HUP（1）挂起，INT（2）终端，QUIT（3）结束运行，KILL（9）无条件终止）</p>
 </li>
 </ul>
-<h1 id="三、账号相关">三、账号相关</h1>
+<h2 id="三、账号相关">三、账号相关</h2>
 <ul>
 <li><strong>组与用户</strong><br>useradd -b default_home -g group sb<br>usermod 修改用户账户的字段，比如主要组以及附加组的所属关系<br>passwd username 修改密码<br>groupadd shared 创建shared新组（tail /etc/group查看结果）<br>usermod -G shared rich 增加shared组的成员，是-G，不是-g，-g会修改账户的默认组！<br>groupmod -n sharing shared 其中-n是修复已有组的组名 -g是修改GID<br>umask 777 —在/etc/profile 设置umask，即touch创建文件时候，默认给的权限<br>chmod o+r newfile (o表示权限设置跟其他用户一样，u表示权限设置为属主一样，g设置为属组一样，r读权限)<br>chown dan.shared newfile 改变文件的属主和属组</li>
 </ul>
-<h1 id="四、磁盘设备相关">四、磁盘设备相关</h1>
+<h2 id="四、磁盘设备相关">四、磁盘设备相关</h2>
 <ul>
 <li><p><strong>设备</strong><br>mount -t vfat /dev/sdb1 media/disk 将u盘/dev/sdb1 挂载到/media/disk<br>mount /homr/rich/mnt 卸载</p>
 </li>
@@ -190,7 +190,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、文件相关"><span class="toc-number">1.</span> <span class="toc-text">一、文件相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、线程相关"><span class="toc-number">2.</span> <span class="toc-text">二、线程相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三、账号相关"><span class="toc-number">3.</span> <span class="toc-text">三、账号相关</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#四、磁盘设备相关"><span class="toc-number">4.</span> <span class="toc-text">四、磁盘设备相关</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、文件相关"><span class="toc-number">1.</span> <span class="toc-text">一、文件相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、线程相关"><span class="toc-number">2.</span> <span class="toc-text">二、线程相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、账号相关"><span class="toc-number">3.</span> <span class="toc-text">三、账号相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、磁盘设备相关"><span class="toc-number">4.</span> <span class="toc-text">四、磁盘设备相关</span></a></li></ol>
  
   </div>
 
@@ -205,6 +205,8 @@
 		
 			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
 		
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
 		</ul>
@@ -214,7 +216,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">6</span></li></ul>
   </div>
 
 
@@ -222,7 +224,7 @@
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+       <a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/nodejs/" style="font-size: 10.00px;">nodejs</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 10.00px;">基础</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
     </div>
   </div>
 

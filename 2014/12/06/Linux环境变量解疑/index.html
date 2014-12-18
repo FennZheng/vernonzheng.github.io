@@ -93,11 +93,11 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="一、什么是环境变量">一、什么是环境变量</h1>
+		<h2 id="一、什么是环境变量">一、什么是环境变量</h2>
 <pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作环境的信息。
 </code></pre><p>环境变量有两类：<strong>全局变量</strong>和<strong>局部变量</strong>。<br>局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。</p>
 <p><strong>1.1 显示环境变量</strong></p>
@@ -123,10 +123,10 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 <li>局部变量：unset test</li>
 <li>全局变量：unset test 需要注意的是：如果你是在子进程中删除一个全局环境变量，它只对子进程失效。全局环境变量在父进程仍然有效。</li>
 </ul>
-<h1 id="二、系统环境变量">二、系统环境变量</h1>
+<h2 id="二、系统环境变量">二、系统环境变量</h2>
 <p>linux启动启动一个bash shell时，默认情况下bash在几个文件中查找命令。这些文件称为启动文件，<strong>根据bash shell启动方式的不同，查找文件不同</strong>。</p>
 <p>bash shell有三种方式：</p>
-<h2 id="2-1_登陆时当做默认登陆shell">2.1 登陆时当做默认登陆shell</h2>
+<h3 id="2-1_登陆时当做默认登陆shell">2.1 登陆时当做默认登陆shell</h3>
 <p>会依次查找一下路径：</p>
 <ul>
 <li>/etc/profile</li>
@@ -135,7 +135,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 <li>$HOME/.profile</li>
 </ul>
 <p><strong>/etc/profile</strong>文件是系统上默认的bash shell的主启动文件。每个用户登陆都会执行这个启动文件，另外3个启动文件是用户专有的，可根据用户定制。</p>
-<h2 id="2-2_作为非登陆shell的交互式shell">2.2 作为非登陆shell的交互式shell</h2>
+<h3 id="2-2_作为非登陆shell的交互式shell">2.2 作为非登陆shell的交互式shell</h3>
 <p>如果你的bash shell不是登陆系统时启动的，称为交互式shell。</p>
 <p>交互式shell不会去访问/etc/profile文件，而会去用户的HOME目录检查<strong>.bashrc</strong>是否存在。</p>
 <p><strong>.bashrc文件的作用</strong>：<br>有两个作用：</p>
@@ -145,7 +145,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 </ul>
 <p>记住，交互式shell的启动文件只会在每次有新的交互式shell启动时才运行，因此任何子shell都会自动执行这个交互式shell的启动文件。</p>
 <p>还能看出，/etc/bashrc文件也会执行位于/etc/profile.d 目录下的那些应用专属的启动文件。</p>
-<h2 id="2-3_作为运行脚本的非交互shell">2.3 作为运行脚本的非交互shell</h2>
+<h3 id="2-3_作为运行脚本的非交互shell">2.3 作为运行脚本的非交互shell</h3>
 <p>系统执行shell脚本时用的就是这种shell。</p>
 <p>当你每次在系统上运行脚本时需要运行特定的启动命令。为了处理这种情况，bash shell提供了BASH_ENV环境变量。</p>
 <p>当shell启动一个非交互式shell进程时，它会检查这个环境变量来查看要执行的启动文件。如果有指定，shell会执行文件里的命令。<br>（在linux发行版里，默认情况下这个环境变量并未设置。）</p>
@@ -216,7 +216,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
  
   </div>
 
@@ -231,6 +231,8 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 		
 			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
 		
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		
 			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
 		</ul>
@@ -240,7 +242,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">6</span></li></ul>
   </div>
 
 
@@ -248,7 +250,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+       <a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/nodejs/" style="font-size: 10.00px;">nodejs</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 10.00px;">基础</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
     </div>
   </div>
 

@@ -1,0 +1,608 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>没耐心的nodejs教程-基础篇 | vernonzheng blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Vernon Zheng">
+    
+    <meta name="description" content="这是一篇没耐心的nodejs教程，写给希望迅速上手的学习者。基础篇介绍权限，模块，包，工程目录结构，npm等。
+一、权限问题
+linux下，nodejs需要监听80或443端口提供HTTP（S）服务时需要root权限。有两种方式：
+
+（1）（推荐）需要js提供root权限
+$ sudo node s">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="vernonzheng blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="vernonzheng blog" title="vernonzheng blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="vernonzheng blog">vernonzheng blog</a></h1>
+				<h2 class="blog-motto">to be better</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about.html">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:vernonzheng.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/17/没耐心的nodejs教程-基础篇/" title="没耐心的nodejs教程-基础篇" itemprop="url">没耐心的nodejs教程-基础篇</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
+		
+  <p class="article-time">
+    <time datetime="2014-12-17T15:21:00.000Z" itemprop="datePublished"> 发表于 12月 17 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、权限问题"><span class="toc-number">1.</span> <span class="toc-text">一、权限问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、模块"><span class="toc-number">2.</span> <span class="toc-text">二、模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、模块初始化"><span class="toc-number">3.</span> <span class="toc-text">三、模块初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、模块路径解析规则"><span class="toc-number">4.</span> <span class="toc-text">四、模块路径解析规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、包"><span class="toc-number">5.</span> <span class="toc-text">五、包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、命令行程序"><span class="toc-number">6.</span> <span class="toc-text">六、命令行程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、工程目录结构"><span class="toc-number">7.</span> <span class="toc-text">七、工程目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八、NPM:包管理工具"><span class="toc-number">8.</span> <span class="toc-text">八、NPM:包管理工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九、最后npm比较有用的命令行："><span class="toc-number">9.</span> <span class="toc-text">九、最后npm比较有用的命令行：</span></a></li></ol>
+		
+		</div>
+		
+		<p>这是一篇没耐心的nodejs教程，写给希望迅速上手的学习者。基础篇介绍权限，模块，包，工程目录结构，npm等。</p>
+<h2 id="一、权限问题">一、权限问题</h2>
+<p>linux下，nodejs需要监听80或443端口提供HTTP（S）服务时需要root权限。<br>有两种方式：</p>
+<ul>
+<li>（1）（推荐）需要js提供root权限<blockquote>
+<p>$ sudo node server.js</p>
+</blockquote>
+</li>
+<li>（2）使用chmod+s命令让nodejs总是以root权限运行，不安全。<blockquote>
+<p>$ sudo chown root /usr/local/bin/node<br>$ sudo chmod +s /usr/local/bin/node</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="二、模块">二、模块</h2>
+<p>一个文件为一个模块，一个文件路径为一个模块名。<br>编写模块时，有require，exports，module三个变量。</p>
+<ul>
+<li><strong>2.1 required</strong><br>导入某个模块<blockquote>
+<p>var foo1 = required(‘./foo’);//.js后缀可以省略<br>var foo2 = required(“./foo.js”);</p>
+</blockquote>
+</li>
+</ul>
+<p>也可以加载或者导入一个json：</p>
+<blockquote>
+<p>var data = require(‘./data.json’);</p>
+</blockquote>
+<ul>
+<li><p><strong>2.2 exports</strong><br>是当前模块的导出对象，用于导出模块共有方式和属性。</p>
+<blockquote>
+<p>exports.hello = function(){</p>
+<pre><code>console.<span class="built_in">log</span>(‘Hello World!’);
+</code></pre><p>};</p>
+</blockquote>
+</li>
+<li><p><strong>2.3 module</strong><br>可以访问当前模块的一些信息，最多的用途就是替换当前模块的到处对象。</p>
+<blockquote>
+<p>module.export = function(){</p>
+<pre><code>console.<span class="built_in">log</span>(‘Hello World!’);
+</code></pre><p>};</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="三、模块初始化">三、模块初始化</h2>
+<p>NodeJS使用CMD模块系统，主模块作为程序入口点，所有模块在执行过程中只初始化一次。</p>
+<p><strong>初始化一次</strong></p>
+<p>一个模块中的JS代码仅在模块第一次被使用时执行一次，并在执行过程中初始化模块的导出对象。之后，缓存起来的导出对象被重复利用。</p>
+<ul>
+<li><p><strong>3.1 主模块</strong><br>通过命令行参数传递给NodeJS以启动程序的模块被称为主模块。主模块负责调度组成整个程序的其他模块完成工作。默认是路径下的main.js。</p>
+</li>
+<li><p><strong>3.2 二进制模块（不推荐）</strong><br>nodejs支持使用c/c++编写二进制模块。编译好的二进制模块除了文件扩展名是.node外，和JS块的使用方式相同。</p>
+</li>
+</ul>
+<h2 id="四、模块路径解析规则">四、模块路径解析规则</h2>
+<p>除了相对路径和绝对路径外，require函数还支持第三种形式的路径。</p>
+<ul>
+<li><p><strong>4.1 内置模块</strong></p>
+</li>
+<li><p><strong>4.2 node_modules目录</strong><br>专门存放模块的路径。比如某个模块的绝对路径是/home/user/hello.js, 在该模块中使用require(‘foo/bar’)方式加载模块，则NodeJS依次尝试使用以下路径。</p>
+<blockquote>
+<p>/home/user/node_modules/foo/bar<br>/home/node_modules/foo/bar<br>/node_moduels/foo/bar</p>
+</blockquote>
+</li>
+<li><p><strong>4.3 NODE_PATH环境变量</strong><br>指定额外的模块搜索路径。因为是额外，所以最后搜索。<br>使用：设置NODE_PATH环境变量，linux用：分隔，windows使用；分隔。</p>
+</li>
+</ul>
+<h2 id="五、包">五、包</h2>
+<ul>
+<li><p><strong>5.1 入口模块</strong><br>多个js模块，组成一个包。所有模块都是同一个路径里，且需要指定一个入口模块，入口模块的导出对象作为包的导出对象。<br>比如cat目录下有main.js,lib1.js,lib2.js。<br>main.js作为入口模块，require lib1.js,lib2.js。</p>
+</li>
+<li><p><strong>5.2 index.js</strong><br>当模块文件名为index.js,加载模块时就可以使用模块所在目录的路径代替模块文件路径，如可写成<br>var cat = require(‘/home/user/lib/cat’);<br>var cat = require(‘/home/user/lib/cat/index’);</p>
+</li>
+<li><p><strong>5.3 自定义入口模块和存放位置（package.json）</strong><br>如果你想自定义入口模块的文件名和存放位置，就需要在包目录下包含一个package.json文件，如</p>
+<blockquote>
+<p>{</p>
+<pre><code>“name”: “cat”,
+“main”: “./lib/main.js<span class="string">"</span>
+</code></pre><p>}<br>如此一来，就可以用require(‘/home/user/lib/cat’)加载。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="六、命令行程序">六、命令行程序</h2>
+<p>将固定node命令开头执行的方式，变成命令行的方式。<br>node xx.js [param] =&gt; xx [param]，<br>如$node /home/user/bin/node-echo.js Hello World<br>变成<br>$node-echo Hello World<br>简便很多</p>
+<p>那么如何做到，只讲在linux下怎么做：</p>
+<ul>
+<li>(1)node-echo.js顶部增加<blockquote>
+<p>#!/usr/bin/env node</p>
+</blockquote>
+</li>
+<li>(2)然后增加执行权限，并再/usr/local/bin下创建软链接<blockquote>
+<p>$ chmod +x /home/user/bin/node-echo.js<br>$ sudo ln -s /home/user/bin/node-echo.js /usr/local/bin/node-echo</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="七、工程目录结构">七、工程目录结构</h2>
+<blockquote>
+<ul>
+<li>/home/user/workspace/node-echo/<ul>
+<li>bin/<br>  node-echo</li>
+</ul>
+<ul>
+<li>doc/</li>
+</ul>
+<ul>
+<li>lib/<br>  echo.js</li>
+<li>node_modules/<ul>
+<li>argv/</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>tests/<br>package.json<br>README.md</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>其中部分文件：</p>
+<blockquote>
+<p>/<em> bin/node-echo </em>/<br>var argv = require(‘argue’),<br>     echo = require(‘../ilb/echo’);<br>console.log(echo(argv.join(‘ ‘)));</p>
+<p>/<em> lib/echo.js</em>/<br>module.exports = function(message){<br>    return message;<br>}</p>
+<p>/<em> pacakge.json </em>/<br>{<br>    “name”:”node-echo”,<br>    “main”:”./lib/echo.js”<br>}</p>
+</blockquote>
+<h2 id="八、NPM:包管理工具">八、NPM:包管理工具</h2>
+<p>（1）允许用户从NPM服务器下载别人编写的三方包到本地使用。<br>（2）允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。<br>（3）允许用户将自己编写的包或者命令行程序上传到NPM服务器供别人使用。</p>
+<ul>
+<li><strong>8.1 下载第三方包</strong></li>
+</ul>
+<p>一般这样使用别人的包(如argv)，<br>在项目目录下，npm install argv@1.1.1，那么argv包就会放到node_modules目录下，直接require(‘argv’)就可以使用了。</p>
+<p>依赖的包比较多时，通过package.json字段做了扩展。<br>如：<br>{<br>    “name”: “node-echo”,<br>    “main”: “./lib/echo.js”,<br>    “denpendencies”:{<br>        “argv”: “0.0.2”<br>    }<br>}<br>然后在工程目录，npm install即可。btw，传递的依赖会被自动下载。</p>
+<ul>
+<li><strong>8.2 安装命令行工具</strong></li>
+</ul>
+<p>如上面例子的node-echo，只要node-echo自己配置好了对应的package.json字段，对于用户而言，这样安装：</p>
+<blockquote>
+<p>$ npm install node-echo -g<br>其中-g表示全局安装，node-echo会默认安装到以下位置，并且NPM会自动创建好Linux系统下需要的软链文件。</p>
+<ul>
+<li>/usr/local/<ul>
+<li>lib/node_modules/<ul>
+<li>node-echo/<br>…</li>
+</ul>
+</li>
+<li>bin/<br>  node-echo<br>…</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>8.3 发布代码</strong></li>
+</ul>
+<p>第一次发布npm，需要注册个号码。执行npm adduser，按提示操作。账号完成设置后，编辑需要发布的项目的package.json，加入npm必须字段。<br>如：</p>
+<blockquote>
+<p>{<br>   “name”: ”node-echo”，#包名，与NPM服务器保持唯一<br>   “version”： “1.0.0”，#当前版本号<br>   “dependencies”：{<br>       “argv”： “0.0.2”<br>   }，<br>   “main”： “./lib/echo.js”,<br>   “bin”: {<br>       “node-echo”: “./bin/node-echo”  #命令行程序名和主模块位置<br>   }<br>}<br>然后，在package.json所在目录下运行npm publish 发布代码。</p>
+</blockquote>
+<ul>
+<li><strong>8.4 版本号</strong></li>
+</ul>
+<p>使用npm下载或者发布代码都要用到版本号。<br>语义版版本号分为X.Y.Z三位，<br> 分别为主版本号、（大变动，向下不兼容）<br> 次版本号（新增功能，向下兼容）、<br> 补丁版本号（修复bug）。</p>
+<h2 id="九、最后npm比较有用的命令行：">九、最后npm比较有用的命令行：</h2>
+<ul>
+<li>在package.json目录，npm install . -g 可先在本地安装当前命令行程序，用于发布前本地测试。</li>
+<li>npm update  <package>当前目录下node_modules子目录下对应模块更新到最新版本。</package></li>
+<li>npm update <package> -g 把全局安装的对应命令行程序更新至最新版。</package></li>
+<li>npm cache clear 清空NPM本地缓存，用于对于使用相同版本号发布新版本的人。</li>
+<li>npm unpublish <package>@<version> 可以撤销自己发布过的某个版本代码。</version></package></li>
+</ul>
+<hr>
+<p>参考：<br>七天学会NodeJS：<a href="http://nqdeng.github.io/7-days-nodejs/\#3.2.1" target="_blank" rel="external">http://nqdeng.github.io/7-days-nodejs/\#3.2.1</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nodejs/">nodejs</a><a href="/tags/基础/">基础</a>
+  </div>
+
+</div>
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://vernonzheng.com/2014/12/17/没耐心的nodejs教程-基础篇/" data-title="没耐心的nodejs教程-基础篇 | vernonzheng blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/12/15/《如何阅读一本书》感悟总结/"  title="《如何阅读一本书》感悟总结">
+ <strong>下一篇：</strong><br/> 
+ <span>《如何阅读一本书》感悟总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/12/17/没耐心的nodejs教程-基础篇/" data-title="没耐心的nodejs教程-基础篇" data-url="http://vernonzheng.com/2014/12/17/没耐心的nodejs教程-基础篇/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、权限问题"><span class="toc-number">1.</span> <span class="toc-text">一、权限问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、模块"><span class="toc-number">2.</span> <span class="toc-text">二、模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、模块初始化"><span class="toc-number">3.</span> <span class="toc-text">三、模块初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、模块路径解析规则"><span class="toc-number">4.</span> <span class="toc-text">四、模块路径解析规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、包"><span class="toc-number">5.</span> <span class="toc-text">五、包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、命令行程序"><span class="toc-number">6.</span> <span class="toc-text">六、命令行程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、工程目录结构"><span class="toc-number">7.</span> <span class="toc-text">七、工程目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八、NPM:包管理工具"><span class="toc-number">8.</span> <span class="toc-text">八、NPM:包管理工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九、最后npm比较有用的命令行："><span class="toc-number">9.</span> <span class="toc-text">九、最后npm比较有用的命令行：</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>1</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/nodejs/" style="font-size: 10.00px;">nodejs</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 10.00px;">基础</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="https://github.com/vernonzheng" target="_blank" title="我的github">我的github</a>
+          </li>
+        
+          <li>
+            <a href="http://book.douban.com/people/vernonzheng/" target="_blank" title="我的豆瓣读书">我的豆瓣读书</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.csdn.net/vernonzheng" target="_blank" title="我的旧博客">我的旧博客</a>
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Vernon Zheng. <br/>
+			This is my blog,believe it or not.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/vernonzheng" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2830104/vernon-zheng" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/vernonzheng/" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:kevonzheng@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Pacman">Jacman</a> © 2014 
+		
+		<a href="http://vernonzheng.com/about" target="_blank" title="Vernon Zheng">Vernon Zheng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"vernonzheng"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F1c6aeb80f79b63b35b25a0e55ca39b3c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[to be better]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-15T15:24:24.441Z</updated>
+  <updated>2014-12-18T03:05:16.391Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -15,11 +15,197 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[没耐心的nodejs教程-基础篇]]></title>
+    <link href="http://vernonzheng.com/2014/12/17/%E6%B2%A1%E8%80%90%E5%BF%83%E7%9A%84nodejs%E6%95%99%E7%A8%8B-%E5%9F%BA%E7%A1%80%E7%AF%87/"/>
+    <id>http://vernonzheng.com/2014/12/17/没耐心的nodejs教程-基础篇/</id>
+    <published>2014-12-17T15:21:00.000Z</published>
+    <updated>2014-12-18T03:02:41.000Z</updated>
+    <content type="html"><![CDATA[<p>这是一篇没耐心的nodejs教程，写给希望迅速上手的学习者。基础篇介绍权限，模块，包，工程目录结构，npm等。</p>
+<h2 id="一、权限问题">一、权限问题</h2>
+<p>linux下，nodejs需要监听80或443端口提供HTTP（S）服务时需要root权限。<br>有两种方式：</p>
+<ul>
+<li>（1）（推荐）需要js提供root权限<blockquote>
+<p>$ sudo node server.js</p>
+</blockquote>
+</li>
+<li>（2）使用chmod+s命令让nodejs总是以root权限运行，不安全。<blockquote>
+<p>$ sudo chown root /usr/local/bin/node<br>$ sudo chmod +s /usr/local/bin/node</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="二、模块">二、模块</h2>
+<p>一个文件为一个模块，一个文件路径为一个模块名。<br>编写模块时，有require，exports，module三个变量。</p>
+<ul>
+<li><strong>2.1 required</strong><br>导入某个模块<blockquote>
+<p>var foo1 = required(‘./foo’);//.js后缀可以省略<br>var foo2 = required(“./foo.js”);</p>
+</blockquote>
+</li>
+</ul>
+<p>也可以加载或者导入一个json：</p>
+<blockquote>
+<p>var data = require(‘./data.json’);</p>
+</blockquote>
+<ul>
+<li><p><strong>2.2 exports</strong><br>是当前模块的导出对象，用于导出模块共有方式和属性。</p>
+<blockquote>
+<p>exports.hello = function(){</p>
+<pre><code>console.<span class="built_in">log</span>(‘Hello World!’);
+</code></pre><p>};</p>
+</blockquote>
+</li>
+<li><p><strong>2.3 module</strong><br>可以访问当前模块的一些信息，最多的用途就是替换当前模块的到处对象。</p>
+<blockquote>
+<p>module.export = function(){</p>
+<pre><code>console.<span class="built_in">log</span>(‘Hello World!’);
+</code></pre><p>};</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="三、模块初始化">三、模块初始化</h2>
+<p>NodeJS使用CMD模块系统，主模块作为程序入口点，所有模块在执行过程中只初始化一次。</p>
+<p><strong>初始化一次</strong></p>
+<p>一个模块中的JS代码仅在模块第一次被使用时执行一次，并在执行过程中初始化模块的导出对象。之后，缓存起来的导出对象被重复利用。</p>
+<ul>
+<li><p><strong>3.1 主模块</strong><br>通过命令行参数传递给NodeJS以启动程序的模块被称为主模块。主模块负责调度组成整个程序的其他模块完成工作。默认是路径下的main.js。</p>
+</li>
+<li><p><strong>3.2 二进制模块（不推荐）</strong><br>nodejs支持使用c/c++编写二进制模块。编译好的二进制模块除了文件扩展名是.node外，和JS块的使用方式相同。</p>
+</li>
+</ul>
+<h2 id="四、模块路径解析规则">四、模块路径解析规则</h2>
+<p>除了相对路径和绝对路径外，require函数还支持第三种形式的路径。</p>
+<ul>
+<li><p><strong>4.1 内置模块</strong></p>
+</li>
+<li><p><strong>4.2 node_modules目录</strong><br>专门存放模块的路径。比如某个模块的绝对路径是/home/user/hello.js, 在该模块中使用require(‘foo/bar’)方式加载模块，则NodeJS依次尝试使用以下路径。</p>
+<blockquote>
+<p>/home/user/node_modules/foo/bar<br>/home/node_modules/foo/bar<br>/node_moduels/foo/bar</p>
+</blockquote>
+</li>
+<li><p><strong>4.3 NODE_PATH环境变量</strong><br>指定额外的模块搜索路径。因为是额外，所以最后搜索。<br>使用：设置NODE_PATH环境变量，linux用：分隔，windows使用；分隔。</p>
+</li>
+</ul>
+<h2 id="五、包">五、包</h2>
+<ul>
+<li><p><strong>5.1 入口模块</strong><br>多个js模块，组成一个包。所有模块都是同一个路径里，且需要指定一个入口模块，入口模块的导出对象作为包的导出对象。<br>比如cat目录下有main.js,lib1.js,lib2.js。<br>main.js作为入口模块，require lib1.js,lib2.js。</p>
+</li>
+<li><p><strong>5.2 index.js</strong><br>当模块文件名为index.js,加载模块时就可以使用模块所在目录的路径代替模块文件路径，如可写成<br>var cat = require(‘/home/user/lib/cat’);<br>var cat = require(‘/home/user/lib/cat/index’);</p>
+</li>
+<li><p><strong>5.3 自定义入口模块和存放位置（package.json）</strong><br>如果你想自定义入口模块的文件名和存放位置，就需要在包目录下包含一个package.json文件，如</p>
+<blockquote>
+<p>{</p>
+<pre><code>“name”: “cat”,
+“main”: “./lib/main.js<span class="string">"</span>
+</code></pre><p>}<br>如此一来，就可以用require(‘/home/user/lib/cat’)加载。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="六、命令行程序">六、命令行程序</h2>
+<p>将固定node命令开头执行的方式，变成命令行的方式。<br>node xx.js [param] =&gt; xx [param]，<br>如$node /home/user/bin/node-echo.js Hello World<br>变成<br>$node-echo Hello World<br>简便很多</p>
+<p>那么如何做到，只讲在linux下怎么做：</p>
+<ul>
+<li>(1)node-echo.js顶部增加<blockquote>
+<p>#!/usr/bin/env node</p>
+</blockquote>
+</li>
+<li>(2)然后增加执行权限，并再/usr/local/bin下创建软链接<blockquote>
+<p>$ chmod +x /home/user/bin/node-echo.js<br>$ sudo ln -s /home/user/bin/node-echo.js /usr/local/bin/node-echo</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="七、工程目录结构">七、工程目录结构</h2>
+<blockquote>
+<ul>
+<li>/home/user/workspace/node-echo/<ul>
+<li>bin/<br>  node-echo</li>
+</ul>
+<ul>
+<li>doc/</li>
+</ul>
+<ul>
+<li>lib/<br>  echo.js</li>
+<li>node_modules/<ul>
+<li>argv/</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>tests/<br>package.json<br>README.md</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>其中部分文件：</p>
+<blockquote>
+<p>/<em> bin/node-echo </em>/<br>var argv = require(‘argue’),<br>     echo = require(‘../ilb/echo’);<br>console.log(echo(argv.join(‘ ‘)));</p>
+<p>/<em> lib/echo.js</em>/<br>module.exports = function(message){<br>    return message;<br>}</p>
+<p>/<em> pacakge.json </em>/<br>{<br>    “name”:”node-echo”,<br>    “main”:”./lib/echo.js”<br>}</p>
+</blockquote>
+<h2 id="八、NPM:包管理工具">八、NPM:包管理工具</h2>
+<p>（1）允许用户从NPM服务器下载别人编写的三方包到本地使用。<br>（2）允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。<br>（3）允许用户将自己编写的包或者命令行程序上传到NPM服务器供别人使用。</p>
+<ul>
+<li><strong>8.1 下载第三方包</strong></li>
+</ul>
+<p>一般这样使用别人的包(如argv)，<br>在项目目录下，npm install argv@1.1.1，那么argv包就会放到node_modules目录下，直接require(‘argv’)就可以使用了。</p>
+<p>依赖的包比较多时，通过package.json字段做了扩展。<br>如：<br>{<br>    “name”: “node-echo”,<br>    “main”: “./lib/echo.js”,<br>    “denpendencies”:{<br>        “argv”: “0.0.2”<br>    }<br>}<br>然后在工程目录，npm install即可。btw，传递的依赖会被自动下载。</p>
+<ul>
+<li><strong>8.2 安装命令行工具</strong></li>
+</ul>
+<p>如上面例子的node-echo，只要node-echo自己配置好了对应的package.json字段，对于用户而言，这样安装：</p>
+<blockquote>
+<p>$ npm install node-echo -g<br>其中-g表示全局安装，node-echo会默认安装到以下位置，并且NPM会自动创建好Linux系统下需要的软链文件。</p>
+<ul>
+<li>/usr/local/<ul>
+<li>lib/node_modules/<ul>
+<li>node-echo/<br>…</li>
+</ul>
+</li>
+<li>bin/<br>  node-echo<br>…</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>8.3 发布代码</strong></li>
+</ul>
+<p>第一次发布npm，需要注册个号码。执行npm adduser，按提示操作。账号完成设置后，编辑需要发布的项目的package.json，加入npm必须字段。<br>如：</p>
+<blockquote>
+<p>{<br>   “name”: ”node-echo”，#包名，与NPM服务器保持唯一<br>   “version”： “1.0.0”，#当前版本号<br>   “dependencies”：{<br>       “argv”： “0.0.2”<br>   }，<br>   “main”： “./lib/echo.js”,<br>   “bin”: {<br>       “node-echo”: “./bin/node-echo”  #命令行程序名和主模块位置<br>   }<br>}<br>然后，在package.json所在目录下运行npm publish 发布代码。</p>
+</blockquote>
+<ul>
+<li><strong>8.4 版本号</strong></li>
+</ul>
+<p>使用npm下载或者发布代码都要用到版本号。<br>语义版版本号分为X.Y.Z三位，<br> 分别为主版本号、（大变动，向下不兼容）<br> 次版本号（新增功能，向下兼容）、<br> 补丁版本号（修复bug）。</p>
+<h2 id="九、最后npm比较有用的命令行：">九、最后npm比较有用的命令行：</h2>
+<ul>
+<li>在package.json目录，npm install . -g 可先在本地安装当前命令行程序，用于发布前本地测试。</li>
+<li>npm update  <package>当前目录下node_modules子目录下对应模块更新到最新版本。</package></li>
+<li>npm update <package> -g 把全局安装的对应命令行程序更新至最新版。</package></li>
+<li>npm cache clear 清空NPM本地缓存，用于对于使用相同版本号发布新版本的人。</li>
+<li>npm unpublish <package>@<version> 可以撤销自己发布过的某个版本代码。</version></package></li>
+</ul>
+<hr>
+<p>参考：<br>七天学会NodeJS：<a href="http://nqdeng.github.io/7-days-nodejs/\#3.2.1" target="_blank" rel="external">http://nqdeng.github.io/7-days-nodejs/\#3.2.1</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>这是一篇没耐心的nodejs教程，写给希望迅速上手的学习者。基础篇介绍权限，模块，包，工程目录结构，npm等。</p>
+<h2 id="一、权限问题">一、权限问题</h2>
+<p>linux下，nodejs需要监听80或443端口提供HTTP（S）服务时需要root权限。]]>
+    </summary>
+    
+      <category term="nodejs" scheme="http://vernonzheng.com/tags/nodejs/"/>
+    
+      <category term="基础" scheme="http://vernonzheng.com/tags/%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="nodejs" scheme="http://vernonzheng.com/categories/nodejs/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[《如何阅读一本书》感悟总结]]></title>
     <link href="http://vernonzheng.com/2014/12/15/%E3%80%8A%E5%A6%82%E4%BD%95%E9%98%85%E8%AF%BB%E4%B8%80%E6%9C%AC%E4%B9%A6%E3%80%8B%E6%84%9F%E6%82%9F%E6%80%BB%E7%BB%93/"/>
     <id>http://vernonzheng.com/2014/12/15/《如何阅读一本书》感悟总结/</id>
     <published>2014-12-14T16:27:57.000Z</published>
-    <updated>2014-12-14T16:37:25.000Z</updated>
+    <updated>2014-12-18T03:05:04.000Z</updated>
     <content type="html"><![CDATA[<pre><code>阅读一本书，就是和作者交流的过程。与直接面对面交流不同，阅读这种“静默”交流方式，需要不同的经验和技巧。刚看完《如何阅读一本书》，感触比较多，总结一下。
 </code></pre><p>读书太快或者太慢都会一无所获。要知道什么时候用什么速度阅读很重要。</p>
 <p><strong>好的阅读是</strong></p>
@@ -80,9 +266,9 @@
     <link href="http://vernonzheng.com/2014/12/13/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%B0%8F%E8%AE%B0/"/>
     <id>http://vernonzheng.com/2014/12/13/Linux常用命令小记/</id>
     <published>2014-12-13T07:13:47.000Z</published>
-    <updated>2014-12-13T07:25:22.000Z</updated>
+    <updated>2014-12-18T03:03:23.000Z</updated>
     <content type="html"><![CDATA[<pre><code>最近在翻《Linux命令行与<span class="keyword">shell</span>脚本编程大全》,整理了书中提到的常用的linux命令行。
-</code></pre><h1 id="一、文件相关">一、文件相关</h1>
+</code></pre><h2 id="一、文件相关">一、文件相关</h2>
 <ul>
 <li><p><strong>链接文件</strong><br>cp -l test1 test4 创建硬链接（一个独立文件，引用了源文件，索引节点号是一样的，只适用同一个挂载点下的文件）<br>cp -s test1 test5 创建符号链接，软链接（一个独立文件，只存储源文件的信息，不存储源文件数据，索引节点显示为test5 -&gt; test1）<br>ln 链接文件（硬链接）<br>ln -s 链接文件（软链接）</p>
 </li>
@@ -95,18 +281,18 @@
 <li><p><strong>文件压缩、归档</strong><br>zip -r test.zip test 递归压缩目录<br>unzip test.zip 解压<br>tar -cvf test.tar test/ test2/ 创建含有test和test2目录的test.tar归档文件。<br>tar -tf test.tar 列出test.tar 内容，不解压<br>tar -xvf test.tar 解压<br>tar -zxvf test.tgz 解压gzip压缩过的tar文件</p>
 </li>
 </ul>
-<h1 id="二、线程相关">二、线程相关</h1>
+<h2 id="二、线程相关">二、线程相关</h2>
 <ul>
 <li><p><strong>监控性能</strong><br>top 实时监控进行，系统负载等</p>
 </li>
 <li><p><strong>线程消息</strong><br>kill -s 信号（线程传递信息，比如HUP（1）挂起，INT（2）终端，QUIT（3）结束运行，KILL（9）无条件终止）</p>
 </li>
 </ul>
-<h1 id="三、账号相关">三、账号相关</h1>
+<h2 id="三、账号相关">三、账号相关</h2>
 <ul>
 <li><strong>组与用户</strong><br>useradd -b default_home -g group sb<br>usermod 修改用户账户的字段，比如主要组以及附加组的所属关系<br>passwd username 修改密码<br>groupadd shared 创建shared新组（tail /etc/group查看结果）<br>usermod -G shared rich 增加shared组的成员，是-G，不是-g，-g会修改账户的默认组！<br>groupmod -n sharing shared 其中-n是修复已有组的组名 -g是修改GID<br>umask 777 —在/etc/profile 设置umask，即touch创建文件时候，默认给的权限<br>chmod o+r newfile (o表示权限设置跟其他用户一样，u表示权限设置为属主一样，g设置为属组一样，r读权限)<br>chown dan.shared newfile 改变文件的属主和属组</li>
 </ul>
-<h1 id="四、磁盘设备相关">四、磁盘设备相关</h1>
+<h2 id="四、磁盘设备相关">四、磁盘设备相关</h2>
 <ul>
 <li><p><strong>设备</strong><br>mount -t vfat /dev/sdb1 media/disk 将u盘/dev/sdb1 挂载到/media/disk<br>mount /homr/rich/mnt 卸载</p>
 </li>
@@ -118,7 +304,7 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<pre><code>最近在翻《Linux命令行与<span class="keyword">shell</span>脚本编程大全》,整理了书中提到的常用的linux命令行。
-</code></pre><h1 id="一、文件相关">一、文件相关</h1>
+</code></pre><h2 id="一、文件相关">一、文件相关</h2>
 <ul>
 <li><p]]>
     </summary>
@@ -136,9 +322,9 @@
     <link href="http://vernonzheng.com/2014/12/10/%E3%80%8ARobust-Java-%E4%B8%AD%E6%96%87%E7%89%88%E3%80%8B%E7%AC%94%E8%AE%B0%E6%80%BB%E7%BB%93/"/>
     <id>http://vernonzheng.com/2014/12/10/《Robust-Java-中文版》笔记总结/</id>
     <published>2014-12-10T14:08:49.000Z</published>
-    <updated>2014-12-10T15:29:21.000Z</updated>
+    <updated>2014-12-18T03:04:16.000Z</updated>
     <content type="html"><![CDATA[<pre><code><span class="comment">Robust</span> <span class="comment">Java</span> <span class="comment">中文版</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">Java异常处理、测试与调试，这本书主要讲解了Java异常</span> <span class="comment">的原理及处理方法，系统地阐述了体系结构、设计、开发、测试和调试等主题，并讨论了如何构建健壮的系统。</span>
-</code></pre><h1 id="一、异常基础">一、异常基础</h1>
+</code></pre><h2 id="一、异常基础">一、异常基础</h2>
 <p>java异常的产生是代码处，异常会作为消息发送至应用程序的catch部分或者抛出。</p>
 <p><strong>1.1 Throwable的内部关系</strong></p>
 <p>异常的祖先是Throwable（可抛出），底下是Exception（异常）和Error（错误）<br>Exception异常：为“合理程序程序需要捕获的情况”，可预测，可恢复。<br>Error错误：合理应用程序不应试图捕获它，反常情况。</p>
@@ -152,10 +338,10 @@
 <li>cause（原因）：Trowable //产生此异常的原因 读-写（只能设置一次） getCause和initCause获取和设置，或者构造函数设置</li>
 </ul>
 <p>除3个属性外，Throwable还包含toString和getLocalizedMessage 方法。<br>toString方法：覆盖Object类，返回异常名（对于非空消息字符串）。<br>getLocalizedMessge方法：返回消息字符串的值。</p>
-<h1 id="二、异常的实践">二、异常的实践</h1>
+<h2 id="二、异常的实践">二、异常的实践</h2>
 <p><strong>2.1 处理还是声明异常</strong></p>
 <p><strong>经验法则</strong>：尽可能去处理异常，如果没有能力处理就声明异常。<br>从本质上讲，仅当方法缺少自我处理异常的信息、上下文或资源时，才将异常信息传给调用者。</p>
-<h1 id="三、异常高级特性">三、异常高级特性</h1>
+<h2 id="三、异常高级特性">三、异常高级特性</h2>
 <p><strong>3.1 链表异常</strong></p>
 <p>就是异常允许设置两个异常之间的关联，称为链表异常。参考1.3里的cause属性。<br>设置方法有两种，作为构造函数参数传入，或者调用initCause(Throwable)方法设置，只能设置一次。</p>
 <p>一般不常用，处理链表异常的方式可以参考如下：</p>
@@ -177,7 +363,7 @@
 <p>可以看到：<br>声明异常和不声明的两个方法字节码相同，声明异常的抛出语句在类的方法查找表中声明。<br>而内部try-catch的方法，会增加一些如goto， astore等的字节码指令，以及一个与该方法相关的异常表（Exception table）。若产生异常，异常表控制代码路由。实际上行为与前两者类似。</p>
 <p>那么这三者的性能比较会怎样？<strong>实际测试是区别不明显</strong>。</p>
 <p>总结下<strong>最佳实践</strong>：<br>尽量避免抛出异常。<br>如果条件允许就处理异常。<br>如果条件不允许就声明异常。</p>
-<h1 id="四、异常与多线程">四、异常与多线程</h1>
+<h2 id="四、异常与多线程">四、异常与多线程</h2>
 <p><strong>4.1 多线程与异常的关系</strong></p>
 <p>看run方法签名，知道线程的异常都必须内部处理。<br>当run方法抛出非检测异常（RuntimeException或Error）时，负责该执行路径的Thread将终止，而其他线程无感知，理想情况下，多线程不抛出受检或非受检异常。</p>
 <p><strong>关于dumpstack</strong>：</p>
@@ -188,7 +374,7 @@
 <p>try{<br>    synchronized(this){<br>    }<br>}catch(RuntimeException exc){</p>
 <p>}</p>
 </blockquote>
-<h1 id="五、异常设计的最佳实践">五、异常设计的最佳实践</h1>
+<h2 id="五、异常设计的最佳实践">五、异常设计的最佳实践</h2>
 <ul>
 <li>（1）在应用程序中，可根据潜在故障集来描述各个用例。可根据在运行程序中出现的可能性及严重程度，按层次定义这些故障。</li>
 <li>（2）只解决对程序有重大影响且不可避免的问题和错误。</li>
@@ -197,14 +383,14 @@
 <li>（5）方法仅在以下情况下抛出多个异常：<br>a.互相排斥（起因不同）<br>b.对使用者有不同作用<br>c.表示完全不同的故障</li>
 <li>（6）在任何软件实体中（类、组件、系统、架构或API），异常都应称为实体合约（实体与外部的接口）的标准部分。</li>
 </ul>
-<h1 id="六、测试技术体系">六、测试技术体系</h1>
+<h2 id="六、测试技术体系">六、测试技术体系</h2>
 <p><strong>6.1 测试角色和职责</strong></p>
 <ul>
 <li>6.1.1 开发人员（TDD适合开发人员的单元测试，集成测试）<br>白盒：静态和动态测试，包括单元，集成，烟雾（smoke）和回归测试<br>体系结构：大多数测试形式，但有效性测试最好由用户来执行</li>
 <li>6.1.2 测试人员<br>黑盒：大多数测试形式，特别是探索和基于风险的测试<br>系统结构：大多数测试形式</li>
 <li>6.1.3 用户<br>黑盒：alpha，beta和用户满意度测试<br>体系结构：有效性测试</li>
 </ul>
-<h1 id="七、调试技术体系">七、调试技术体系</h1>
+<h2 id="七、调试技术体系">七、调试技术体系</h2>
 <p><strong>低级：code-resident技术</strong></p>
 <ul>
 <li>日志记录API</li>
@@ -247,8 +433,8 @@
     <link href="http://vernonzheng.com/2014/12/06/Linux%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%A7%A3%E7%96%91/"/>
     <id>http://vernonzheng.com/2014/12/06/Linux环境变量解疑/</id>
     <published>2014-12-06T09:02:59.000Z</published>
-    <updated>2014-12-15T15:23:40.000Z</updated>
-    <content type="html"><![CDATA[<h1 id="一、什么是环境变量">一、什么是环境变量</h1>
+    <updated>2014-12-18T03:03:51.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、什么是环境变量">一、什么是环境变量</h2>
 <pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作环境的信息。
 </code></pre><p>环境变量有两类：<strong>全局变量</strong>和<strong>局部变量</strong>。<br>局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。</p>
 <p><strong>1.1 显示环境变量</strong></p>
@@ -274,10 +460,10 @@
 <li>局部变量：unset test</li>
 <li>全局变量：unset test 需要注意的是：如果你是在子进程中删除一个全局环境变量，它只对子进程失效。全局环境变量在父进程仍然有效。</li>
 </ul>
-<h1 id="二、系统环境变量">二、系统环境变量</h1>
+<h2 id="二、系统环境变量">二、系统环境变量</h2>
 <p>linux启动启动一个bash shell时，默认情况下bash在几个文件中查找命令。这些文件称为启动文件，<strong>根据bash shell启动方式的不同，查找文件不同</strong>。</p>
 <p>bash shell有三种方式：</p>
-<h2 id="2-1_登陆时当做默认登陆shell">2.1 登陆时当做默认登陆shell</h2>
+<h3 id="2-1_登陆时当做默认登陆shell">2.1 登陆时当做默认登陆shell</h3>
 <p>会依次查找一下路径：</p>
 <ul>
 <li>/etc/profile</li>
@@ -286,7 +472,7 @@
 <li>$HOME/.profile</li>
 </ul>
 <p><strong>/etc/profile</strong>文件是系统上默认的bash shell的主启动文件。每个用户登陆都会执行这个启动文件，另外3个启动文件是用户专有的，可根据用户定制。</p>
-<h2 id="2-2_作为非登陆shell的交互式shell">2.2 作为非登陆shell的交互式shell</h2>
+<h3 id="2-2_作为非登陆shell的交互式shell">2.2 作为非登陆shell的交互式shell</h3>
 <p>如果你的bash shell不是登陆系统时启动的，称为交互式shell。</p>
 <p>交互式shell不会去访问/etc/profile文件，而会去用户的HOME目录检查<strong>.bashrc</strong>是否存在。</p>
 <p><strong>.bashrc文件的作用</strong>：<br>有两个作用：</p>
@@ -296,7 +482,7 @@
 </ul>
 <p>记住，交互式shell的启动文件只会在每次有新的交互式shell启动时才运行，因此任何子shell都会自动执行这个交互式shell的启动文件。</p>
 <p>还能看出，/etc/bashrc文件也会执行位于/etc/profile.d 目录下的那些应用专属的启动文件。</p>
-<h2 id="2-3_作为运行脚本的非交互shell">2.3 作为运行脚本的非交互shell</h2>
+<h3 id="2-3_作为运行脚本的非交互shell">2.3 作为运行脚本的非交互shell</h3>
 <p>系统执行shell脚本时用的就是这种shell。</p>
 <p>当你每次在系统上运行脚本时需要运行特定的启动命令。为了处理这种情况，bash shell提供了BASH_ENV环境变量。</p>
 <p>当shell启动一个非交互式shell进程时，它会检查这个环境变量来查看要执行的启动文件。如果有指定，shell会执行文件里的命令。<br>（在linux发行版里，默认情况下这个环境变量并未设置。）</p>
@@ -307,7 +493,7 @@
 </ul>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h1 id="一、什么是环境变量">一、什么是环境变量</h1>
+    <![CDATA[<h2 id="一、什么是环境变量">一、什么是环境变量</h2>
 <pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作]]>
     </summary>
     
@@ -323,8 +509,8 @@
     <title><![CDATA[Hello World]]></title>
     <link href="http://vernonzheng.com/2014/12/01/hello-world/"/>
     <id>http://vernonzheng.com/2014/12/01/hello-world/</id>
-    <published>2014-12-01T14:28:12.000Z</published>
-    <updated>2014-12-01T14:28:12.000Z</updated>
+    <published>2014-12-01T07:13:47.000Z</published>
+    <updated>2014-12-18T02:47:14.000Z</updated>
     <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick_Start">Quick Start</h2>
 <h3 id="Create_a_new_post">Create a new post</h3>
