@@ -4,7 +4,7 @@
   <subtitle><![CDATA[to be better]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-20T15:04:07.541Z</updated>
+  <updated>2014-12-20T15:13:41.713Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://vernonzheng.com/2014/12/20/Coffeescript%E6%9E%81%E7%AE%80%E6%95%99%E7%A8%8B/"/>
     <id>http://vernonzheng.com/2014/12/20/Coffeescript极简教程/</id>
     <published>2014-12-20T14:17:30.000Z</published>
-    <updated>2014-12-20T15:03:52.000Z</updated>
+    <updated>2014-12-20T15:13:29.000Z</updated>
     <content type="html"><![CDATA[<pre><code>配合没耐心的nodejs教程，写给希望快速上手的coffeescript使用者。
 </code></pre><h2 id="一、一些简写和约定：">一、一些简写和约定：</h2>
 <p>coffeescript和python类似，空格，缩写都是有意义的。<br>换行替换分号，缩进替换花括号，空格替换括号，<br>但是数组的’[]’不能省略。</p>
@@ -115,7 +115,13 @@
 <p>举个例子：<br>module类有两个静态方法，@extend()和@include()，分别来实现对类的静态属性和实例属性的扩展。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">moduleKeywords = [‘exteded’, ‘included’]</div><div class="line"></div><div class="line">class Module</div><div class="line">	@extend: (obj) -&gt;</div><div class="line">		<span class="keyword">for</span> key, value of obj when key not <span class="keyword">in</span> moduleKeywords</div><div class="line">			@[key] = value</div><div class="line">			obj.extended?.apply(@)</div><div class="line">			this</div><div class="line"></div><div class="line">	@include: (obj) -&gt;</div><div class="line">		<span class="keyword">for</span> key, value of obj when key not <span class="keyword">in</span> moduleKeywords</div><div class="line">			<span class="comment"># Assign properties to the prototype</span></div><div class="line">			@::[key] = value</div><div class="line"></div><div class="line">		obj.included?.apply(@)</div><div class="line">		this</div></pre></td></tr></table></figure>
 
-<p>。。。未完待续</p>
+<p>然后是如何使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">classProperties = </div><div class="line">	find: (id) -&gt;</div><div class="line">	create: (attrs) -&gt;</div><div class="line"></div><div class="line">instanceProperties = </div><div class="line">	save: -&gt;</div><div class="line"></div><div class="line">class User extends Module</div><div class="line">	@extends classProperties</div><div class="line">	@include instanceProperties</div><div class="line">	</div><div class="line"><span class="comment"># Usage:</span></div><div class="line">user = User.find((<span class="number">1</span>)</div><div class="line"></div><div class="line">user = new User</div><div class="line">user.save()</div></pre></td></tr></table></figure>
+
+<p>以上，我们为User类添加了静态属性find()和create()，还添加了实例属性save()。</p>
+<p>再给一个例子，在扩展类后执行回调：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ORM = </div><div class="line">	find: (id) -&gt;</div><div class="line">	create: (attrs) -&gt;</div><div class="line">	extended: -&gt;</div><div class="line">		@include</div><div class="line">			save: -&gt;</div><div class="line"></div><div class="line">class User extends Module</div><div class="line">	@extends ORM</div></pre></td></tr></table></figure>
+
 <hr>
 <p>参考：<br>《The Little Book on CoffeeScript》：<a href="http://book.douban.com/subject/10462179/" target="_blank" rel="external">http://book.douban.com/subject/10462179/</a><br>Learn X in Y minutes Where X=coffeescript：<a href="http://learnxinyminutes.com/docs/coffeescript/" target="_blank" rel="external">http://learnxinyminutes.com/docs/coffeescript/</a><br>CoffeeScript极简教程：<a href="http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/" target="_blank" rel="external">http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/</a></p>
 ]]></content>
