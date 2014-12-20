@@ -4,7 +4,7 @@
   <subtitle><![CDATA[to be better]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-18T03:07:43.278Z</updated>
+  <updated>2014-12-20T14:53:38.475Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -15,11 +15,130 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Coffeescript基础教程]]></title>
+    <link href="http://vernonzheng.com/2014/12/20/Coffeescript%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
+    <id>http://vernonzheng.com/2014/12/20/Coffeescript基础教程/</id>
+    <published>2014-12-20T14:17:30.000Z</published>
+    <updated>2014-12-20T14:53:26.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>配合没耐心的nodejs教程，写给希望快速上手的coffeescript使用者。
+</code></pre><h2 id="一、一些简写和约定：">一、一些简写和约定：</h2>
+<p>coffeescript和python类似，空格，缩写都是有意义的。<br>换行替换分号，缩进替换花括号，空格替换括号，<br>但是数组的’[]’不能省略。</p>
+<h2 id="二、全局变量：">二、全局变量：</h2>
+<p>CoffeeScript剔除了全局变量，避免js中全局变量的误用。（CoffeeScript使用一个匿名函数把所有脚本都包裹起来，将其限定在局部作用域中，并且在为所有的变量赋值前自动添加var）</p>
+<p>当然也有需要用全局变量的时候，直接给全局对象windoow赋值即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">exports = this</div><div class="line">exports.tempVal = “tempVal”</div></pre></td></tr></table></figure>
+
+<p>这里在顶级作用域中使用，this相当于全局变量</p>
+<h2 id="三、函数">三、函数</h2>
+<h3 id="3-1_函数的标准写法">3.1 函数的标准写法</h3>
+<p>-&gt; 替代了function(){}<br>如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sum = (nums...) -&gt; </div><div class="line">	result = <span class="number">0</span></div><div class="line">	nums.forEach(n) -&gt; result += n</div><div class="line">	result</div></pre></td></tr></table></figure>
+
+<p>（nums）为传入的参数槽（splats），…表示不定参数，同时自动返回result<br>调用输出结果 alert sum() 或者 alert sum a,b,c ,其中空格表示括号，但是易混淆或者无参调用的时候，请带上括号。</p>
+<p><strong><em>多重赋值：</em></strong></p>
+<p>btw，因为讲到…不定参数，就提下多重赋值与…的结合：<br>多重赋值就是将一个数组的值逐个赋给后面的一系列变量。<br>如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">myArray = [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D”] </span></div><div class="line">[start, middle..., end] = myArray </div><div class="line">console.log "start is <span class="comment">#{start}” </span></div><div class="line">console.log <span class="string">"middle is #{middle}” </span></div><div class="line">console.log "end is <span class="comment">#{end}”</span></div></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">start is A </div><div class="line">middle is B,C </div><div class="line">end is D</div></pre></td></tr></table></figure>
+
+<p>顺便提下，数组是支持range的用法的，[1…10]</p>
+<h3 id="3-2函数上下文：">3.2函数上下文：</h3>
+<p>js的上下文变化会很频繁，尤其在回调函数内，coffeescript提供=&gt;或者self(this)的方式，以下为=&gt;的例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">this.clickHandler = -&gt; alert “clicked”</div><div class="line">element.addEventListener “click”, (e) =&gt;</div><div class="line">	his.clickHandler(e)</div></pre></td></tr></table></figure>
+
+<h2 id="四、集合遍历">四、集合遍历</h2>
+<h3 id="4-1_for循环：">4.1 for循环：</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">myLetters = [“a”,”b”,”c”,”d”]</div><div class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> myLetters</div><div class="line">console.log letter.toUpperCase()</div></pre></td></tr></table></figure>
+
+<p>for中增加when条件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> num，i <span class="keyword">in</span> a when num &lt; <span class="number">5</span></div><div class="line">console.log “第<span class="comment">#{i}个数为#{num}"</span></div></pre></td></tr></table></figure>
+
+<h3 id="4-2_列表推导式(Comprehension)">4.2 列表推导式(Comprehension)</h3>
+<p>类似ruby的前缀表达式</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">myLetters = [“a”,”b”,”c”,”d”]</div><div class="line"></div><div class="line">console.log letter.toUpperCase() <span class="keyword">for</span> letter <span class="keyword">in</span> myLetters</div></pre></td></tr></table></figure>
+
+<h3 id="4-3_对象枚举的方式">4.3 对象枚举的方式</h3>
+<p>(这里in换成了of）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">person = </div><div class="line">firstName: “Mark”</div><div class="line">lastName: “Bates”</div><div class="line"></div><div class="line"><span class="keyword">for</span> key, value of person</div><div class="line">console.log “<span class="comment">#{key} is #{value}”</span></div></pre></td></tr></table></figure>
+
+<p>对象属性的枚举还支持when关键字；如果需要过滤继承属性，还可以使用own关键字</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">myObject = </div><div class="line">name: “Mark”</div><div class="line"></div><div class="line">Object.prototype.dob = new Date(<span class="number">1976</span>, <span class="number">7</span>, <span class="number">24</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> own key, value of myObject</div><div class="line">console.log “<span class="comment">#{key}:#{value}”</span></div></pre></td></tr></table></figure>
+
+<h3 id="4-4_while用法">4.4 while用法</h3>
+<p>与js不同，while还可以返回结果数组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">num = <span class="number">6</span></div><div class="line">minstrel = <span class="keyword">while</span> num -= <span class="number">1</span></div><div class="line">	num + “ Brave Sir Robin ran away”</div></pre></td></tr></table></figure>
+
+<p>综合例子：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@updateAvatars = -&gt;</div><div class="line">name = $(‘.avatar[data-name]’),map -&gt; $(this).data(’name’)</div><div class="line">Utils.findAvatar(name) <span class="keyword">for</span> name <span class="keyword">in</span> $.unique(names)</div></pre></td></tr></table></figure>
+
+<h2 id="五、别名与存在操作符">五、别名与存在操作符</h2>
+<h3 id="5-1_别名：">5.1 别名：</h3>
+<p>@ 表示this的别名，如@saviour = this.saviour<br>:: 表示prototype</p>
+<h3 id="5-2_存在操作符？：">5.2 存在操作符？：</h3>
+<p>coffeescript中，？只会在变量不存在或者undefined的时候返回假，<br>如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">praise <span class="keyword">if</span> brain?</div></pre></td></tr></table></figure>
+
+<p>还可以用来替换||操作符：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">velocity = southern ？ <span class="number">40</span></div></pre></td></tr></table></figure>
+
+<p>或者在访问对象时进行null检查，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">blacknight.getLegs()?.kick()</div></pre></td></tr></table></figure>
+
+<p>判断属性是否存在外，你还也可以把？放到kick右边，判断函数是否存在，是否可以调用等</p>
+<h2 id="六、类">六、类</h2>
+<p>Coffeescript中类定义是组合模式（组合使用构造模式和原型模式），继承方式则用寄生组合模式。</p>
+<h3 id="6-1_定义类">6.1 定义类</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class Employee</div><div class="line"></div><div class="line">constructor: (name) -&gt;</div><div class="line">@name = name</div><div class="line">dob: (year = <span class="number">1976</span>, month =<span class="number">7</span>, day = <span class="number">24</span>) -&gt;</div><div class="line">new Date(year, month, day)</div><div class="line"></div><div class="line">emp1 = new Employee(“Mark”)</div><div class="line">console.log emp1.name</div><div class="line">console.og emp11.dob()</div></pre></td></tr></table></figure>
+
+<h3 id="6-2_添加方法">6.2 添加方法</h3>
+<p>方法是直接定义在原型上，显示为原型添加方法，很简单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Array::size = -&gt; @length</div></pre></td></tr></table></figure>
+
+<h3 id="6-3_构造函数简化">6.3 构造函数简化</h3>
+<p>如果把参数赋值给同名属性，可以用@语法糖，将构造函数简化为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">constructor: (@name) -&gt;</div></pre></td></tr></table></figure>
+
+<h3 id="6-4_实例变量的使用">6.4 实例变量的使用</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">class Animal</div><div class="line">	price: <span class="number">5</span></div><div class="line"></div><div class="line">	sell: =&gt;</div><div class="line">		alert “Give me <span class="comment">#{@price} shillings!”</span></div><div class="line"></div><div class="line">animal = new Animal</div><div class="line">$(“<span class="comment">#sell”).click(animal.sell)</span></div></pre></td></tr></table></figure>
+
+<p>其中注意到=&gt;的使用，表示引用方法调用的上下文，输出5.</p>
+<h3 id="6-5_静态变量的使用">6.5 静态变量的使用</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">class Animal</div><div class="line">	@find: (name) -&gt;</div><div class="line"></div><div class="line">Animal.find(“Parrot”)</div></pre></td></tr></table></figure>
+
+<p>其实就是在类属性上（this）设置变量值。</p>
+<h3 id="6-6_继承">6.6 继承</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">class Animal</div><div class="line">	constructor: (@name) -&gt;</div><div class="line">class Parrot extends Animal</div><div class="line"></div><div class="line">Animal::rip = <span class="literal">true</span></div><div class="line"></div><div class="line">parrot = new Parrot(“Macaw”)</div><div class="line">alert(“This parrot is no more”) <span class="keyword">if</span> parrot.rip</div></pre></td></tr></table></figure>
+
+<p>这里要注意的是，静态变量是直接拷贝给子类的，而不是像实例属性那样使用原型来继承。</p>
+<h2 id="七、Mixins混入">七、Mixins混入</h2>
+<p>举个例子：<br>module类有两个静态方法，@extend()和@include()，分别来实现对类的静态属性和实例属性的扩展。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">moduleKeywords = [‘exteded’, ‘included’]</div><div class="line"></div><div class="line">class Module</div><div class="line">	@extend: (obj) -&gt;</div><div class="line">		<span class="keyword">for</span> key, value of obj when key not <span class="keyword">in</span> moduleKeywords</div><div class="line">			@[key] = value</div><div class="line">			obj.extended?.apply(@)</div><div class="line">			this</div><div class="line"></div><div class="line">	@include: (obj) -&gt;</div><div class="line">		<span class="keyword">for</span> key, value of obj when key not <span class="keyword">in</span> moduleKeywords</div><div class="line">			<span class="comment"># Assign properties to the prototype</span></div><div class="line">			@::[key] = value</div><div class="line"></div><div class="line">		obj.included?.apply(@)</div><div class="line">		this</div></pre></td></tr></table></figure>
+
+<p>。。。未完待续</p>
+<hr>
+<p>参考：<br>《The Little Book on CoffeeScript》：<a href="http://book.douban.com/subject/10462179/" target="_blank" rel="external">http://book.douban.com/subject/10462179/</a><br>Learn X in Y minutes Where X=coffeescript：<a href="http://learnxinyminutes.com/docs/coffeescript/" target="_blank" rel="external">http://learnxinyminutes.com/docs/coffeescript/</a><br>CoffeeScript极简教程：<a href="http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/" target="_blank" rel="external">http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>配合没耐心的nodejs教程，写给希望快速上手的coffeescript使用者。
+</code></pre><h2 id="一、一些简写和约定：">一、一些简写和约定：</h2>
+<p>coffeescript和python类似，空格，缩写都是有意义的。<b]]>
+    </summary>
+    
+      <category term="coffeescript" scheme="http://vernonzheng.com/tags/coffeescript/"/>
+    
+      <category term="基础" scheme="http://vernonzheng.com/tags/%E5%9F%BA%E7%A1%80/"/>
+    
+      <category term="coffeescript" scheme="http://vernonzheng.com/categories/coffeescript/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[没耐心的nodejs教程-基础篇]]></title>
     <link href="http://vernonzheng.com/2014/12/17/%E6%B2%A1%E8%80%90%E5%BF%83%E7%9A%84nodejs%E6%95%99%E7%A8%8B-%E5%9F%BA%E7%A1%80%E7%AF%87/"/>
     <id>http://vernonzheng.com/2014/12/17/没耐心的nodejs教程-基础篇/</id>
     <published>2014-12-17T15:21:00.000Z</published>
-    <updated>2014-12-18T03:07:33.000Z</updated>
+    <updated>2014-12-20T14:19:38.000Z</updated>
     <content type="html"><![CDATA[<pre><code>这是一篇没耐心的nodejs教程，写给希望迅速上手的学习者。基础篇介绍权限，模块，包，工程目录结构，<span class="built_in">npm</span>等。
 </code></pre><h2 id="一、权限问题">一、权限问题</h2>
 <p>linux下，nodejs需要监听80或443端口提供HTTP（S）服务时需要root权限。<br>有两种方式：</p>
@@ -56,7 +175,7 @@
 <li><p><strong>2.3 module</strong><br>可以访问当前模块的一些信息，最多的用途就是替换当前模块的到处对象。</p>
 <blockquote>
 <p>module.export = function(){</p>
-<pre><code>console.<span class="built_in">log</span>(‘Hello World!’);
+<pre><code> console.<span class="built_in">log</span>(‘Hello World!’);
 </code></pre><p>};</p>
 </blockquote>
 </li>

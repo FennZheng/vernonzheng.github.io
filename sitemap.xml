@@ -2,8 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://vernonzheng.com/2014/12/20/Coffeescript%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/</loc>
+    <lastmod>2014-12-20T14:53:26.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://vernonzheng.com/2014/12/17/%E6%B2%A1%E8%80%90%E5%BF%83%E7%9A%84nodejs%E6%95%99%E7%A8%8B-%E5%9F%BA%E7%A1%80%E7%AF%87/</loc>
-    <lastmod>2014-12-18T03:07:33.000Z</lastmod>
+    <lastmod>2014-12-20T14:19:38.000Z</lastmod>
   </url>
   
   <url>
