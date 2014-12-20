@@ -4,7 +4,7 @@
   <subtitle><![CDATA[to be better]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-20T14:53:38.475Z</updated>
+  <updated>2014-12-20T15:04:07.541Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[Coffeescript基础教程]]></title>
-    <link href="http://vernonzheng.com/2014/12/20/Coffeescript%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
-    <id>http://vernonzheng.com/2014/12/20/Coffeescript基础教程/</id>
+    <title><![CDATA[Coffeescript极简教程]]></title>
+    <link href="http://vernonzheng.com/2014/12/20/Coffeescript%E6%9E%81%E7%AE%80%E6%95%99%E7%A8%8B/"/>
+    <id>http://vernonzheng.com/2014/12/20/Coffeescript极简教程/</id>
     <published>2014-12-20T14:17:30.000Z</published>
-    <updated>2014-12-20T14:53:26.000Z</updated>
+    <updated>2014-12-20T15:03:52.000Z</updated>
     <content type="html"><![CDATA[<pre><code>配合没耐心的nodejs教程，写给希望快速上手的coffeescript使用者。
 </code></pre><h2 id="一、一些简写和约定：">一、一些简写和约定：</h2>
 <p>coffeescript和python类似，空格，缩写都是有意义的。<br>换行替换分号，缩进替换花括号，空格替换括号，<br>但是数组的’[]’不能省略。</p>
