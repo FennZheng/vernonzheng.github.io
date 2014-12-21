@@ -197,6 +197,7 @@ CoffeeScript剔除了全局变量">
 <p>再给一个例子，在扩展类后执行回调：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ORM = </div><div class="line">	find: (id) -&gt;</div><div class="line">	create: (attrs) -&gt;</div><div class="line">	extended: -&gt;</div><div class="line">		@include</div><div class="line">			save: -&gt;</div><div class="line"></div><div class="line">class User extends Module</div><div class="line">	@extends ORM</div></pre></td></tr></table></figure>
 
+<p>基础讲完，接下来就可以围绕网络，文件，进程，异步等进行专项练习了，好运！</p>
 <hr>
 <p>参考：<br>《The Little Book on CoffeeScript》：<a href="http://book.douban.com/subject/10462179/" target="_blank" rel="external">http://book.douban.com/subject/10462179/</a><br>Learn X in Y minutes Where X=coffeescript：<a href="http://learnxinyminutes.com/docs/coffeescript/" target="_blank" rel="external">http://learnxinyminutes.com/docs/coffeescript/</a><br>CoffeeScript极简教程：<a href="http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/" target="_blank" rel="external">http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/</a></p>
   
