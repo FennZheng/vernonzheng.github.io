@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[vernonzheng blog]]></title>
-  <subtitle><![CDATA[to be better]]></subtitle>
+  <title><![CDATA[Vernon Zheng 郑雪峰]]></title>
+  <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-24T05:24:21.754Z</updated>
+  <updated>2014-12-24T14:03:53.681Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
