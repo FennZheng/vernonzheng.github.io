@@ -1,0 +1,536 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>整合Sentry和NodeJS实现分布式日志收集 | Vernon Zheng 郑雪峰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Vernon Zheng">
+    
+    <meta name="description" content="内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，不涉及Sentry的使用。
+一、什么是Sentry？
+一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Vernon Zheng 郑雪峰" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Vernon Zheng 郑雪峰" title="Vernon Zheng 郑雪峰"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Vernon Zheng 郑雪峰">Vernon Zheng 郑雪峰</a></h1>
+				<h2 class="blog-motto">tech | life | thinking | note</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about.html">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:vernonzheng.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/26/整合Sentry和Nodejs实现分布式日志收集/" title="整合Sentry和NodeJS实现分布式日志收集" itemprop="url">整合Sentry和NodeJS实现分布式日志收集</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
+		
+  <p class="article-time">
+    <time datetime="2014-12-26T10:13:42.000Z" itemprop="datePublished"> 发表于 12月 26 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是Sentry？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是Sentry？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、NodeJS接入Sentry"><span class="toc-number">2.</span> <span class="toc-text">二、NodeJS接入Sentry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_raven-node两种使用方式"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 raven-node两种使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_raven-node推荐使用方式"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 raven-node推荐使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_raven-node容灾考虑"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 raven-node容灾考虑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、小结"><span class="toc-number">3.</span> <span class="toc-text">三、小结</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code>内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，不涉及Sentry的使用。
+</code></pre><h2 id="一、什么是Sentry？">一、什么是Sentry？</h2>
+<p>一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这就是系统的隐患所在）、监控告警（出现异常或者异常积累到一定数量以短信或者邮件的形式告警）、以及以上功能的可视化界面。</p>
+<p>目前我们部署公网sentry是6.4.4，<br><a href="http://sentry.funshion.com/dev-web-ads/hermes/" target="_blank" rel="external">http://sentry.funshion.com/dev-web-ads/hermes/</a><br>支持的raven-node是0.7.2<br><a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a></p>
+<h2 id="二、NodeJS接入Sentry">二、NodeJS接入Sentry</h2>
+<p>在package.json中增加dependencies：”raven”: “0.7.2”</p>
+<p>调用方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> raven = <span class="built_in">require</span>(‘raven’);</div><div class="line"><span class="keyword">var</span> client = <span class="keyword">new</span> raven.Client(‘http:<span class="comment">//32位:32位@sentryHost');</span></div></pre></td></tr></table></figure>
+
+<h3 id="2-1_raven-node两种使用方式">2.1 raven-node两种使用方式</h3>
+<ul>
+<li>2.1.1 全局拦截与实现</li>
+</ul>
+<p>调用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client.patchGlobal();</div></pre></td></tr></table></figure>
+
+<p>源码如下，拦截所有uncaughtException。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports.patchGlobal = <span class="function"><span class="keyword">function</span> <span class="title">patchGlobal</span><span class="params">(client, cb)</span> </span>{</div><div class="line">    <span class="comment">// handle when the first argument is the callback, with no client specified</span></div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> client === <span class="string">'function'</span>) {</div><div class="line">        cb = client;</div><div class="line">        client = <span class="keyword">new</span> Client();</div><div class="line">    <span class="comment">// first argument is a string DSN</span></div><div class="line">    } <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> client === <span class="string">'string'</span>) {</div><div class="line">        client = <span class="keyword">new</span> Client(client);</div><div class="line">    }</div><div class="line">    <span class="comment">// at the end, if we still don't have a Client, let's make one!</span></div><div class="line">    !(client <span class="keyword">instanceof</span> Client) && (client = <span class="keyword">new</span> Client());</div><div class="line"></div><div class="line">    process.on(<span class="string">'uncaughtException'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> </span>{</div><div class="line">        <span class="keyword">if</span>(cb) {  <span class="comment">// bind event listeners only if a callback was supplied</span></div><div class="line">            client.once(<span class="string">'logged'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">                cb(<span class="literal">true</span>, err);</div><div class="line">            });</div><div class="line">            client.once(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">                cb(<span class="literal">false</span>, err);</div><div class="line">            });</div><div class="line">        }</div><div class="line">        client.captureError(err, <span class="function"><span class="keyword">function</span><span class="params">(result)</span> </span>{</div><div class="line">            node_util.log(<span class="string">'uncaughtException: '</span>+client.getIdent(result));</div><div class="line">        });</div><div class="line">    });</div><div class="line">};</div></pre></td></tr></table></figure>
+
+<p>测试下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> raven = <span class="built_in">require</span>(<span class="string">"raven"</span>)</div><div class="line"></div><div class="line">  <span class="keyword">var</span> testRaven = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> client = <span class="keyword">new</span> raven.Client(<span class="string">'http://a374661ff0374e488...略'</span>);</div><div class="line">    client.patchGlobal();</div><div class="line">    <span class="keyword">try</span> {</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"test throw error"</span>);</div><div class="line">    }<span class="keyword">catch</span>(err){</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"i'm caught error and throw myself again!"</span>)</div><div class="line">    }</div><div class="line">    <span class="comment">//client.captureError('test captureMessage');</span></div><div class="line">  }</div></pre></td></tr></table></figure>
+
+<p>在sentry上显示如下：<br>会显示function名，Error message，错误出现次数等<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/sentry-test-item" alt="setry-test-item"><br>点进详情，看到程序调用栈：<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/sentry-aggregation" alt="sentry-aggregation"></p>
+<ul>
+<li>2.1.2 手动调用</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// record a simple message</span></div><div class="line">client.captureMessage(<span class="string">'hello world!'</span>)</div><div class="line"><span class="comment">// capture an exception</span></div><div class="line">client.captureError(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Uh oh!!'</span>));</div></pre></td></tr></table></figure>
+
+<h3 id="2-2_raven-node推荐使用方式">2.2 raven-node推荐使用方式</h3>
+<p>统一使用第二种:<br>（1）对于uncaughtException使用下图方式输出到sentry：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">process.on(<span class="string">'uncaughtException'</span>, <span class="function"><span class="keyword">function</span><span class="params">(err)</span> </span>{</div><div class="line">    ravenClient.captureError(err)</div><div class="line">    <span class="comment">//console.log("uncaughtException:" + err.stack);</span></div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">  });</div></pre></td></tr></table></figure>
+
+<p>（2）对于catchException或者业务错误，重写log的实现，完成可配置哪个log类型输出到sentry。</p>
+<h3 id="2-3_raven-node容灾考虑">2.3 raven-node容灾考虑</h3>
+<p>看完怎么导入使用后，如果把它丢到生产环境，我想到的，还需要考虑的问题有：</p>
+<p>（1）日志发送应该是纯异步的，不影响业务。<br>（2）发日志是调用tcp还是udp还是http接口。<br>（3）超时重发机制。<br>（4）sentry挂了怎么处理。<br>（5）sentry忙不过来怎么处理。<br>等等。</p>
+<ul>
+<li>2.3.1 raven-node支持的协议</li>
+</ul>
+<p>要回答这些问题，看下sentry的transport.js。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports.http = <span class="keyword">new</span> HTTPTransport();</div><div class="line"><span class="built_in">module</span>.exports.https = <span class="keyword">new</span> HTTPSTransport();</div><div class="line"><span class="built_in">module</span>.exports.udp = <span class="keyword">new</span> UDPTransport();</div><div class="line"><span class="built_in">module</span>.exports.Transport = Transport;</div></pre></td></tr></table></figure>
+
+<p>支持三种方式，根据SENTRY创建项目的设置来实现，体现在SENTRY_DNS的host里。<br>因为我们都是对内网服务器日志的监控，一般使用http。</p>
+<ul>
+<li>2.3.2 raven-node中http协议实现-send函数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">HTTPTransport.prototype.send = <span class="function"><span class="keyword">function</span><span class="params">(client, message, headers, ident)</span> </span>{</div><div class="line">    <span class="keyword">var</span> options = {</div><div class="line">        hostname: client.dsn.host,</div><div class="line">        path: client.dsn.path + <span class="string">'api/store/'</span>,</div><div class="line">        headers: headers,</div><div class="line">        method: <span class="string">'POST'</span>,</div><div class="line">        port: client.dsn.port || <span class="keyword">this</span>.defaultPort</div><div class="line">    }, req = <span class="keyword">this</span>.transport.request(options, <span class="function"><span class="keyword">function</span><span class="params">(res)</span></span>{</div><div class="line">        res.setEncoding(<span class="string">'utf8'</span>);</div><div class="line">        <span class="keyword">if</span>(res.statusCode &gt;= <span class="number">200</span> && res.statusCode &lt; <span class="number">300</span>) {</div><div class="line">            client.emit(<span class="string">'logged'</span>, ident);</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            <span class="keyword">var</span> reason = res.headers[<span class="string">'x-sentry-error'</span>];</div><div class="line">            <span class="keyword">var</span> e = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'HTTP Error ('</span> + res.statusCode + <span class="string">'): '</span> + reason);</div><div class="line">            e.response = res;</div><div class="line">            e.statusCode = res.statusCode;</div><div class="line">            e.reason = reason;</div><div class="line">            e.sendMessage = message;</div><div class="line">            e.requestHeaders = headers;</div><div class="line">            e.ident = ident;</div><div class="line">            client.emit(<span class="string">'error'</span>, e);</div><div class="line">        }</div><div class="line">        <span class="comment">// force the socket to drain</span></div><div class="line">        <span class="keyword">var</span> noop = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{};</div><div class="line">        res.on(<span class="string">'data'</span>, noop);</div><div class="line">        res.on(<span class="string">'end'</span>, noop);</div><div class="line">    });</div><div class="line">    req.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span><span class="params">(e)</span></span>{</div><div class="line">        client.emit(<span class="string">'error'</span>, e);</div><div class="line">    });</div><div class="line">    req.end(message);</div><div class="line">};</div></pre></td></tr></table></figure>
+
+<p>代码很简短，post msg到{SENTRY_DSN}.host/dsn.path/api/store/，而且<br>（1）没有失败重试<br>（2）发送失败（resp状态码不是200或者req调用的error），发送事件到client.emit(‘error’)，再看下client对error事件的处理：none。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span><span class="params">(e)</span> </span>{});  <span class="comment">// noop</span></div></pre></td></tr></table></figure>
+
+<h2 id="三、小结">三、小结</h2>
+<p>最后回答下前面的问题：</p>
+<ul>
+<li>（1）日志发送应该是纯异步的，不影响业务。<br>  raven-node send日志后是异步回调，但是调用发送日志api是同步的。<br>（因为nodejs是单进程单线程，io异步基本已满足需求，如需优化，可以考虑对整个log模块独立进程，增加重试，发送流量控制等等，但是进程间内存拷贝开销会很大，nodejs的优劣还是很明显的，具体看应用场景）。</li>
+<li>（2）发日志是调用tcp还是udp还是http接口。<br>  内网服务日志监控推荐http。</li>
+<li>（3）超时重发机制。<br>  无retry机制</li>
+<li>（4）sentry挂了怎么处理。</li>
+<li>（5）sentry忙不过来怎么处理。<br>  sentry挂了或者忙不过来，client会接收到error，但是不会输出任何异常。</li>
+<li>（6）raven-node 连接是否会复用，大量日志需要输出的时候，io和句柄占用都会影响到业务处理，是否需要过载保护？<br>待续</li>
+</ul>
+<hr>
+<p>参考：<br>Raven-node github：<a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a><br>Getsentry官网：<a href="https://www.getsentry.com/docs/" target="_blank" rel="external">https://www.getsentry.com/docs/</a><br>使用开源软件sentry来收集日志：<a href="http://luxuryzh.iteye.com/blog/1980364" target="_blank" rel="external">http://luxuryzh.iteye.com/blog/1980364</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/nodejs/">nodejs</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/nodejs/">nodejs</a><a href="/tags/sentry/">sentry</a><a href="/tags/监控/">监控</a>
+  </div>
+
+</div>
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://vernonzheng.com/2014/12/26/整合Sentry和Nodejs实现分布式日志收集/" data-title="整合Sentry和NodeJS实现分布式日志收集 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/12/20/Coffeescript极简教程/"  title="Coffeescript极简教程">
+ <strong>下一篇：</strong><br/> 
+ <span>Coffeescript极简教程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2014/12/26/整合Sentry和Nodejs实现分布式日志收集/" data-title="整合Sentry和NodeJS实现分布式日志收集" data-url="http://vernonzheng.com/2014/12/26/整合Sentry和Nodejs实现分布式日志收集/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是Sentry？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是Sentry？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、NodeJS接入Sentry"><span class="toc-number">2.</span> <span class="toc-text">二、NodeJS接入Sentry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_raven-node两种使用方式"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 raven-node两种使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_raven-node推荐使用方式"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 raven-node推荐使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_raven-node容灾考虑"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 raven-node容灾考虑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、小结"><span class="toc-number">3.</span> <span class="toc-text">三、小结</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
+		
+			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>2</sup></a></li>
+		
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+		
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+		
+			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+		
+			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">8</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/coffeescript/" style="font-size: 10.00px;">coffeescript</a><a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 20.00px;">linux</a><a href="/tags/nodejs/" style="font-size: 20.00px;">nodejs</a><a href="/tags/sentry/" style="font-size: 10.00px;">sentry</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 20.00px;">基础</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/监控/" style="font-size: 10.00px;">监控</a><a href="/tags/读书笔记/" style="font-size: 20.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            <a href="https://github.com/vernonzheng" target="_blank" title="我的github">我的github</a>
+          </li>
+        
+          <li>
+            <a href="http://book.douban.com/people/vernonzheng/" target="_blank" title="我的豆瓣读书">我的豆瓣读书</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.csdn.net/vernonzheng" target="_blank" title="我的旧博客">我的旧博客</a>
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Vernon Zheng(郑雪峰). <br/>
+			T：旅行，B：球类运动，C：coding，R：翻书。 T::=(C,R)-&gt;money++.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/vernonzheng" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2830104/vernon-zheng" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/vernonzheng/" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:kevonzheng@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Pacman">Jacman</a> © 2014 
+		
+		<a href="http://vernonzheng.com/about" target="_blank" title="Vernon Zheng">Vernon Zheng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"vernonzheng"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F1c6aeb80f79b63b35b25a0e55ca39b3c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>
