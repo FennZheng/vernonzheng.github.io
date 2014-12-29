@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2014-12-29T01:17:29.157Z</updated>
+  <updated>2014-12-29T02:00:46.962Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -383,7 +383,7 @@
     <link href="http://vernonzheng.com/2014/12/26/%E6%95%B4%E5%90%88Sentry%E5%92%8CNodejs%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
     <id>http://vernonzheng.com/2014/12/26/整合Sentry和Nodejs实现分布式日志收集/</id>
     <published>2014-12-26T10:13:42.000Z</published>
-    <updated>2014-12-28T10:41:29.000Z</updated>
+    <updated>2014-12-29T02:00:29.000Z</updated>
     <content type="html"><![CDATA[<pre><code>内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，不涉及Sentry的使用。
 </code></pre><h2 id="一、什么是Sentry？">一、什么是Sentry？</h2>
 <p>一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这就是系统的隐患所在）、监控告警（出现异常或者异常积累到一定数量以短信或者邮件的形式告警）、以及以上功能的可视化界面。</p>
@@ -442,11 +442,11 @@
 <li>（2）发日志是调用tcp还是udp还是http接口。<br>  内网服务日志监控推荐http。</li>
 <li>（3）超时重发机制。<br>  无retry机制</li>
 <li>（4）sentry挂了怎么处理。</li>
-<li>（5）sentry忙不过来怎么处理。<br>  sentry挂了或者忙不过来，client会接收到error，但是不会输出任何异常。</li>
+<li>（5）sentry忙不过来怎么处理。<br>  （sentry接受到的请求不是实时处理，接受请求通过队列实现。性能测试可参考：<br><a href="http://blog.csdn.net/largetalk/article/details/8640854）" target="_blank" rel="external">http://blog.csdn.net/largetalk/article/details/8640854）</a><br>  sentry挂了或者忙不过来，client会接收到error，但是不会输出任何异常。</li>
 <li>（6）raven-node 连接是否会复用，大量日志需要输出的时候，io和句柄占用都会影响到业务处理，是否需要过载保护？<br>待续</li>
 </ul>
 <hr>
-<p>参考：<br>Raven-node github：<a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a><br>Getsentry官网：<a href="https://www.getsentry.com/docs/" target="_blank" rel="external">https://www.getsentry.com/docs/</a><br>使用开源软件sentry来收集日志：<a href="http://luxuryzh.iteye.com/blog/1980364" target="_blank" rel="external">http://luxuryzh.iteye.com/blog/1980364</a></p>
+<p>参考：<br>Raven-node github：<a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a><br>Getsentry官网：<a href="https://www.getsentry.com/docs/" target="_blank" rel="external">https://www.getsentry.com/docs/</a><br>使用开源软件sentry来收集日志：<a href="http://luxuryzh.iteye.com/blog/1980364" target="_blank" rel="external">http://luxuryzh.iteye.com/blog/1980364</a><br>关于Sentry：<a href="http://blog.csdn.net/largetalk/article/details/8640854" target="_blank" rel="external">http://blog.csdn.net/largetalk/article/details/8640854</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
 ]]></content>
     <summary type="html">
