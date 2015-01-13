@@ -9,9 +9,9 @@
     
     <meta name="author" content="Vernon Zheng">
     
-    <meta name="description" content="内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，不涉及Sentry的使用。
+    <meta name="description" content="内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，附Http接口的性能测试，不涉及Sentry的使用。
 一、什么是Sentry？
-一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这">
+一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（">
     
     
     
@@ -95,11 +95,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是Sentry？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是Sentry？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、NodeJS接入Sentry"><span class="toc-number">2.</span> <span class="toc-text">二、NodeJS接入Sentry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_raven-node两种使用方式"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 raven-node两种使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_raven-node推荐使用方式"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 raven-node推荐使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_raven-node容灾考虑"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 raven-node容灾考虑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、小结与优化"><span class="toc-number">3.</span> <span class="toc-text">三、小结与优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_疑问解答"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 疑问解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2_优化与使用建议"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 优化与使用建议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_规范哪些日志需要输出到sentry"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 规范哪些日志需要输出到sentry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_raven-node优化"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 raven-node优化</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是Sentry？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是Sentry？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、NodeJS接入Sentry"><span class="toc-number">2.</span> <span class="toc-text">二、NodeJS接入Sentry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_raven-node两种使用方式"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 raven-node两种使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_raven-node推荐使用方式"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 raven-node推荐使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_raven-node容灾考虑"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 raven-node容灾考虑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、小结与优化"><span class="toc-number">3.</span> <span class="toc-text">三、小结与优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_疑问解答"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 疑问解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2_优化与使用建议"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 优化与使用建议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_规范哪些日志需要输出到sentry"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 规范哪些日志需要输出到sentry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_raven-node优化"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 raven-node优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、性能测试"><span class="toc-number">4.</span> <span class="toc-text">四、性能测试</span></a></li></ol>
 		
 		</div>
 		
-		<pre><code>内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，不涉及Sentry的使用。
+		<pre><code>内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，附Http接口的性能测试，不涉及Sentry的使用。
 </code></pre><h2 id="一、什么是Sentry？">一、什么是Sentry？</h2>
 <p>一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这就是系统的隐患所在）、监控告警（出现异常或者异常积累到一定数量以短信或者邮件的形式告警）、以及以上功能的可视化界面。</p>
 <p>目前我们部署公网sentry是6.4.4，<br><a href="http://sentry.funshion.com/dev-web-ads/hermes/" target="_blank" rel="external">http://sentry.funshion.com/dev-web-ads/hermes/</a><br>支持的raven-node是0.7.2<br><a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a></p>
@@ -183,6 +183,15 @@
 <p>或者<strong>常规解决方法</strong>：</p>
 <p>正常交互过程中的异常：可以检测预发送队列的内容进行处理（如超过一定时间/次数，队列内容没有变更视为timeout异常），输出error日志。</p>
 <p>初始化异常：因为封装raven-node后，client是复用的，仅当第一次初始化后，进行check，发送一个message：xxx服务启动。</p>
+<h2 id="四、性能测试">四、性能测试</h2>
+<p>因sentry公网只开了Http的接口，对公网测试的Http接口性能测试如下：</p>
+<p><strong>环境：</strong><br>    本机(Mac os x 10.11)，双核四线程，node 0.8，raven-node 0.7.2</p>
+<p><strong>tps监测方式：</strong>统计raven-node client：response中end事件的输出时间</p>
+<p><strong>测试数据：</strong></p>
+<p>4个cluster<br>4000条300byte消息，<br>800ms发送完毕<br>server端消费速度12/s<br>4000条消息，总耗时约6分钟</p>
+<p>1个cluster<br>4000条300byte消息，<br>1200ms发送完毕<br>server端消费速度12/s<br>4000条消息，总耗时约6分钟</p>
+<p>测试是否对项目有连接数的限制：<br>200个cluster<br>20条300byte消息<br>sentry的web管理界面卡顿，raven-node client返回正常<br>sentry端消费速度12/s</p>
+<p><strong>结论：</strong><br>    sentry内部利用redis实现任务队列，tps在12左右，如果使用http，极端情况下对client有压力，如果使用udp接口，问题不大，不影响client。另外，sentry连接数没有限制，连接管理表现一般。</p>
 <hr>
 <p>参考：<br>Raven-node github：<a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a><br>Getsentry官网：<a href="https://www.getsentry.com/docs/" target="_blank" rel="external">https://www.getsentry.com/docs/</a><br>使用开源软件sentry来收集日志：<a href="http://luxuryzh.iteye.com/blog/1980364" target="_blank" rel="external">http://luxuryzh.iteye.com/blog/1980364</a><br>关于Sentry：<a href="http://blog.csdn.net/largetalk/article/details/8640854" target="_blank" rel="external">http://blog.csdn.net/largetalk/article/details/8640854</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
@@ -199,7 +208,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/nodejs/">nodejs</a><a href="/tags/sentry/">sentry</a><a href="/tags/监控/">监控</a>
+  <span></span> <a href="/tags/nodejs/">nodejs</a><a href="/tags/sentry/">sentry</a><a href="/tags/监控/">监控</a><a href="/tags/性能测试/">性能测试</a>
   </div>
 
 </div>
@@ -248,7 +257,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是Sentry？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是Sentry？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、NodeJS接入Sentry"><span class="toc-number">2.</span> <span class="toc-text">二、NodeJS接入Sentry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_raven-node两种使用方式"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 raven-node两种使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_raven-node推荐使用方式"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 raven-node推荐使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_raven-node容灾考虑"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 raven-node容灾考虑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、小结与优化"><span class="toc-number">3.</span> <span class="toc-text">三、小结与优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_疑问解答"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 疑问解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2_优化与使用建议"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 优化与使用建议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_规范哪些日志需要输出到sentry"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 规范哪些日志需要输出到sentry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_raven-node优化"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 raven-node优化</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是Sentry？"><span class="toc-number">1.</span> <span class="toc-text">一、什么是Sentry？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、NodeJS接入Sentry"><span class="toc-number">2.</span> <span class="toc-text">二、NodeJS接入Sentry</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_raven-node两种使用方式"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 raven-node两种使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_raven-node推荐使用方式"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 raven-node推荐使用方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_raven-node容灾考虑"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 raven-node容灾考虑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、小结与优化"><span class="toc-number">3.</span> <span class="toc-text">三、小结与优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1_疑问解答"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 疑问解答</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2_优化与使用建议"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 优化与使用建议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1_规范哪些日志需要输出到sentry"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 规范哪些日志需要输出到sentry</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2_raven-node优化"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 raven-node优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、性能测试"><span class="toc-number">4.</span> <span class="toc-text">四、性能测试</span></a></li></ol>
  
   </div>
 
@@ -290,23 +299,25 @@
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/scala/" title="scala">scala<sup>1</sup></a></li>
 		
 			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
-			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+			<li><a href="/tags/习题/" title="习题">习题<sup>1</sup></a></li>
 		
 			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
 		
-			<li><a href="/tags/scala/" title="scala">scala<sup>1</sup></a></li>
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
 			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
 			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
-			<li><a href="/tags/习题/" title="习题">习题<sup>1</sup></a></li>
-		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+		
+			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
@@ -329,7 +340,7 @@
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/coffeescript/" style="font-size: 10.00px;">coffeescript</a><a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 15.00px;">linux</a><a href="/tags/nodejs/" style="font-size: 20.00px;">nodejs</a><a href="/tags/scala/" style="font-size: 10.00px;">scala</a><a href="/tags/sentry/" style="font-size: 10.00px;">sentry</a><a href="/tags/习题/" style="font-size: 10.00px;">习题</a><a href="/tags/书单/" style="font-size: 10.00px;">书单</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 15.00px;">基础</a><a href="/tags/日记/" style="font-size: 10.00px;">日记</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/监控/" style="font-size: 10.00px;">监控</a><a href="/tags/经验总结/" style="font-size: 10.00px;">经验总结</a><a href="/tags/读书笔记/" style="font-size: 15.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+       <a href="/tags/coffeescript/" style="font-size: 10.00px;">coffeescript</a><a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 15.00px;">linux</a><a href="/tags/nodejs/" style="font-size: 20.00px;">nodejs</a><a href="/tags/scala/" style="font-size: 10.00px;">scala</a><a href="/tags/sentry/" style="font-size: 10.00px;">sentry</a><a href="/tags/习题/" style="font-size: 10.00px;">习题</a><a href="/tags/书单/" style="font-size: 10.00px;">书单</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 15.00px;">基础</a><a href="/tags/性能测试/" style="font-size: 10.00px;">性能测试</a><a href="/tags/日记/" style="font-size: 10.00px;">日记</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/监控/" style="font-size: 10.00px;">监控</a><a href="/tags/经验总结/" style="font-size: 10.00px;">经验总结</a><a href="/tags/读书笔记/" style="font-size: 15.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
     </div>
   </div>
 
