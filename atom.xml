@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-01-14T07:51:59.477Z</updated>
+  <updated>2015-01-14T09:49:50.633Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -460,7 +460,7 @@
     <link href="http://vernonzheng.com/2014/12/26/%E6%95%B4%E5%90%88Sentry%E5%92%8CNodejs%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
     <id>http://vernonzheng.com/2014/12/26/整合Sentry和Nodejs实现分布式日志收集/</id>
     <published>2014-12-26T10:13:42.000Z</published>
-    <updated>2015-01-14T07:51:41.000Z</updated>
+    <updated>2015-01-14T09:49:36.000Z</updated>
     <content type="html"><![CDATA[<pre><code>内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，附Http接口的性能测试，不涉及Sentry的使用。
 </code></pre><h2 id="一、什么是Sentry？">一、什么是Sentry？</h2>
 <p>一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这就是系统的隐患所在）、监控告警（出现异常或者异常积累到一定数量以短信或者邮件的形式告警）、以及以上功能的可视化界面。</p>
@@ -553,7 +553,9 @@
 <p>4个cluster<br>4000条300byte消息，<br>560ms发送完毕<br>4000条消息，总耗时约5.3s<br>tps大概765/s</p>
 <p>1个cluster<br>4000条300byte消息，<br>900ms发送完毕<br>4000条消息，总耗时约11s<br>tps大概365/s</p>
 <p>测试是否对项目有连接数的限制：<br>200个cluster<br>20条300byte消息<br>sentry的web管理界面卡顿，raven-node client返回正常</p>
-<p><strong>结论：</strong><br>    sentry内部利用redis实现任务队列，4个cluster的tps在800左右，预估tps上升空间比较大，目前受限于测试机。如果使用http，极端情况下对client有压力，如果使用udp接口，问题不大，不影响client。另外，sentry连接数没有限制，连接管理表现一般。</p>
+<p><strong>后续追加了不同cluster的性能表现：</strong></p>
+<p>总消息数为4000条，每条300byte<br>cluster个数-tps<br>4-765<br>8-1256<br>12-1430<br>16-1752<br>20-1690<br>32-1320<br>注：多个cluster未做类似Barrier的实现（即cluster发起请求非同一起点）会有误差。</p>
+<p><strong>结论：</strong><br>    sentry内部利用redis实现任务队列，测试机的tps在1800左右，预估还有较大提升，受限于测试机。如果使用http，极端情况下对client有压力，如果使用udp接口，问题不大，不影响client。另外，sentry连接数没有限制，连接管理表现一般。</p>
 <hr>
 <p>参考：<br>Raven-node github：<a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a><br>Getsentry官网：<a href="https://www.getsentry.com/docs/" target="_blank" rel="external">https://www.getsentry.com/docs/</a><br>使用开源软件sentry来收集日志：<a href="http://luxuryzh.iteye.com/blog/1980364" target="_blank" rel="external">http://luxuryzh.iteye.com/blog/1980364</a><br>关于Sentry：<a href="http://blog.csdn.net/largetalk/article/details/8640854" target="_blank" rel="external">http://blog.csdn.net/largetalk/article/details/8640854</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
