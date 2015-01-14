@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-01-14T09:49:50.633Z</updated>
+  <updated>2015-01-14T09:52:08.533Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -460,7 +460,7 @@
     <link href="http://vernonzheng.com/2014/12/26/%E6%95%B4%E5%90%88Sentry%E5%92%8CNodejs%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
     <id>http://vernonzheng.com/2014/12/26/整合Sentry和Nodejs实现分布式日志收集/</id>
     <published>2014-12-26T10:13:42.000Z</published>
-    <updated>2015-01-14T09:49:36.000Z</updated>
+    <updated>2015-01-14T09:52:00.000Z</updated>
     <content type="html"><![CDATA[<pre><code>内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，附Http接口的性能测试，不涉及Sentry的使用。
 </code></pre><h2 id="一、什么是Sentry？">一、什么是Sentry？</h2>
 <p>一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这就是系统的隐患所在）、监控告警（出现异常或者异常积累到一定数量以短信或者邮件的形式告警）、以及以上功能的可视化界面。</p>
@@ -517,7 +517,7 @@
 <p>回答下前面对sentry和raven-node的疑问：</p>
 <ul>
 <li>（1）日志发送应该是纯异步的，不影响业务。<br>  raven-node send日志后是异步回调，但是调用发送日志api是同步的。<br>（因为nodejs是单进程单线程，io异步基本已满足需求，如需优化，可以考虑对整个log模块独立进程，增加重试，发送流量控制等等，但是进程间内存拷贝开销会很大，nodejs的优劣还是很明显的，具体看应用场景）。</li>
-<li>（2）发日志是调用tcp还是udp还是http接口。<br>  内网服务日志监控推荐http。</li>
+<li>（2）发日志是调用tcp还是udp还是http接口。<br>  内网服务日志监控推荐http/udp。</li>
 <li>（3）超时重发机制。<br>  无retry机制</li>
 <li>（4）sentry挂了怎么处理。</li>
 <li>（5）sentry忙不过来怎么处理。<br>  （sentry接受到的请求不是实时处理，接受请求通过队列实现。性能测试可参考：<br><a href="http://blog.csdn.net/largetalk/article/details/8640854）" target="_blank" rel="external">http://blog.csdn.net/largetalk/article/details/8640854）</a><br>  sentry挂了或者忙不过来，client会接收到error，但是不会输出任何异常。</li>

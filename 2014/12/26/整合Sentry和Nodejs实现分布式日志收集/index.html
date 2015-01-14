@@ -155,7 +155,7 @@
 <p>回答下前面对sentry和raven-node的疑问：</p>
 <ul>
 <li>（1）日志发送应该是纯异步的，不影响业务。<br>  raven-node send日志后是异步回调，但是调用发送日志api是同步的。<br>（因为nodejs是单进程单线程，io异步基本已满足需求，如需优化，可以考虑对整个log模块独立进程，增加重试，发送流量控制等等，但是进程间内存拷贝开销会很大，nodejs的优劣还是很明显的，具体看应用场景）。</li>
-<li>（2）发日志是调用tcp还是udp还是http接口。<br>  内网服务日志监控推荐http。</li>
+<li>（2）发日志是调用tcp还是udp还是http接口。<br>  内网服务日志监控推荐http/udp。</li>
 <li>（3）超时重发机制。<br>  无retry机制</li>
 <li>（4）sentry挂了怎么处理。</li>
 <li>（5）sentry忙不过来怎么处理。<br>  （sentry接受到的请求不是实时处理，接受请求通过队列实现。性能测试可参考：<br><a href="http://blog.csdn.net/largetalk/article/details/8640854）" target="_blank" rel="external">http://blog.csdn.net/largetalk/article/details/8640854）</a><br>  sentry挂了或者忙不过来，client会接收到error，但是不会输出任何异常。</li>
@@ -295,35 +295,35 @@
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
-			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
-		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/习题/" title="习题">习题<sup>1</sup></a></li>
-		
-			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
 		
 			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
-			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
-		
-			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
-		
 			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
-			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
 		
 			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
 			<li><a href="/tags/scala/" title="scala">scala<sup>1</sup></a></li>
 		
-			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/习题/" title="习题">习题<sup>1</sup></a></li>
+		
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
 		
 			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
