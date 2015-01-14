@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-01-13T10:39:25.387Z</updated>
+  <updated>2015-01-14T07:51:59.477Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -460,7 +460,7 @@
     <link href="http://vernonzheng.com/2014/12/26/%E6%95%B4%E5%90%88Sentry%E5%92%8CNodejs%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E6%97%A5%E5%BF%97%E6%94%B6%E9%9B%86/"/>
     <id>http://vernonzheng.com/2014/12/26/整合Sentry和Nodejs实现分布式日志收集/</id>
     <published>2014-12-26T10:13:42.000Z</published>
-    <updated>2015-01-13T10:39:16.000Z</updated>
+    <updated>2015-01-14T07:51:41.000Z</updated>
     <content type="html"><![CDATA[<pre><code>内容包括如何利用raven-node模块，完成nodejs服务与开源日志框架Sentry的对接，实现分布式日志收集，附Http接口的性能测试，不涉及Sentry的使用。
 </code></pre><h2 id="一、什么是Sentry？">一、什么是Sentry？</h2>
 <p>一个基于Djongo的日志收集系统。具备收集日志（对于分布式环境下，日志分布在各台服务器上）、日志统计（统计次数最多的异常，往往这就是系统的隐患所在）、监控告警（出现异常或者异常积累到一定数量以短信或者邮件的形式告警）、以及以上功能的可视化界面。</p>
@@ -550,10 +550,10 @@
 <p><strong>环境：</strong><br>    本机(Mac os x 10.11)，双核四线程，node 0.8，raven-node 0.7.2</p>
 <p><strong>tps监测方式：</strong>统计raven-node client：response中end事件的输出时间</p>
 <p><strong>测试数据：</strong></p>
-<p>4个cluster<br>4000条300byte消息，<br>800ms发送完毕<br>server端消费速度12/s<br>4000条消息，总耗时约6分钟</p>
-<p>1个cluster<br>4000条300byte消息，<br>1200ms发送完毕<br>server端消费速度12/s<br>4000条消息，总耗时约6分钟</p>
-<p>测试是否对项目有连接数的限制：<br>200个cluster<br>20条300byte消息<br>sentry的web管理界面卡顿，raven-node client返回正常<br>sentry端消费速度12/s</p>
-<p><strong>结论：</strong><br>    sentry内部利用redis实现任务队列，tps在12左右，如果使用http，极端情况下对client有压力，如果使用udp接口，问题不大，不影响client。另外，sentry连接数没有限制，连接管理表现一般。</p>
+<p>4个cluster<br>4000条300byte消息，<br>560ms发送完毕<br>4000条消息，总耗时约5.3s<br>tps大概765/s</p>
+<p>1个cluster<br>4000条300byte消息，<br>900ms发送完毕<br>4000条消息，总耗时约11s<br>tps大概365/s</p>
+<p>测试是否对项目有连接数的限制：<br>200个cluster<br>20条300byte消息<br>sentry的web管理界面卡顿，raven-node client返回正常</p>
+<p><strong>结论：</strong><br>    sentry内部利用redis实现任务队列，4个cluster的tps在800左右，预估tps上升空间比较大，目前受限于测试机。如果使用http，极端情况下对client有压力，如果使用udp接口，问题不大，不影响client。另外，sentry连接数没有限制，连接管理表现一般。</p>
 <hr>
 <p>参考：<br>Raven-node github：<a href="https://github.com/getsentry/raven-node" target="_blank" rel="external">https://github.com/getsentry/raven-node</a><br>Getsentry官网：<a href="https://www.getsentry.com/docs/" target="_blank" rel="external">https://www.getsentry.com/docs/</a><br>使用开源软件sentry来收集日志：<a href="http://luxuryzh.iteye.com/blog/1980364" target="_blank" rel="external">http://luxuryzh.iteye.com/blog/1980364</a><br>关于Sentry：<a href="http://blog.csdn.net/largetalk/article/details/8640854" target="_blank" rel="external">http://blog.csdn.net/largetalk/article/details/8640854</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
