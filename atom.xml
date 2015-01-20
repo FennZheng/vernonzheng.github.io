@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-01-19T09:40:13.641Z</updated>
+  <updated>2015-01-20T05:33:39.351Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -244,11 +244,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第一章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%B8%80%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/12/《快学scala》第一章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答]]></title>
+    <link href="http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
+    <id>http://vernonzheng.com/2015/01/12/《快学scala》习题解答/</id>
     <published>2015-01-12T14:20:42.000Z</published>
-    <updated>2015-01-12T15:34:27.000Z</updated>
+    <updated>2015-01-20T05:32:52.000Z</updated>
     <content type="html"><![CDATA[<pre><code>边看《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），边做课后习题，答案供参考。
 </code></pre><p>书为第一版。scala为2.11.4，操作系统Mac OS X Yosemite 10.10.1，MacBook Pro(Retina,13-inch,Mid 2014) </p>
 <h2 id="第一章">第一章</h2>
@@ -314,7 +314,7 @@
     
       <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
     
-      <category term="习题" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98/"/>
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
     
       <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
     
