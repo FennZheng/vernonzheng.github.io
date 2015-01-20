@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-01-20T11:52:14.188Z</updated>
+  <updated>2015-01-20T14:47:14.296Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -13,6 +13,73 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[《快学scala》第二章习题解答]]></title>
+    <link href="http://vernonzheng.com/2015/01/20/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
+    <id>http://vernonzheng.com/2015/01/20/《快学scala》第二章习题解答/</id>
+    <published>2015-01-20T14:46:42.000Z</published>
+    <updated>2015-01-20T14:47:03.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第二章_控制结构与函数">第二章 控制结构与函数</h2>
+<p><strong>2.1</strong><br>一个数字如果为正数，则它的signum为1;如果是负数,则signum为-1;如果为0,则signum为0.编写一个函数来计算这个值。</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> sigNum(num: Int):Int = {</div><div class="line">	<span class="keyword">if</span> (num &gt; <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> <span class="keyword">if</span> (num &lt; <span class="number">0</span>) -<span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line">}</div><div class="line"></div><div class="line">println(signum(<span class="number">10000</span>));</div><div class="line">println(signum(-<span class="number">22</span>));</div><div class="line">println(signum(<span class="number">0</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>2.2</strong><br>一个空的块表达式{}的值是什么？类型是什么？</p>
+<p>答：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; val x = {}</div><div class="line">x: Unit = ()</div></pre></td></tr></table></figure>
+
+<p><strong>2.3</strong><br>指出在Scala中何种情况下赋值语句x=y=1是合法的。(提示：给x找个合适的类型定义)</p>
+<p>答：<br>因为赋值语句的值是Unit型，所以x可定义为Unit型。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">var</span> y = <span class="number">5</span></div><div class="line">y: Int = <span class="number">5</span></div><div class="line"></div><div class="line">scala&gt; <span class="keyword">var</span> x = {}</div><div class="line">x: Unit = ()</div><div class="line"></div><div class="line">scala&gt; x = y= <span class="number">1</span></div><div class="line">x: Unit = ()</div></pre></td></tr></table></figure>
+
+<p><strong>2.4</strong><br>针对下列Java循环编写一个Scala版本:<br> for(int i=10;i&gt;=0;i—) System.out.println(i);</p>
+<p>答：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10</span> reverse) println(i)</div><div class="line">warning: there was one feature warning; re-run <span class="keyword">with</span> -feature <span class="keyword">for</span> details</div><div class="line"><span class="number">10</span></div><div class="line"><span class="number">9</span></div><div class="line"><span class="number">8</span></div><div class="line"><span class="number">7</span></div><div class="line"><span class="number">6</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">0</span></div></pre></td></tr></table></figure>
+
+<p><strong>2.5</strong><br>编写一个过程countdown(n:Int)，打印从n到0的数字。</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">def</span> countdown(n:Int){</div><div class="line">     |   <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to n reverse){</div><div class="line">     |     println(i)</div><div class="line">     |   }</div><div class="line">     | }</div><div class="line">warning: there was one feature warning; re-run <span class="keyword">with</span> -feature <span class="keyword">for</span> details</div><div class="line">countdown: (n: Int)Unit</div><div class="line"></div><div class="line">scala&gt; countdown(<span class="number">2</span>)</div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">0</span></div></pre></td></tr></table></figure>
+
+<p><strong>2.6</strong><br>编写一个for循环,计算字符串中所有字母的Unicode代码的乘积。举例来说，”Hello”中所有字符串的乘积为9415087488L</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">def</span> test(str:String):Long = {</div><div class="line">         <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">         <span class="keyword">for</span>(i &lt;- str) result *= i</div><div class="line">         result</div><div class="line">       }</div><div class="line">test: (str: String)Long</div><div class="line"></div><div class="line">scala&gt; test(<span class="string">"oh,yeah"</span>)</div><div class="line">res5: Long = <span class="number">62621117315328</span></div></pre></td></tr></table></figure>
+
+<p><strong>2.7</strong><br>同样是解决前一个练习的问题，但这次不使用循环。（提示：在Scaladoc中查看StringOps）</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> test(str:String):Long = {</div><div class="line">  <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">  str.foreach( ch =&gt; {result *= (ch.toLong)})</div><div class="line">  result</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>2.8</strong><br>编写一个函数product(s:String), 计算前面习题中提到的乘积。</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> product(str:String):Long = {</div><div class="line">  <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">  str.foreach( result *= _.toLong )</div><div class="line">  result</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>2.9</strong><br>把前一个练习中的函数改成递归函数。</p>
+<p>答:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> product(str:String):Long = {</div><div class="line">  <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">  <span class="keyword">if</span> (str.length==<span class="number">1</span>)</div><div class="line">    result = str.head.toLong</div><div class="line">  <span class="keyword">else</span></div><div class="line">    result = str.head.toLong * product(str.tail)</div><div class="line">  result</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>2.10</strong><br>编写函数计算x^n, 其中n为整数。</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> getPower(x:Double, n:Int):Double = {</div><div class="line">  <span class="keyword">if</span> (n == <span class="number">0</span> ) <span class="number">1</span></div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( n&gt;<span class="number">0</span> && n % <span class="number">2</span> != <span class="number">0</span> ) x * getPower(x, n-<span class="number">1</span>)</div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (n &gt;<span class="number">0</span> && n % <span class="number">2</span> == <span class="number">0</span> ) getPower (x, n/<span class="number">2</span>) * getPower (x, n/<span class="number">2</span>)</div><div class="line">  <span class="keyword">else</span> <span class="number">1</span>/getPower( x, -n) </div><div class="line">}</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[《MongoDB实战》笔记]]></title>
@@ -244,13 +311,14 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/12/《快学scala》习题解答/</id>
+    <title><![CDATA[《快学scala》第一章习题解答]]></title>
+    <link href="http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%B8%80%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
+    <id>http://vernonzheng.com/2015/01/12/《快学scala》第一章习题解答/</id>
     <published>2015-01-12T14:20:42.000Z</published>
-    <updated>2015-01-20T11:52:05.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>边看《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），边做课后习题，答案供参考。
-</code></pre><p>书为第一版。scala为2.11.4，操作系统Mac OS X Yosemite 10.10.1。 </p>
+    <updated>2015-01-20T14:46:18.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。 </p>
 <h2 id="第一章_基础">第一章 基础</h2>
 <p><strong>1.1</strong><br>在Scala REPL中键入3,然后按Tab键。有哪些方法可以被应用? </p>
 <p>答：</p>
@@ -293,39 +361,13 @@
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"Hello world"</span>.take(<span class="number">3</span>)</div><div class="line">res26: String = Hel</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.takeRight(<span class="number">3</span>)</div><div class="line">res27: String = rld</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.drop(<span class="number">3</span>)</div><div class="line">res28: String = lo world</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.dropRight(<span class="number">3</span>)</div><div class="line">res29: String = Hello wo</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.take(<span class="number">3</span>).drop(<span class="number">1</span>)</div><div class="line">res32: String = el</div></pre></td></tr></table></figure>
 
 <p>take,drop,takeRight,dropRight适合从两边处理字符串，很方便可以配合使用，substring适合处理中间的字符串。</p>
-<h2 id="第二章_控制结构与函数">第二章 控制结构与函数</h2>
-<p><strong>2.1</strong><br>一个数字如果为正数，则它的signum为1;如果是负数,则signum为-1;如果为0,则signum为0.编写一个函数来计算这个值。</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> sigNum(num: Int):Int = {</div><div class="line">	<span class="keyword">if</span> (num &gt; <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> <span class="keyword">if</span> (num &lt; <span class="number">0</span>) -<span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line">}</div><div class="line"></div><div class="line">println(signum(<span class="number">10000</span>));</div><div class="line">println(signum(-<span class="number">22</span>));</div><div class="line">println(signum(<span class="number">0</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>2.2</strong><br>一个空的块表达式{}的值是什么？类型是什么？</p>
-<p>答：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; val x = {}</div><div class="line">x: Unit = ()</div></pre></td></tr></table></figure>
-
-<p><strong>2.3</strong><br>指出在Scala中何种情况下赋值语句x=y=1是合法的。(提示：给x找个合适的类型定义)</p>
-<p>答：<br>因为赋值语句的值是Unit型，所以x可定义为Unit型。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">var</span> y = <span class="number">5</span></div><div class="line">y: Int = <span class="number">5</span></div><div class="line"></div><div class="line">scala&gt; <span class="keyword">var</span> x = {}</div><div class="line">x: Unit = ()</div><div class="line"></div><div class="line">scala&gt; x = y= <span class="number">1</span></div><div class="line">x: Unit = ()</div></pre></td></tr></table></figure>
-
-<p><strong>2.4</strong><br>针对下列Java循环编写一个Scala版本:<br> for(int i=10;i&gt;=0;i—) System.out.println(i);</p>
-<p>答：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10</span> reverse) println(i)</div><div class="line">warning: there was one feature warning; re-run <span class="keyword">with</span> -feature <span class="keyword">for</span> details</div><div class="line"><span class="number">10</span></div><div class="line"><span class="number">9</span></div><div class="line"><span class="number">8</span></div><div class="line"><span class="number">7</span></div><div class="line"><span class="number">6</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">0</span></div></pre></td></tr></table></figure>
-
-<p><strong>2.5</strong><br>编写一个过程countdown(n:Int)，打印从n到0的数字。</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">def</span> countdown(n:Int){</div><div class="line">     |   <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to n reverse){</div><div class="line">     |     println(i)</div><div class="line">     |   }</div><div class="line">     | }</div><div class="line">warning: there was one feature warning; re-run <span class="keyword">with</span> -feature <span class="keyword">for</span> details</div><div class="line">countdown: (n: Int)Unit</div><div class="line"></div><div class="line">scala&gt; countdown(<span class="number">2</span>)</div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">0</span></div></pre></td></tr></table></figure>
-
-<p><strong>2.6</strong><br>编写一个for循环,计算字符串中所有字母的Unicode代码的乘积。举例来说，”Hello”中所有字符串的乘积为9415087488L</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">def</span> test(str:String):Long = {</div><div class="line">         <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">         <span class="keyword">for</span>(i &lt;- str) result *= i</div><div class="line">         result</div><div class="line">       }</div><div class="line">test: (str: String)Long</div><div class="line"></div><div class="line">scala&gt; test(<span class="string">"oh,yeah"</span>)</div><div class="line">res5: Long = <span class="number">62621117315328</span></div></pre></td></tr></table></figure>
-
-<p><strong>2.7</strong><br>同样是解决前一个练习的问题，但这次不使用循环。（提示：在Scaladoc中查看StringOps）</p>
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<pre><code>边看《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），边做课后习题，答案供参考。
-</code></pre>]]>
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
     </summary>
     
       <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
