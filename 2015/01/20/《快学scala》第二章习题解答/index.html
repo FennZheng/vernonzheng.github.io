@@ -139,7 +139,13 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <p>答:</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> product(str:String):Long = {</div><div class="line">  <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">  <span class="keyword">if</span> (str.length==<span class="number">1</span>)</div><div class="line">    result = str.head.toLong</div><div class="line">  <span class="keyword">else</span></div><div class="line">    result = str.head.toLong * product(str.tail)</div><div class="line">  result</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>2.10</strong><br>编写函数计算x^n, 其中n为整数。</p>
+<p><strong>2.10</strong><br>编写函数计算x^n, 其中n为整数。使用如下的递归定义：</p>
+<ul>
+<li>x^n = y^2,如果</li>
+<li>x^n = x*x^(n-1)</li>
+<li>x^0 = 1</li>
+<li>x^n = 1/x^(-n)</li>
+</ul>
 <p>答：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> getPower(x:Double, n:Int):Double = {</div><div class="line">  <span class="keyword">if</span> (n == <span class="number">0</span> ) <span class="number">1</span></div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( n&gt;<span class="number">0</span> && n % <span class="number">2</span> != <span class="number">0</span> ) x * getPower(x, n-<span class="number">1</span>)</div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (n &gt;<span class="number">0</span> && n % <span class="number">2</span> == <span class="number">0</span> ) getPower (x, n/<span class="number">2</span>) * getPower (x, n/<span class="number">2</span>)</div><div class="line">  <span class="keyword">else</span> <span class="number">1</span>/getPower( x, -n) </div><div class="line">}</div></pre></td></tr></table></figure>
 
@@ -238,21 +244,21 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
-			<li><a href="/tags/scala/" title="scala">scala<sup>2</sup></a></li>
-		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
 		
-			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>2</sup></a></li>
+			<li><a href="/tags/scala/" title="scala">scala<sup>2</sup></a></li>
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
+			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>2</sup></a></li>
 		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
 			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
 			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
@@ -262,17 +268,17 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
-			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
-		
-			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
-		
 			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
 		
 		</ul>
 </div>
