@@ -4,15 +4,14 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Linux常用命令小记 | Vernon Zheng 郑雪峰</title>
+    <title>《快学scala》第三章习题解答 | Vernon Zheng 郑雪峰</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
     
-    <meta name="description" content="最近在翻《Linux命令行与shell脚本编程大全》,整理了书中提到的常用的linux命令行。
-一、文件相关
-
-链接文件cp -l test1 test4 创建硬链接（一个独立文件，引用了源文件，索引节点号是一样的，只适用同一个挂载点下的文件）cp -s test1 test5 创建符号链接，软链接">
+    <meta name="description" content="《快学Scala》（英文版：《Scala for the Impatient》），代码已传github：
+https://github.com/vernonzheng/scala-for-the-Impatient
+书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X ">
     
     
     
@@ -80,14 +79,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/13/Linux常用命令小记/" title="Linux常用命令小记" itemprop="url">Linux常用命令小记</a>
+      <a href="/2015/01/21/《快学scala》第三章习题解答/" title="《快学scala》第三章习题解答" itemprop="url">《快学scala》第三章习题解答</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2014-12-13T07:13:47.000Z" itemprop="datePublished"> 发表于 12月 13 2014</time>
+    <time datetime="2015-01-21T14:40:42.000Z" itemprop="datePublished"> 发表于 1月 21 2015</time>
     
   </p>
 </header>
@@ -96,44 +95,25 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、文件相关"><span class="toc-number">1.</span> <span class="toc-text">一、文件相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、线程相关"><span class="toc-number">2.</span> <span class="toc-text">二、线程相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、账号相关"><span class="toc-number">3.</span> <span class="toc-text">三、账号相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、磁盘设备相关"><span class="toc-number">4.</span> <span class="toc-text">四、磁盘设备相关</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章_数组相关操作"><span class="toc-number">1.</span> <span class="toc-text">第三章 数组相关操作</span></a></li></ol>
 		
 		</div>
 		
-		<pre><code>最近在翻《Linux命令行与<span class="keyword">shell</span>脚本编程大全》,整理了书中提到的常用的linux命令行。
-</code></pre><h2 id="一、文件相关">一、文件相关</h2>
-<ul>
-<li><p><strong>链接文件</strong><br>cp -l test1 test4 创建硬链接（一个独立文件，引用了源文件，索引节点号是一样的，只适用同一个挂载点下的文件）<br>cp -s test1 test5 创建符号链接，软链接（一个独立文件，只存储源文件的信息，不存储源文件数据，索引节点显示为test5 -&gt; test1）<br>ln 链接文件（硬链接）<br>ln -s 链接文件（软链接）</p>
-</li>
-<li><p><strong>文件状态</strong><br>stat test10 查看文件统计信息，比ls更全<br>file test1 显示文件类型（3类，文本文件，可执行文件，数据文件）</p>
-</li>
-<li><p><strong>查看文件内容</strong><br>cat -n test1 查看整个文件，同时显示行号<br>more test1 查看整个文件，显示一页停下来，再向下翻页<br>less test1 more的升级版，不用全部加载文件<br>tail -n 100 -f 显示最后的100行，-f保持活动状态，有新内容就显示<br>head -n 100 -f 与tail类似，显示最开始的100行</p>
-</li>
-<li><p><strong>文件排序、过滤</strong><br>sort -n 排序文件数据行，-n表示把数字识别为数字，而不是字符，让它们按值排序<br>sort -t ‘:’ -k 3 -n /etc/passwd 其中-t表示指定字段的分隔符，-k指定排序的字段，最终完成按照用户ID进行数字排序<br>grep -e t -e f file1 过滤文件内容，筛选匹配行，其中-e表示多个匹配模式，满足其一就被筛选出来</p>
-</li>
-<li><p><strong>文件压缩、归档</strong><br>zip -r test.zip test 递归压缩目录<br>unzip test.zip 解压<br>tar -cvf test.tar test/ test2/ 创建含有test和test2目录的test.tar归档文件。<br>tar -tf test.tar 列出test.tar 内容，不解压<br>tar -xvf test.tar 解压<br>tar -zxvf test.tgz 解压gzip压缩过的tar文件</p>
-</li>
-</ul>
-<h2 id="二、线程相关">二、线程相关</h2>
-<ul>
-<li><p><strong>监控性能</strong><br>top 实时监控进行，系统负载等</p>
-</li>
-<li><p><strong>线程消息</strong><br>kill -s 信号（线程传递信息，比如HUP（1）挂起，INT（2）终端，QUIT（3）结束运行，KILL（9）无条件终止）</p>
-</li>
-</ul>
-<h2 id="三、账号相关">三、账号相关</h2>
-<ul>
-<li><strong>组与用户</strong><br>useradd -b default_home -g group sb<br>usermod 修改用户账户的字段，比如主要组以及附加组的所属关系<br>passwd username 修改密码<br>groupadd shared 创建shared新组（tail /etc/group查看结果）<br>usermod -G shared rich 增加shared组的成员，是-G，不是-g，-g会修改账户的默认组！<br>groupmod -n sharing shared 其中-n是修复已有组的组名 -g是修改GID<br>umask 777 —在/etc/profile 设置umask，即touch创建文件时候，默认给的权限<br>chmod o+r newfile (o表示权限设置跟其他用户一样，u表示权限设置为属主一样，g设置为属组一样，r读权限)<br>chown dan.shared newfile 改变文件的属主和属组</li>
-</ul>
-<h2 id="四、磁盘设备相关">四、磁盘设备相关</h2>
-<ul>
-<li><p><strong>设备</strong><br>mount -t vfat /dev/sdb1 media/disk 将u盘/dev/sdb1 挂载到/media/disk<br>mount /homr/rich/mnt 卸载</p>
-</li>
-<li><p><strong>磁盘</strong><br>df -h 显示设备的磁盘空间。<br>du -h 显示特定目录下磁盘使用情况。用来判断系统某个目录是否有超大文件的快速方式。</p>
-</li>
-</ul>
+		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第三章_数组相关操作">第三章 数组相关操作</h2>
+<p><strong>3.1</strong><br>编写一段代码，将a设置为一个n个随机整数的数组，要求随机数介于0(包含)和n(不包含)之间</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.util.Random</div><div class="line"><span class="keyword">import</span> scala.math.random</div><div class="line"><span class="keyword">def</span> randomArray(n: Int) :Array[Int] = {</div><div class="line">  <span class="keyword">val</span> array = <span class="keyword">for</span>( i&lt;- <span class="number">0</span> to n) <span class="keyword">yield</span> Random.nextInt(n)</div><div class="line">  array.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> randomArray2(n: Int) :Array[Int] = {</div><div class="line">  <span class="keyword">val</span> array = <span class="keyword">for</span>( i&lt;- <span class="number">0</span> to n) <span class="keyword">yield</span> (random * n).toInt</div><div class="line">  array.toArray</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>3.2</strong><br>编写一个循环，将整数数组中相邻的元素置换。例如,Array(1,2,3,4,5)经过置换后变为Array(2,1,4,3,5)</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> arrayChange(array: Array[Int]) :Array[Int] = {</div><div class="line">  <span class="keyword">if</span>(array == <span class="keyword">null</span>)</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span></div><div class="line"></div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until array.length <span class="keyword">if</span> i % <span class="number">2</span> ==<span class="number">0</span> && i &gt; <span class="number">0</span>){</div><div class="line">    <span class="keyword">val</span> tmp = array(i-<span class="number">1</span>)</div><div class="line">    array(i-<span class="number">1</span>) = array(i)</div><div class="line">    array(i) = tmp</div><div class="line">  }</div><div class="line">  array</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> arrayChange2(arr: Array[Int]) :Array[Int] = {</div><div class="line">  <span class="keyword">val</span> t = arr.toBuffer</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until (t.length,<span class="number">2</span>) <span class="keyword">if</span> i + <span class="number">1</span> &lt; t.length){</div><div class="line">    <span class="keyword">val</span> a = t(i)</div><div class="line">    <span class="keyword">val</span> b = t(i + <span class="number">1</span>)</div><div class="line">    t.remove(i,<span class="number">2</span>)</div><div class="line">    t.insert(i,b)</div><div class="line">    t.insert(i + <span class="number">1</span>,a)</div><div class="line">  }</div><div class="line">  t.toArray</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>待续</p>
 <hr>
-<p>参考：<br>《Linux命令行与shell脚本编程大全》:<a href="http://book.douban.com/subject/11589828/" target="_blank" rel="external">http://book.douban.com/subject/11589828/</a></p>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
   
 	</div>
@@ -142,13 +122,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/linux/">linux</a>
+  <a class="article-category-link" href="/categories/scala/">scala</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/linux/">linux</a><a href="/tags/命令行/">命令行</a>
+  <span></span> <a href="/tags/scala/">scala</a><a href="/tags/习题答案/">习题答案</a>
   </div>
 
 </div>
@@ -156,7 +136,7 @@
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2014/12/13/Linux常用命令小记/" data-title="Linux常用命令小记 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/01/21/《快学scala》第三章习题解答/" data-title="《快学scala》第三章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -165,19 +145,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/15/《如何阅读一本书》感悟总结/" title="《如何阅读一本书》感悟总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  《如何阅读一本书》感悟总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/10/Java异常-《Robust-Java-中文版》笔记总结/"  title="Java异常-《Robust Java 中文版》 笔记总结">
+<a href="/2015/01/20/《快学scala》第二章习题解答/"  title="《快学scala》第二章习题解答">
  <strong>下一篇：</strong><br/> 
- <span>Java异常-《Robust Java 中文版》 笔记总结
+ <span>《快学scala》第二章习题解答
 </span>
 </a>
 </div>
@@ -186,7 +158,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2014/12/13/Linux常用命令小记/" data-title="Linux常用命令小记" data-url="http://vernonzheng.com/2014/12/13/Linux常用命令小记/"></div>
+	<div class="ds-thread" data-thread-key="2015/01/21/《快学scala》第三章习题解答/" data-title="《快学scala》第三章习题解答" data-url="http://vernonzheng.com/2015/01/21/《快学scala》第三章习题解答/"></div>
 </section>
 
 
@@ -197,7 +169,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、文件相关"><span class="toc-number">1.</span> <span class="toc-text">一、文件相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、线程相关"><span class="toc-number">2.</span> <span class="toc-text">二、线程相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、账号相关"><span class="toc-number">3.</span> <span class="toc-text">三、账号相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、磁盘设备相关"><span class="toc-number">4.</span> <span class="toc-text">四、磁盘设备相关</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章_数组相关操作"><span class="toc-number">1.</span> <span class="toc-text">第三章 数组相关操作</span></a></li></ol>
  
   </div>
 

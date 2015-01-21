@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-01-21T06:37:16.255Z</updated>
+  <updated>2015-01-21T15:10:11.834Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -13,6 +13,42 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[《快学scala》第三章习题解答]]></title>
+    <link href="http://vernonzheng.com/2015/01/21/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%B8%89%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
+    <id>http://vernonzheng.com/2015/01/21/《快学scala》第三章习题解答/</id>
+    <published>2015-01-21T14:40:42.000Z</published>
+    <updated>2015-01-21T15:09:38.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第三章_数组相关操作">第三章 数组相关操作</h2>
+<p><strong>3.1</strong><br>编写一段代码，将a设置为一个n个随机整数的数组，要求随机数介于0(包含)和n(不包含)之间</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.util.Random</div><div class="line"><span class="keyword">import</span> scala.math.random</div><div class="line"><span class="keyword">def</span> randomArray(n: Int) :Array[Int] = {</div><div class="line">  <span class="keyword">val</span> array = <span class="keyword">for</span>( i&lt;- <span class="number">0</span> to n) <span class="keyword">yield</span> Random.nextInt(n)</div><div class="line">  array.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> randomArray2(n: Int) :Array[Int] = {</div><div class="line">  <span class="keyword">val</span> array = <span class="keyword">for</span>( i&lt;- <span class="number">0</span> to n) <span class="keyword">yield</span> (random * n).toInt</div><div class="line">  array.toArray</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>3.2</strong><br>编写一个循环，将整数数组中相邻的元素置换。例如,Array(1,2,3,4,5)经过置换后变为Array(2,1,4,3,5)</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> arrayChange(array: Array[Int]) :Array[Int] = {</div><div class="line">  <span class="keyword">if</span>(array == <span class="keyword">null</span>)</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span></div><div class="line"></div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until array.length <span class="keyword">if</span> i % <span class="number">2</span> ==<span class="number">0</span> && i &gt; <span class="number">0</span>){</div><div class="line">    <span class="keyword">val</span> tmp = array(i-<span class="number">1</span>)</div><div class="line">    array(i-<span class="number">1</span>) = array(i)</div><div class="line">    array(i) = tmp</div><div class="line">  }</div><div class="line">  array</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> arrayChange2(arr: Array[Int]) :Array[Int] = {</div><div class="line">  <span class="keyword">val</span> t = arr.toBuffer</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until (t.length,<span class="number">2</span>) <span class="keyword">if</span> i + <span class="number">1</span> &lt; t.length){</div><div class="line">    <span class="keyword">val</span> a = t(i)</div><div class="line">    <span class="keyword">val</span> b = t(i + <span class="number">1</span>)</div><div class="line">    t.remove(i,<span class="number">2</span>)</div><div class="line">    t.insert(i,b)</div><div class="line">    t.insert(i + <span class="number">1</span>,a)</div><div class="line">  }</div><div class="line">  t.toArray</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>待续</p>
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[《快学scala》第二章习题解答]]></title>
