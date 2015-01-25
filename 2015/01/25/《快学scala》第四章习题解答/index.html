@@ -79,14 +79,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/01/21/《快学scala》第四章习题解答/" title="《快学scala》第四章习题解答" itemprop="url">《快学scala》第四章习题解答</a>
+      <a href="/2015/01/25/《快学scala》第四章习题解答/" title="《快学scala》第四章习题解答" itemprop="url">《快学scala》第四章习题解答</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2015-01-21T14:40:42.000Z" itemprop="datePublished"> 发表于 1月 21 2015</time>
+    <time datetime="2015-01-25T09:27:42.000Z" itemprop="datePublished"> 发表于 1月 25 2015</time>
     
   </p>
 </header>
@@ -130,7 +130,20 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <p>答：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.collection.JavaConversions.propertiesAsScalaMap</div><div class="line"></div><div class="line"><span class="keyword">def</span> printJavaSysProps():Unit = {</div><div class="line">  <span class="keyword">val</span> propMap:collection.Map[String,String] = System.getProperties()</div><div class="line">  <span class="keyword">val</span> maxKeyLength = propMap.keySet.map(_.length).max</div><div class="line">  <span class="keyword">for</span>( (k,v) &lt;- propMap ) printf(<span class="string">"%-"</span> + maxKeyLength + <span class="string">"s | %s\n"</span>, k, v)</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>待续</p>
+<p><strong>4.8</strong><br>编写一个函数minmax(values:Array[Int]),返回数组中最小值和最大值的对偶</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> minmax(values:Array[Int])={</div><div class="line">  (values.max,values.min)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>4.9</strong><br>编写一个函数Iteqgt(values:Array[int],v:Int),返回数组中小于v,等于v和大于v的数量，要求三个值一起返回</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> Iteqgt(values:Array[Int],v:Int){</div><div class="line">  (values.count(_ &lt; v),values.count(_ == v),values.count(_ &gt; v))</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>4.10</strong><br>当你将两个字符串拉链在一起，比如”Hello”.zip(“World”)，会是什么结果？想出一个讲得通的用例</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"Hello"</span>.zip(<span class="string">"hello"</span>).toMap</div><div class="line">res40: scala.collection.immutable.Map[Char,Char] = Map(H -&gt; h, e -&gt; e, l -&gt; l, o -&gt; o)</div></pre></td></tr></table></figure>
+
+<p>StringOps中的zip定义如下:</p>
+<p>abstract def zip<a href="that: GenIterable[B]" target="_blank" rel="external">B</a>: StringOps[(A, B)]<br>GenIterable是可遍历对象需要包含的trait，对于String来说，它是可遍历的。但是它的遍历是遍历单个字母。 所以拉链就针对每个字母来进行。</p>
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
@@ -155,7 +168,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2015/01/21/《快学scala》第四章习题解答/" data-title="《快学scala》第四章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/01/25/《快学scala》第四章习题解答/" data-title="《快学scala》第四章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -164,19 +177,11 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/01/21/《快学scala》第三章习题解答/" title="《快学scala》第三章习题解答">
-  <strong>上一篇：</strong><br/>
-  <span>
-  《快学scala》第三章习题解答</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/01/20/《快学scala》第二章习题解答/"  title="《快学scala》第二章习题解答">
+<a href="/2015/01/21/《快学scala》第三章习题解答/"  title="《快学scala》第三章习题解答">
  <strong>下一篇：</strong><br/> 
- <span>《快学scala》第二章习题解答
+ <span>《快学scala》第三章习题解答
 </span>
 </a>
 </div>
@@ -185,7 +190,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/01/21/《快学scala》第四章习题解答/" data-title="《快学scala》第四章习题解答" data-url="http://vernonzheng.com/2015/01/21/《快学scala》第四章习题解答/"></div>
+	<div class="ds-thread" data-thread-key="2015/01/25/《快学scala》第四章习题解答/" data-title="《快学scala》第四章习题解答" data-url="http://vernonzheng.com/2015/01/25/《快学scala》第四章习题解答/"></div>
 </section>
 
 
@@ -242,35 +247,35 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
-		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
-			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
 		
 			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
 		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
 			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
 		
 			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
-			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
-		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
-			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
-		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
 		</ul>
 </div>
