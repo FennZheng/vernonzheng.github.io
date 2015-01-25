@@ -128,7 +128,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> reverseArray(arr:Array[Int]):Array[Int]={</div><div class="line">  arr.reverse</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p><strong>3.7</strong><br>编写一段代码，产出数组中的所有值，去掉重复项。(提示：查看Scaladoc)</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> removeArray1(arr:Array[Int]):Array[Int]={</div><div class="line">  <span class="keyword">val</span> t = arr.toBuffer</div><div class="line">  <span class="keyword">val</span> idx =(<span class="keyword">for</span>(i &lt;- <span class="number">0</span> until t.length <span class="keyword">if</span> t(i) &lt; <span class="number">0</span>) <span class="keyword">yield</span> { i }).reverse.toBuffer</div><div class="line">  idx.trimEnd(<span class="number">1</span>)</div><div class="line">  idx.foreach(arg =&gt; t.remove(arg))</div><div class="line">  t.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> removeArray2(array:Array[Int]):Array[Int]={</div><div class="line">  <span class="keyword">val</span> arr = array.toBuffer</div><div class="line">  <span class="keyword">var</span> first = <span class="keyword">true</span></div><div class="line">  <span class="keyword">val</span> indexes = <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until arr.length <span class="keyword">if</span> first || arr(i) &gt;= <span class="number">0</span>) <span class="keyword">yield</span>{</div><div class="line">    <span class="keyword">if</span>(arr(i) &lt; <span class="number">0</span>) first = <span class="keyword">false</span>;i</div><div class="line">  }</div><div class="line">  <span class="keyword">for</span>(j &lt;- <span class="number">0</span> until indexes.length) arr(j) = arr(indexes(j))</div><div class="line">  arr.trimEnd(arr.length - indexes.length)</div><div class="line">  arr.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> performance():Unit={</div><div class="line">  <span class="keyword">val</span> array = Array(<span class="number">1</span>,-<span class="number">2</span>,<span class="number">3</span>,<span class="number">55</span>,<span class="number">3</span>,-<span class="number">4</span>,-<span class="number">6</span>,-<span class="number">2</span>,-<span class="number">1</span>,<span class="number">55</span>,-<span class="number">3</span>,<span class="number">5</span>)</div><div class="line">  <span class="keyword">val</span> startTime1 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10000</span>) {</div><div class="line">    removeArray1(array)</div><div class="line">  }</div><div class="line">  <span class="keyword">val</span> endTime1 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">val</span> startTime2 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10000</span>) {</div><div class="line">    <span class="keyword">val</span> result2 = removeArray2(array)</div><div class="line">  }</div><div class="line">  <span class="keyword">val</span> endTime2 = System.currentTimeMillis()</div><div class="line">  println(<span class="string">"removeArray1 cost:"</span>+(endTime1-startTime1))</div><div class="line">  println(<span class="string">"removeArray2 cost:"</span>+(endTime2-startTime2))</div><div class="line">  <span class="comment">//10000次 201：81</span></div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> removeArray1(arr:Array[Int]):Array[Int]={</div><div class="line">  <span class="keyword">val</span> t = arr.toBuffer</div><div class="line">  <span class="keyword">val</span> idx =(<span class="keyword">for</span>(i &lt;- <span class="number">0</span> until t.length <span class="keyword">if</span> t(i) &lt; <span class="number">0</span>) <span class="keyword">yield</span> { i }).reverse.toBuffer</div><div class="line">  idx.trimEnd(<span class="number">1</span>)</div><div class="line">  idx.foreach(arg =&gt; t.remove(arg))</div><div class="line">  t.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> removeArray2(array:Array[Int]):Array[Int]={</div><div class="line">  <span class="keyword">val</span> arr = array.toBuffer</div><div class="line">  <span class="keyword">var</span> first = <span class="keyword">true</span></div><div class="line">  <span class="keyword">val</span> indexes = <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until arr.length <span class="keyword">if</span> first || arr(i) &gt;= <span class="number">0</span>) <span class="keyword">yield</span>{</div><div class="line">    <span class="keyword">if</span>(arr(i) &lt; <span class="number">0</span>) first = <span class="keyword">false</span>;i</div><div class="line">  }</div><div class="line">  <span class="keyword">for</span>(j &lt;- <span class="number">0</span> until indexes.length) arr(j) = arr(indexes(j))</div><div class="line">  arr.trimEnd(arr.length - indexes.length)</div><div class="line">  arr.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> performance():Unit={</div><div class="line">  <span class="keyword">val</span> array = Array(<span class="number">1</span>,-<span class="number">2</span>,<span class="number">3</span>,<span class="number">55</span>,<span class="number">3</span>,-<span class="number">4</span>,-<span class="number">6</span>,-<span class="number">2</span>,-<span class="number">1</span>,<span class="number">55</span>,-<span class="number">3</span>,<span class="number">5</span>)</div><div class="line">  <span class="keyword">val</span> startTime1 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10000</span>) {</div><div class="line">    removeArray1(array)</div><div class="line">  }</div><div class="line">  <span class="keyword">val</span> endTime1 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">val</span> startTime2 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10000</span>) {</div><div class="line">    <span class="keyword">val</span> result2 = removeArray2(array)</div><div class="line">  }</div><div class="line">  <span class="keyword">val</span> endTime2 = System.currentTimeMillis()</div><div class="line">  println(<span class="string">"removeArray1 cost:"</span>+(endTime1-startTime1))</div><div class="line">  println(<span class="string">"removeArray2 cost:"</span>+(endTime2-startTime2))</div><div class="line">  <span class="comment">//10000次 201：81</span></div><div class="line">}</div><div class="line"><span class="javadoc">/**</span></div><div class="line">   * scala&gt; performance</div><div class="line">removeArray1 cost:231</div><div class="line">removeArray2 cost:163</div><div class="line"></div><div class="line">scala&gt; performance</div><div class="line">removeArray1 cost:16</div><div class="line">removeArray2 cost:14</div><div class="line"></div><div class="line">scala&gt; performance</div><div class="line">removeArray1 cost:12</div><div class="line">removeArray2 cost:6</div><div class="line"></div><div class="line">scala&gt; performance</div><div class="line">removeArray1 cost:13</div><div class="line">removeArray2 cost:7</div><div class="line"></div><div class="line">scala&gt; performance</div><div class="line">removeArray1 cost:18</div><div class="line">removeArray2 cost:5</div><div class="line">   */</div></pre></td></tr></table></figure>
 
 <p><strong>3.9</strong><br>创建一个由java.util.TimeZone.getAvailableIDs返回ide时区集合，判断条件是它们在美洲。去掉”America/“前缀并排序</p>
 <p>答：</p>
@@ -173,9 +173,9 @@ https://github.com/vernonzheng/scala-for-the-Impatient
  
 
 <div class="next">
-<a href="/2015/01/20/《快学scala》第二章习题解答/"  title="《快学scala》第二章习题解答">
+<a href="/2015/01/21/《快学scala》第四章习题解答/"  title="《快学scala》第四章习题解答">
  <strong>下一篇：</strong><br/> 
- <span>《快学scala》第二章习题解答
+ <span>《快学scala》第四章习题解答
 </span>
 </a>
 </div>
@@ -218,7 +218,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
-			<li><a href="/categories/scala/" title="scala">scala<sup>3</sup></a></li>
+			<li><a href="/categories/scala/" title="scala">scala<sup>4</sup></a></li>
 		
 			<li><a href="/categories/日记/" title="日记">日记<sup>1</sup></a></li>
 		
@@ -233,43 +233,43 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/scala/" title="scala">scala<sup>3</sup></a></li>
+			<li><a href="/tags/scala/" title="scala">scala<sup>4</sup></a></li>
 		
-			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>3</sup></a></li>
+			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>4</sup></a></li>
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
-		
-			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
 			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
 		
-			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
-		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
-		
-			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
-		
-			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
-		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
 		
-			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
+			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
 			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
 		
 			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
 		</ul>
 </div>
@@ -278,7 +278,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">10</span></li></ul>
   </div>
 
 
@@ -286,7 +286,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   <div class="tagcloudlist">
     <p class="asidetitle">标签云</p>
     <div class="tagcloudlist clearfix">
-       <a href="/tags/coffeescript/" style="font-size: 10.00px;">coffeescript</a><a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 15.00px;">linux</a><a href="/tags/mongodb/" style="font-size: 10.00px;">mongodb</a><a href="/tags/nodejs/" style="font-size: 20.00px;">nodejs</a><a href="/tags/nosql/" style="font-size: 10.00px;">nosql</a><a href="/tags/scala/" style="font-size: 20.00px;">scala</a><a href="/tags/sentry/" style="font-size: 10.00px;">sentry</a><a href="/tags/习题答案/" style="font-size: 20.00px;">习题答案</a><a href="/tags/书单/" style="font-size: 10.00px;">书单</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 15.00px;">基础</a><a href="/tags/性能测试/" style="font-size: 10.00px;">性能测试</a><a href="/tags/日记/" style="font-size: 10.00px;">日记</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/监控/" style="font-size: 10.00px;">监控</a><a href="/tags/经验总结/" style="font-size: 10.00px;">经验总结</a><a href="/tags/读书笔记/" style="font-size: 15.00px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+       <a href="/tags/coffeescript/" style="font-size: 10.00px;">coffeescript</a><a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 13.33px;">linux</a><a href="/tags/mongodb/" style="font-size: 10.00px;">mongodb</a><a href="/tags/nodejs/" style="font-size: 16.67px;">nodejs</a><a href="/tags/nosql/" style="font-size: 10.00px;">nosql</a><a href="/tags/scala/" style="font-size: 20.00px;">scala</a><a href="/tags/sentry/" style="font-size: 10.00px;">sentry</a><a href="/tags/习题答案/" style="font-size: 20.00px;">习题答案</a><a href="/tags/书单/" style="font-size: 10.00px;">书单</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 13.33px;">基础</a><a href="/tags/性能测试/" style="font-size: 10.00px;">性能测试</a><a href="/tags/日记/" style="font-size: 10.00px;">日记</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/监控/" style="font-size: 10.00px;">监控</a><a href="/tags/经验总结/" style="font-size: 10.00px;">经验总结</a><a href="/tags/读书笔记/" style="font-size: 13.33px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
     </div>
   </div>
 
