@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>《快学scala》第二章习题解答 | Vernon Zheng 郑雪峰</title>
+    <title>《快学scala》第五章习题解答 | Vernon Zheng 郑雪峰</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
@@ -79,14 +79,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/01/20/《快学scala》第二章习题解答/" title="《快学scala》第二章习题解答" itemprop="url">《快学scala》第二章习题解答</a>
+      <a href="/2015/01/25/《快学scala》第五章习题解答/" title="《快学scala》第五章习题解答" itemprop="url">《快学scala》第五章习题解答</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2015-01-20T14:46:42.000Z" itemprop="datePublished"> 发表于 1月 20 2015</time>
+    <time datetime="2015-01-25T11:27:42.000Z" itemprop="datePublished"> 发表于 1月 25 2015</time>
     
   </p>
 </header>
@@ -95,59 +95,52 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第二章_控制结构与函数"><span class="toc-number">1.</span> <span class="toc-text">第二章 控制结构与函数</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章_类"><span class="toc-number">1.</span> <span class="toc-text">第五章 类</span></a></li></ol>
 		
 		</div>
 		
 		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
-<h2 id="第二章_控制结构与函数">第二章 控制结构与函数</h2>
-<p><strong>2.1</strong><br>一个数字如果为正数，则它的signum为1;如果是负数,则signum为-1;如果为0,则signum为0.编写一个函数来计算这个值。</p>
+<h2 id="第五章_类">第五章 类</h2>
+<p><strong>5.1</strong><br>改进5.1节的Counter类,让它不要在Int.MaxValue时变成负数</p>
 <p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> sigNum(num: Int):Int = {</div><div class="line">	<span class="keyword">if</span> (num &gt; <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> <span class="keyword">if</span> (num &lt; <span class="number">0</span>) -<span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line">}</div><div class="line"></div><div class="line">println(signum(<span class="number">10000</span>));</div><div class="line">println(signum(-<span class="number">22</span>));</div><div class="line">println(signum(<span class="number">0</span>));</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span><span class="params">()</span></span>{</div><div class="line">  <span class="keyword">private</span> <span class="keyword">var</span> value = <span class="number">0</span></div><div class="line">  <span class="keyword">def</span> increment(){ <span class="keyword">if</span>(value&lt;Int.MaxValue) value += <span class="number">1</span> }</div><div class="line">  <span class="keyword">def</span> current() = value</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>2.2</strong><br>一个空的块表达式{}的值是什么？类型是什么？</p>
+<p><strong>5.2</strong><br>编写一个BankAccount类，加入deposit和withdraw方法，和一个只读的balance属性</p>
 <p>答：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; val x = {}</div><div class="line">x: Unit = ()</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BankAccount</span></span>{</div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> banlance = <span class="number">0</span></div><div class="line">  <span class="keyword">def</span> deposit(){}</div><div class="line">  <span class="keyword">def</span> withdraw(){}</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>2.3</strong><br>指出在Scala中何种情况下赋值语句x=y=1是合法的。(提示：给x找个合适的类型定义)</p>
-<p>答：<br>因为赋值语句的值是Unit型，所以x可定义为Unit型。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">var</span> y = <span class="number">5</span></div><div class="line">y: Int = <span class="number">5</span></div><div class="line"></div><div class="line">scala&gt; <span class="keyword">var</span> x = {}</div><div class="line">x: Unit = ()</div><div class="line"></div><div class="line">scala&gt; x = y= <span class="number">1</span></div><div class="line">x: Unit = ()</div></pre></td></tr></table></figure>
-
-<p><strong>2.4</strong><br>针对下列Java循环编写一个Scala版本:<br> for(int i=10;i&gt;=0;i—) System.out.println(i);</p>
+<p><strong>5.3</strong><br>编写一个Time类，加入只读属性hours和minutes，和一个检查某一时刻是否早于另一时刻的方法before(other:Time):Boolean。Time对象应该以new Time(hrs,min)方式构建。其中hrs以军用时间格式呈现(介于0和23之间)</p>
 <p>答：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10</span> reverse) println(i)</div><div class="line">warning: there was one feature warning; re-run <span class="keyword">with</span> -feature <span class="keyword">for</span> details</div><div class="line"><span class="number">10</span></div><div class="line"><span class="number">9</span></div><div class="line"><span class="number">8</span></div><div class="line"><span class="number">7</span></div><div class="line"><span class="number">6</span></div><div class="line"><span class="number">5</span></div><div class="line"><span class="number">4</span></div><div class="line"><span class="number">3</span></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">0</span></div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Time</span><span class="params">(private[this] val hrs:Int,private[this] val min:Int)</span></span>{</div><div class="line">  <span class="keyword">val</span> hours = hrs</div><div class="line">  <span class="keyword">val</span> minutes = min</div><div class="line">  <span class="keyword">def</span> before(other:Time):Boolean = {</div><div class="line">    <span class="keyword">if</span>(hours&lt;other.hours)</div><div class="line">      <span class="keyword">true</span></div><div class="line">    <span class="keyword">if</span>(hours==other.hours)</div><div class="line">      <span class="keyword">if</span>(minutes&lt;other.minutes)</div><div class="line">        <span class="keyword">true</span></div><div class="line">    <span class="keyword">false</span></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>2.5</strong><br>编写一个过程countdown(n:Int)，打印从n到0的数字。</p>
+<p><strong>5.4</strong><br>重新实现前一个类中的Time类，将内部呈现改成午夜起的分钟数(介于0到24*60-1之间)。不要改变公有接口。也就是说，客户端代码不应因你的修改而受影响</p>
 <p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">def</span> countdown(n:Int){</div><div class="line">         <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to n reverse){</div><div class="line">           println(i)</div><div class="line">         }</div><div class="line">       }</div><div class="line">warning: there was one feature warning; re-run <span class="keyword">with</span> -feature <span class="keyword">for</span> details</div><div class="line">countdown: (n: Int)Unit</div><div class="line"></div><div class="line">scala&gt; countdown(<span class="number">2</span>)</div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line"><span class="number">0</span></div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Time</span><span class="params">(private[this] val hrs:Int,private[this] val min:Int)</span></span>{</div><div class="line">  <span class="keyword">val</span> minutesInDay = hrs*<span class="number">24</span>+min</div><div class="line">  <span class="keyword">def</span> before(other:Time):Boolean = {</div><div class="line">    <span class="keyword">if</span>(minutesInDay&lt;other.minutesInDay)</div><div class="line">      <span class="keyword">true</span></div><div class="line">    <span class="keyword">false</span></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>2.6</strong><br>编写一个for循环,计算字符串中所有字母的Unicode代码的乘积。举例来说，”Hello”中所有字符串的乘积为9415087488L</p>
+<p><strong>5.5</strong><br>创建一个Student类，加入可读写的JavaBeans属性name(类型为String)和id(类型为Long)。有哪些方法被生产？(用javap查看。)你可以在Scala中调用JavaBeans的getter和setter方法吗？应该这样做吗？</p>
 <p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">def</span> test(str:String):Long = {</div><div class="line">         <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">         <span class="keyword">for</span>(i &lt;- str) result *= i</div><div class="line">         result</div><div class="line">       }</div><div class="line">test: (str: String)Long</div><div class="line"></div><div class="line">scala&gt; test(<span class="string">"oh,yeah"</span>)</div><div class="line">res5: Long = <span class="number">62621117315328</span></div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.beans.BeanProperty</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>{</div><div class="line">  <span class="annotation">@BeanProperty</span> <span class="keyword">var</span> name:String = _</div><div class="line">  <span class="annotation">@BeanProperty</span> <span class="keyword">var</span> id:Long = _</div><div class="line">}</div><div class="line"><span class="javadoc">/**</span></div><div class="line">javap -c Student 后显示如下</div><div class="line"></div><div class="line">Compiled from "Student.scala"</div><div class="line">public class Student extends java.lang.Object implements scala.ScalaObject{</div><div class="line">  public java.lang.String name();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   getfield        #13; //Field name:Ljava/lang/String;</div><div class="line">  4:   areturn</div><div class="line"></div><div class="line">  public void name_$eq(java.lang.String);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   aload_1</div><div class="line">  2:   putfield        #13; //Field name:Ljava/lang/String;</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public void setName(java.lang.String);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   aload_1</div><div class="line">  2:   putfield        #13; //Field name:Ljava/lang/String;</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public long id();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   getfield        #19; //Field id:J</div><div class="line">  4:   lreturn</div><div class="line"></div><div class="line">  public void id_$eq(long);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   lload_1</div><div class="line">  2:   putfield        #19; //Field id:J</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public void setId(long);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   lload_1</div><div class="line">  2:   putfield        #19; //Field id:J</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public long getId();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   invokevirtual   #25; //Method id:()J</div><div class="line">  4:   lreturn</div><div class="line"></div><div class="line">  public java.lang.String getName();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   invokevirtual   #28; //Method name:()Ljava/lang/String;</div><div class="line">  4:   areturn</div><div class="line"></div><div class="line">  public Student();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   invokespecial   #34; //Method java/lang/Object."&lt;init&gt;":()V</div><div class="line">  4:   return</div><div class="line"></div><div class="line">}</div><div class="line">  **/</div></pre></td></tr></table></figure>
 
-<p><strong>2.7</strong><br>同样是解决前一个练习的问题，但这次不使用循环。（提示：在Scaladoc中查看StringOps）</p>
+<p><strong>5.6</strong><br>在5.2节的Person类中提供一个主构造器,将负年龄转换为0</p>
 <p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> test(str:String):Long = {</div><div class="line">  <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">  str.foreach( ch =&gt; {result *= (ch.toLong)})</div><div class="line">  result</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(var age:Int)</span></span>{</div><div class="line">  age = <span class="keyword">if</span>(age &lt; <span class="number">0</span>) <span class="number">0</span> <span class="keyword">else</span> age</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>2.8</strong><br>编写一个函数product(s:String), 计算前面习题中提到的乘积。</p>
+<p><strong>5.7</strong><br>编写一个Person类，其主构造器接受一个字符串，该字符串包含名字，空格和姓，如new Person(“Fred Smith”)。提供只读属性firstName和lastName。主构造器参数应该是var,val还是普通参数？为什么？</p>
 <p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> product(str:String):Long = {</div><div class="line">  <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">  str.foreach( result *= _.toLong )</div><div class="line">  result</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(private[this] val name:String)</span></span>{</div><div class="line">  <span class="keyword">private</span>[<span class="keyword">this</span>] <span class="keyword">val</span> tmp = name.split(<span class="string">"\\s+"</span>)</div><div class="line">  <span class="keyword">val</span> firstName = tmp(<span class="number">0</span>)</div><div class="line">  <span class="keyword">val</span> lastName = tmp(<span class="number">1</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>2.9</strong><br>把前一个练习中的函数改成递归函数。</p>
-<p>答:</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> product(str:String):Long = {</div><div class="line">  <span class="keyword">var</span> result:Long = <span class="number">1</span></div><div class="line">  <span class="keyword">if</span> (str.length==<span class="number">1</span>)</div><div class="line">    result = str.head.toLong</div><div class="line">  <span class="keyword">else</span></div><div class="line">    result = str.head.toLong * product(str.tail)</div><div class="line">  result</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>2.10</strong><br>编写函数计算x^n, 其中n为整数。使用如下的递归定义：</p>
-<ul>
-<li>x^n = y^2,如果</li>
-<li>x^n = x*x^(n-1)</li>
-<li>x^0 = 1</li>
-<li>x^n = 1/x^(-n)</li>
-</ul>
+<p><strong>5.8</strong><br>创建一个Car类，以只读属性对应制造商，型号名称，型号年份以及一个可读写的属性用于车牌。提供四组构造器。每个构造器fc都要求制造商和型号为必填。型号年份和车牌可选，如果未填，则型号年份为-1，车牌为空串。你会选择哪一个作为你的主构造器？为什么？</p>
 <p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> getPower(x:Double, n:Int):Double = {</div><div class="line">  <span class="keyword">if</span> (n == <span class="number">0</span> ) <span class="number">1</span></div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( n&gt;<span class="number">0</span> && n % <span class="number">2</span> != <span class="number">0</span> ) x * getPower(x, n-<span class="number">1</span>)</div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (n &gt;<span class="number">0</span> && n % <span class="number">2</span> == <span class="number">0</span> ) getPower (x, n/<span class="number">2</span>) * getPower (x, n/<span class="number">2</span>)</div><div class="line">  <span class="keyword">else</span> <span class="number">1</span>/getPower( x, -n) </div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(val manufactuer:String, val model: String, val year: Int = -1, var license: String = <span class="string">""</span>)</span></span></div></pre></td></tr></table></figure>
+
+<p><strong>5.9</strong><br>在Java,C#或C++重做前一个练习。Scala相比之下精简多少？</p>
+<p>答：<br>略</p>
+<p><strong>5.10</strong><br>考虑如下的类</p>
+<p>class Employ(val name:String,var salary:Double){<br>    def this(){this(“John Q. Public”,0.0)}<br>}<br>重写该类,使用显示的字段定义，和一个缺省主构造器。你更倾向于使用哪种形式？为什么？</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employ</span><span class="params">()</span></span>{</div><div class="line">  <span class="keyword">val</span> name:String = <span class="string">"John Q. Public"</span></div><div class="line">  <span class="keyword">var</span> salary:Double = <span class="number">0.0</span></div><div class="line">}</div></pre></td></tr></table></figure>
 
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
@@ -173,7 +166,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2015/01/20/《快学scala》第二章习题解答/" data-title="《快学scala》第二章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/01/25/《快学scala》第五章习题解答/" data-title="《快学scala》第五章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -182,19 +175,11 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/01/21/《快学scala》第三章习题解答/" title="《快学scala》第三章习题解答">
-  <strong>上一篇：</strong><br/>
-  <span>
-  《快学scala》第三章习题解答</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/01/19/《MongoDB实战》笔记/"  title="《MongoDB实战》笔记">
+<a href="/2015/01/25/《快学scala》第四章习题解答/"  title="《快学scala》第四章习题解答">
  <strong>下一篇：</strong><br/> 
- <span>《MongoDB实战》笔记
+ <span>《快学scala》第四章习题解答
 </span>
 </a>
 </div>
@@ -203,7 +188,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/01/20/《快学scala》第二章习题解答/" data-title="《快学scala》第二章习题解答" data-url="http://vernonzheng.com/2015/01/20/《快学scala》第二章习题解答/"></div>
+	<div class="ds-thread" data-thread-key="2015/01/25/《快学scala》第五章习题解答/" data-title="《快学scala》第五章习题解答" data-url="http://vernonzheng.com/2015/01/25/《快学scala》第五章习题解答/"></div>
 </section>
 
 
@@ -214,7 +199,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第二章_控制结构与函数"><span class="toc-number">1.</span> <span class="toc-text">第二章 控制结构与函数</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章_类"><span class="toc-number">1.</span> <span class="toc-text">第五章 类</span></a></li></ol>
  
   </div>
 

@@ -95,13 +95,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章_映射和元组"><span class="toc-number">1.</span> <span class="toc-text">第四章 映射和元组</span></a></li></ol>
 		
 		</div>
 		
 		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第四章_映射和元组">第四章 映射和元组</h2>
 <p><strong>4.1</strong><br>设置一个映射,其中包含你想要的一些装备，以及它们的价格。然后构建另一个映射，采用同一组键，但是价格上打9折</p>
 <p>答：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> buildEquipMap() :Map[String,Double] = {</div><div class="line">  <span class="keyword">val</span> equipMap:Map[String,Double] = Map(<span class="string">"eq1"</span>-&gt;<span class="number">11.1</span>,<span class="string">"eq2"</span>-&gt;<span class="number">12.2</span>,<span class="string">"eq3"</span>-&gt;<span class="number">14</span>)</div><div class="line">  <span class="keyword">for</span> ((k,v) &lt;- equipMap) <span class="keyword">yield</span> (k,v*<span class="number">0.9</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
@@ -177,6 +178,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/01/25/《快学scala》第五章习题解答/" title="《快学scala》第五章习题解答">
+  <strong>上一篇：</strong><br/>
+  <span>
+  《快学scala》第五章习题解答</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/01/21/《快学scala》第三章习题解答/"  title="《快学scala》第三章习题解答">
@@ -201,7 +210,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章_映射和元组"><span class="toc-number">1.</span> <span class="toc-text">第四章 映射和元组</span></a></li></ol>
  
   </div>
 
@@ -224,7 +233,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
-			<li><a href="/categories/scala/" title="scala">scala<sup>4</sup></a></li>
+			<li><a href="/categories/scala/" title="scala">scala<sup>5</sup></a></li>
 		
 			<li><a href="/categories/日记/" title="日记">日记<sup>1</sup></a></li>
 		
@@ -239,9 +248,9 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/scala/" title="scala">scala<sup>4</sup></a></li>
+			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>5</sup></a></li>
 		
-			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>4</sup></a></li>
+			<li><a href="/tags/scala/" title="scala">scala<sup>5</sup></a></li>
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
@@ -251,31 +260,31 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
 		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
 			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+		
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
 			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
 		
 			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
-		
-			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
-		
-			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
-		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
-		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
 			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
 		
 			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
-			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
 		</ul>
 </div>
@@ -284,7 +293,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">10</span></li></ul>
   </div>
 
 
