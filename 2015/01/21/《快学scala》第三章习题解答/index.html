@@ -130,6 +130,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <p><strong>3.7</strong><br>编写一段代码，产出数组中的所有值，去掉重复项。(提示：查看Scaladoc)</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> removeArray1(arr:Array[Int]):Array[Int]={</div><div class="line">  <span class="keyword">val</span> t = arr.toBuffer</div><div class="line">  <span class="keyword">val</span> idx =(<span class="keyword">for</span>(i &lt;- <span class="number">0</span> until t.length <span class="keyword">if</span> t(i) &lt; <span class="number">0</span>) <span class="keyword">yield</span> { i }).reverse.toBuffer</div><div class="line">  idx.trimEnd(<span class="number">1</span>)</div><div class="line">  idx.foreach(arg =&gt; t.remove(arg))</div><div class="line">  t.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> removeArray2(array:Array[Int]):Array[Int]={</div><div class="line">  <span class="keyword">val</span> arr = array.toBuffer</div><div class="line">  <span class="keyword">var</span> first = <span class="keyword">true</span></div><div class="line">  <span class="keyword">val</span> indexes = <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until arr.length <span class="keyword">if</span> first || arr(i) &gt;= <span class="number">0</span>) <span class="keyword">yield</span>{</div><div class="line">    <span class="keyword">if</span>(arr(i) &lt; <span class="number">0</span>) first = <span class="keyword">false</span>;i</div><div class="line">  }</div><div class="line">  <span class="keyword">for</span>(j &lt;- <span class="number">0</span> until indexes.length) arr(j) = arr(indexes(j))</div><div class="line">  arr.trimEnd(arr.length - indexes.length)</div><div class="line">  arr.toArray</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> performance():Unit={</div><div class="line">  <span class="keyword">val</span> array = Array(<span class="number">1</span>,-<span class="number">2</span>,<span class="number">3</span>,<span class="number">55</span>,<span class="number">3</span>,-<span class="number">4</span>,-<span class="number">6</span>,-<span class="number">2</span>,-<span class="number">1</span>,<span class="number">55</span>,-<span class="number">3</span>,<span class="number">5</span>)</div><div class="line">  <span class="keyword">val</span> startTime1 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10000</span>) {</div><div class="line">    removeArray1(array)</div><div class="line">  }</div><div class="line">  <span class="keyword">val</span> endTime1 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">val</span> startTime2 = System.currentTimeMillis()</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to <span class="number">10000</span>) {</div><div class="line">    <span class="keyword">val</span> result2 = removeArray2(array)</div><div class="line">  }</div><div class="line">  <span class="keyword">val</span> endTime2 = System.currentTimeMillis()</div><div class="line">  println(<span class="string">"removeArray1 cost:"</span>+(endTime1-startTime1))</div><div class="line">  println(<span class="string">"removeArray2 cost:"</span>+(endTime2-startTime2))</div><div class="line">  <span class="comment">//10000次 201：81</span></div><div class="line">}</div></pre></td></tr></table></figure>
 
+<p><strong>3.9</strong><br>创建一个由java.util.TimeZone.getAvailableIDs返回ide时区集合，判断条件是它们在美洲。去掉”America/“前缀并排序</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> sortAmericaTimeZone():Unit = {</div><div class="line">  <span class="keyword">val</span> array = java.util.TimeZone.getAvailableIDs</div><div class="line">  <span class="keyword">val</span> result = array.filter(_.startsWith(<span class="string">"America"</span>)).map(_.replace(<span class="string">"America/"</span>,<span class="string">""</span>)).sorted</div><div class="line">  result.foreach(println(_))</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>3.10</strong><br>引入java.awt.datatransfer.并构建一个类型为SystemFlavorMap类型的对象:<br>  val flavors = SystemFlavorMap.getDefaultFlavorMap().asInstanceOf[SystemFlavorMap]<br>  然后以DataFlavor.imageFlavor为参数调用getNativesForFlavor方法，以Scala缓冲保存返回值。<br> (为什么用这样一个晦涩难懂的类？因为在Java标准库中很难找到使用java.util.List的代码)</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.datatransfer.{DataFlavor, SystemFlavorMap}</div><div class="line"><span class="keyword">import</span> collection.JavaConversions.asScalaBuffer</div><div class="line"><span class="keyword">import</span> scala.collection.mutable</div><div class="line"></div><div class="line"><span class="keyword">def</span> test():Unit = {</div><div class="line">  <span class="keyword">val</span> flavors = SystemFlavorMap.getDefaultFlavorMap().asInstanceOf[SystemFlavorMap]</div><div class="line">  <span class="keyword">val</span> res:mutable.Buffer[String] = flavors.getNativesForFlavor(DataFlavor.imageFlavor)</div><div class="line">  println(res)</div><div class="line">}</div></pre></td></tr></table></figure>
+
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
@@ -225,33 +233,33 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+			<li><a href="/tags/scala/" title="scala">scala<sup>3</sup></a></li>
 		
 			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>3</sup></a></li>
 		
-			<li><a href="/tags/scala/" title="scala">scala<sup>3</sup></a></li>
-		
-			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
+			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
-			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
 		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
 			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
-		
-			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
 		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
@@ -259,9 +267,9 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
-			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
-			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
+			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
 		</ul>
 </div>
