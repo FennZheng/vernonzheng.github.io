@@ -131,7 +131,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> countClass(dir:java.io.File): Int = {</div><div class="line">  <span class="keyword">var</span> num:Int = <span class="number">0</span></div><div class="line">  <span class="keyword">val</span> files = dir.listFiles()</div><div class="line">  num += files.filter(_.isFile).count(_.getName.endsWith(<span class="string">".class"</span>))</div><div class="line">  files.filter(_.isDirectory).foreach(num += countClass(_))</div><div class="line">  num</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p><strong>9.10</strong><br>扩展那个可序列化的Person类，让它能以一个集合保存某个人的朋友信息。构造出一些Person对象，让他们中的一些人成为朋友，然后将Array[Person]保存到文件。将这个数组从文件中重新读出来，校验朋友关系是否完好</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">mport collection.mutable.ArrayBuffer</div><div class="line"><span class="keyword">import</span> java.io.{ObjectInputStream, FileOutputStream, FileInputStream, ObjectOutputStream}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(var name:String)</span> <span class="keyword">extends</span> <span class="title">Serializable</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">val</span> friends = <span class="keyword">new</span> ArrayBuffer[Person]()</div><div class="line"></div><div class="line">  <span class="keyword">def</span> addFriend(friend : Person){</div><div class="line">    friends += friend</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString() = {</div><div class="line">    <span class="keyword">var</span> str = <span class="string">"My name is "</span> + name + <span class="string">" and my friends name is "</span></div><div class="line">    friends.foreach(str += _.name + <span class="string">","</span>)</div><div class="line">    str</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> p1 = <span class="keyword">new</span> Person(<span class="string">"Ivan"</span>)</div><div class="line">  <span class="keyword">val</span> p2 = <span class="keyword">new</span> Person(<span class="string">"F2"</span>)</div><div class="line">  <span class="keyword">val</span> p3 = <span class="keyword">new</span> Person(<span class="string">"F3"</span>)</div><div class="line"></div><div class="line">  p1.addFriend(p2)</div><div class="line">  p1.addFriend(p3)</div><div class="line">  println(p1)</div><div class="line"></div><div class="line">  <span class="keyword">val</span> out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"test.txt"</span>))</div><div class="line">  out.writeObject(p1)</div><div class="line">  out.close()</div><div class="line"></div><div class="line">  <span class="keyword">val</span> in =  <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"test.txt"</span>))</div><div class="line">  <span class="keyword">val</span> p = in.readObject().asInstanceOf[Person]</div><div class="line">  println(p)</div><div class="line">}</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">mport collection.mutable.ArrayBuffer</div><div class="line"><span class="keyword">import</span> java.io.{ObjectInputStream, FileOutputStream, FileInputStream, ObjectOutputStream}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(var name:String)</span> <span class="keyword">extends</span> <span class="title">Serializable</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">val</span> friends = <span class="keyword">new</span> ArrayBuffer[Person]()</div><div class="line"></div><div class="line">  <span class="keyword">def</span> addFriend(friend : Person){</div><div class="line">    friends += friend</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString() = {</div><div class="line">    <span class="keyword">var</span> str = <span class="string">"My name is "</span> + name + <span class="string">" and my friends name is "</span></div><div class="line">    friends.foreach(str += _.name + <span class="string">","</span>)</div><div class="line">    str</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> p1 = <span class="keyword">new</span> Person(<span class="string">"Ivan"</span>)</div><div class="line">  <span class="keyword">val</span> p2 = <span class="keyword">new</span> Person(<span class="string">"F2"</span>)</div><div class="line">  <span class="keyword">val</span> p3 = <span class="keyword">new</span> Person(<span class="string">"F3"</span>)</div><div class="line"></div><div class="line">  p1.addFriend(p2)</div><div class="line">  p1.addFriend(p3)</div><div class="line">  println(p1)</div><div class="line"></div><div class="line">  <span class="keyword">val</span> out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"person.obj"</span>))</div><div class="line">  out.writeObject(p1)</div><div class="line">  out.close()</div><div class="line"></div><div class="line">  <span class="keyword">val</span> in =  <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"person.obj"</span>))</div><div class="line">  <span class="keyword">val</span> p = in.readObject().asInstanceOf[Person]</div><div class="line">  println(p)</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
@@ -228,9 +228,9 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/scala/" title="scala">scala<sup>9</sup></a></li>
-		
 			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>9</sup></a></li>
+		
+			<li><a href="/tags/scala/" title="scala">scala<sup>9</sup></a></li>
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
@@ -240,31 +240,31 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
 		
+			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
 			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
-		
-			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
-		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
-		
-			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
-		
-			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
-		
-			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
-		
-			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
 			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
 			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
+			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+		
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
 			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
 		</ul>
 </div>
