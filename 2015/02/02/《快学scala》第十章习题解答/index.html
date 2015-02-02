@@ -1,0 +1,566 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《快学scala》第十章习题解答 | Vernon Zheng 郑雪峰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Vernon Zheng">
+    
+    <meta name="description" content="《快学Scala》（英文版：《Scala for the Impatient》），代码已传github：
+https://github.com/vernonzheng/scala-for-the-Impatient
+书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X ">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Vernon Zheng 郑雪峰" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Vernon Zheng 郑雪峰" title="Vernon Zheng 郑雪峰"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Vernon Zheng 郑雪峰">Vernon Zheng 郑雪峰</a></h1>
+				<h2 class="blog-motto">tech | life | thinking | note</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="http://book.douban.com/people/vernonzheng">豆瓣读书</a></li>
+					
+						<li><a href="https://github.com/vernonzheng">Github</a></li>
+					
+						<li><a href="http://blog.csdn.net/vernonzheng">旧博客</a></li>
+					
+						<li><a href="/about.html">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:vernonzheng.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/02/02/《快学scala》第十章习题解答/" title="《快学scala》第十章习题解答" itemprop="url">《快学scala》第十章习题解答</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
+		
+  <p class="article-time">
+    <time datetime="2015-02-01T16:30:42.000Z" itemprop="datePublished"> 发表于 2月 2 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十章_特质"><span class="toc-number">1.</span> <span class="toc-text">第十章 特质</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十章_特质">第十章 特质</h2>
+<p><strong>10.1</strong><br>java.awt.Rectangle类有两个很有用的方法translate和grow,但可惜的是像java.awt.geom.Ellipse2D这样的类没有。在Scala中，你可以解决掉这个问题。定义一个RenctangleLike特质,加入具体的translate和grow方法。提供任何你需要用来实现的抽象方法,以便你可以像如下代码这样混入该特质:<br>val egg = new java.awt.geom.Ellipse2D.Double(5,10,20,30) with RectangleLike<br>egg.translate(10,-10)<br>egg.grow(10,20)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.geom.Ellipse2D</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">RectangleLike</span></span>{</div><div class="line">  <span class="keyword">this</span>:Ellipse2D.Double=&gt;</div><div class="line">  <span class="keyword">def</span> translate(x:Double,y:Double){</div><div class="line">    <span class="keyword">this</span>.x = x</div><div class="line">    <span class="keyword">this</span>.y = y</div><div class="line">  }</div><div class="line">  <span class="keyword">def</span> grow(x:Double,y:Double){</div><div class="line">    <span class="keyword">this</span>.x += x</div><div class="line">    <span class="keyword">this</span>.y += y</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> egg = <span class="keyword">new</span> Ellipse2D.Double(<span class="number">5</span>,<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>) <span class="keyword">with</span> RectangleLike</div><div class="line">  println(<span class="string">"x = "</span> + egg.getX + <span class="string">" y = "</span> + egg.getY)</div><div class="line">  egg.translate(<span class="number">10</span>,-<span class="number">10</span>)</div><div class="line">  println(<span class="string">"x = "</span> + egg.getX + <span class="string">" y = "</span> + egg.getY)</div><div class="line">  egg.grow(<span class="number">10</span>,<span class="number">20</span>)</div><div class="line">  println(<span class="string">"x = "</span> + egg.getX + <span class="string">" y = "</span> + egg.getY)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>10.2</strong><br>通过把scala.math.Ordered[Point]混入java.awt.Point的方式，定义OrderedPoint类。按辞典编辑方式排序，也就是说，如果x&lt;x’或者x=x’且y&lt;y’则(x,y)&lt;(x’,y’)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.Point</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">OrderedPoint</span> <span class="keyword">extends</span> <span class="title">Point</span> <span class="keyword">with</span> <span class="title">Ordered</span>[<span class="title">Point</span>]</span>{</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> compare(that: Point): Int = {</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.x &lt;= that.x && <span class="keyword">this</span>.y &lt; that.y) -<span class="number">1</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">this</span>.x == that.x && <span class="keyword">this</span>.y == that.y) <span class="number">0</span></div><div class="line">    <span class="keyword">else</span> <span class="number">1</span></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>10.3</strong><br>查看BitSet类,将它的所有超类和特质绘制成一张图。忽略类型参数([…]中的所有内容)。然后给出该特质的线性化规格说明 </p>
+<p>略</p>
+<p><strong>10.4</strong><br>提供一个CryptoLogger类，将日志消息以凯撒密码加密。缺省情况下密匙为3，不过使用者也可以重写它。提供缺省密匙和-3作为密匙是的使用示例 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span></span>{</div><div class="line">  <span class="keyword">def</span> log(str:String,key:Int = <span class="number">3</span>):String</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CryptoLogger</span> <span class="keyword">extends</span> <span class="title">Logger</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">def</span> log(str: String, key:Int): String = {</div><div class="line">    <span class="keyword">for</span> ( i &lt;- str) <span class="keyword">yield</span> <span class="keyword">if</span> (key &gt;= <span class="number">0</span>) (<span class="number">97</span> + ((i - <span class="number">97</span> + key)%<span class="number">26</span>)).toChar <span class="keyword">else</span> (<span class="number">97</span> + ((i - <span class="number">97</span> + <span class="number">26</span> + key)%<span class="number">26</span>)).toChar</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">    <span class="keyword">val</span> plain = <span class="string">"chenzhen"</span>;</div><div class="line">    println(<span class="string">"明文为："</span> + plain);</div><div class="line">    println(<span class="string">"加密后为："</span> + <span class="keyword">new</span> CryptoLogger().log(plain));</div><div class="line">    println(<span class="string">"加密后为："</span> + <span class="keyword">new</span> CryptoLogger().log(plain,-<span class="number">3</span>));</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>10.5</strong><br>JavaBean规范里有一种提法叫做属性变更监听器(property change listener)，这是bean用来通知其属性变更的标准方式。PropertyChangeSupport类对于任何想要支持属性变更通知其属性变更监听器的bean而言是个便捷的超类。但可惜已有其他超类的类—比如JComponent—必须重新实现相应的方法。将PropertyChangeSupport重新实现为一个特质,然后将它混入到java.awt.Point类中 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.Point</div><div class="line"><span class="keyword">import</span> java.beans.PropertyChangeSupport</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">PropertyChange</span> <span class="keyword">extends</span> <span class="title">PropertyChangeSupport</span></span></div><div class="line"></div><div class="line"><span class="keyword">val</span> p = <span class="keyword">new</span> Point() <span class="keyword">with</span> PropertyChange</div></pre></td></tr></table></figure>
+
+<p><strong>10.6</strong><br>在Java AWT类库中,我们有一个Container类，一个可以用于各种组件的Component子类。举例来说,Button是一个Component,但Panel是Container。这是一个运转中的组合模式。Swing有JComponent和JContainer,但如果你仔细看的话，你会发现一些奇怪的细节。尽管把其他组件添加到比如JButton中毫无意义,JComponent依然扩展自Container。Swing的设计者们理想情况下应该会更倾向于图10-4中的设计。但在Java中那是不可能的。请解释这是为什么？Scala中如何用特质来设计出这样的效果? </p>
+<p>Java只能单继承。</p>
+<p><strong>10.7</strong><br>市面上有不下数十种关于Scala特质的教程,用的都是些”在叫的狗”啦，”讲哲学的青蛙”啦之类的傻乎乎的例子。阅读和理解这些机巧的继承层级很乏味且对于理解问题没什么帮助,但自己设计一套继承层级就不同了,会很有启发。做一个你自己的关于特质的继承层级，要求体现出叠加在一起的特质,具体的和抽象的方法，以及具体的和抽象的字段 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Fly</span></span>{</div><div class="line">  <span class="keyword">def</span> fly(){</div><div class="line">    println(<span class="string">"flying"</span>)</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> flywithnowing()</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Walk</span></span>{</div><div class="line">  <span class="keyword">def</span> walk(){</div><div class="line">    println(<span class="string">"walk"</span>)</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bird</span></span>{</div><div class="line">  <span class="keyword">var</span> name:String = _</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlueBird</span> <span class="keyword">extends</span> <span class="title">Bird</span> <span class="keyword">with</span> <span class="title">Fly</span> <span class="keyword">with</span> <span class="title">Walk</span></span>{</div><div class="line">  <span class="keyword">def</span> flywithnowing() {</div><div class="line">    println(<span class="string">"BlueBird flywithnowing"</span>)</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> b = <span class="keyword">new</span> BlueBird()</div><div class="line">  b.walk()</div><div class="line">  b.flywithnowing()</div><div class="line">  b.fly()</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>10.8</strong><br>在java.io类库中，你可以通过BufferedInputStream修饰器来给输入流增加缓冲机制。用特质来重新实现缓冲。简单起见，重写read方法 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.{InputStream, FileInputStream}</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Buffering</span> </span>{</div><div class="line">	<span class="keyword">this</span>: InputStream =&gt;</div><div class="line"></div><div class="line">	<span class="keyword">val</span> BUF_SIZE: Int = <span class="number">5</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">val</span> buf = <span class="keyword">new</span> Array[Byte](BUF_SIZE)</div><div class="line">	<span class="keyword">private</span> <span class="keyword">var</span> bufsize: Int = <span class="number">0</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">var</span> pos: Int = <span class="number">0</span></div><div class="line"></div><div class="line">	<span class="keyword">override</span> <span class="keyword">def</span> read(): Int = {</div><div class="line">		<span class="keyword">if</span> (pos &gt;= bufsize) {</div><div class="line">			bufsize = <span class="keyword">this</span>.read(buf, <span class="number">0</span>, BUF_SIZE)</div><div class="line">			<span class="keyword">if</span> (bufsize &gt; <span class="number">0</span>) -<span class="number">1</span></div><div class="line">			pos = <span class="number">0</span></div><div class="line">		}</div><div class="line">		pos += <span class="number">1</span></div><div class="line">		buf(pos-<span class="number">1</span>)</div><div class="line">	}</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> f = <span class="keyword">new</span> FileInputStream(<span class="string">"08.txt"</span>) <span class="keyword">with</span> Buffering</div><div class="line"></div><div class="line"><span class="keyword">for</span>(i &lt;- <span class="number">1</span> to <span class="number">10</span>) println(f.read())</div></pre></td></tr></table></figure>
+
+<p><strong>10.9</strong><br>使用本章的日志生成器特质,给前一个练习中的方案增加日志功能，要求体现缓冲的效果</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.{InputStream, FileInputStream}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Logger</span> </span>{</div><div class="line">  <span class="keyword">def</span> log(msg: String)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">NoneLogger</span> <span class="keyword">extends</span> <span class="title">Logger</span> </span>{</div><div class="line">  <span class="keyword">def</span> log(msg: String) = {}</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">PrintLogger</span> <span class="keyword">extends</span> <span class="title">Logger</span> </span>{</div><div class="line">  <span class="keyword">def</span> log(msg: String) = println(msg)</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Buffering</span> </span>{</div><div class="line">  <span class="keyword">this</span>: InputStream <span class="keyword">with</span> Logger =&gt;</div><div class="line"></div><div class="line">  <span class="keyword">val</span> BUF_SIZE: Int = <span class="number">5</span></div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> buf = <span class="keyword">new</span> Array[Byte](BUF_SIZE)</div><div class="line">  <span class="keyword">private</span> <span class="keyword">var</span> bufsize: Int = <span class="number">0</span></div><div class="line">  <span class="keyword">private</span> <span class="keyword">var</span> pos: Int = <span class="number">0</span></div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> read(): Int = {</div><div class="line">    <span class="keyword">if</span> (pos &gt;= bufsize) {</div><div class="line">      bufsize = <span class="keyword">this</span>.read(buf, <span class="number">0</span>, BUF_SIZE)</div><div class="line">      log(<span class="string">"buffered %d bytes: %s"</span>.format(bufsize, buf.mkString(<span class="string">", "</span>)))</div><div class="line">      <span class="keyword">if</span> (bufsize &gt; <span class="number">0</span>) -<span class="number">1</span></div><div class="line">      pos = <span class="number">0</span></div><div class="line">    }</div><div class="line">    pos += <span class="number">1</span></div><div class="line">    buf(pos-<span class="number">1</span>)</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> f = <span class="keyword">new</span> FileInputStream(<span class="string">"exercise08.txt"</span>) <span class="keyword">with</span> Buffering <span class="keyword">with</span> PrintLogger</div><div class="line"></div><div class="line"><span class="keyword">for</span>(i &lt;- <span class="number">1</span> to <span class="number">10</span>) println(f.read())</div></pre></td></tr></table></figure>
+
+<p><strong>10.10</strong><br>实现一个IterableInputStream类，扩展java.io.InputStream并混入Iterable[Byte]特质 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">IterableInputStream</span> <span class="keyword">extends</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">InputStream</span> <span class="keyword">with</span> <span class="title">Iterable</span>[<span class="title">Byte</span>]</span>{</div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">InputStreamIterator</span><span class="params">(outer: IterableInputStream)</span> <span class="keyword">extends</span> <span class="title">Iterator</span>[<span class="title">Byte</span>] </span>{</div><div class="line">    <span class="keyword">def</span> hasNext: Boolean = outer.available() &gt; <span class="number">0</span></div><div class="line">    <span class="keyword">def</span> next: Byte = outer.read().toByte</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> iterator: Iterator[Byte] = <span class="keyword">new</span> InputStreamIterator(<span class="keyword">this</span>)</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> read(): Int = <span class="number">0</span></div><div class="line"></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/scala/">scala</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/scala/">scala</a><a href="/tags/习题答案/">习题答案</a>
+  </div>
+
+</div>
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://vernonzheng.com/2015/02/02/《快学scala》第十章习题解答/" data-title="《快学scala》第十章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/02/01/《快学scala》第九章习题解答/"  title="《快学scala》第九章习题解答">
+ <strong>下一篇：</strong><br/> 
+ <span>《快学scala》第九章习题解答
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/02/02/《快学scala》第十章习题解答/" data-title="《快学scala》第十章习题解答" data-url="http://vernonzheng.com/2015/02/02/《快学scala》第十章习题解答/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十章_特质"><span class="toc-number">1.</span> <span class="toc-text">第十章 特质</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
+		
+			<li><a href="/categories/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		
+			<li><a href="/categories/scala/" title="scala">scala<sup>10</sup></a></li>
+		
+			<li><a href="/categories/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>10</sup></a></li>
+		
+			<li><a href="/tags/scala/" title="scala">scala<sup>10</sup></a></li>
+		
+			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
+		
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
+		
+			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
+			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+		
+			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">10</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/coffeescript/" style="font-size: 10.00px;">coffeescript</a><a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 13.33px;">linux</a><a href="/tags/mongodb/" style="font-size: 10.00px;">mongodb</a><a href="/tags/nodejs/" style="font-size: 16.67px;">nodejs</a><a href="/tags/nosql/" style="font-size: 10.00px;">nosql</a><a href="/tags/scala/" style="font-size: 20.00px;">scala</a><a href="/tags/sentry/" style="font-size: 10.00px;">sentry</a><a href="/tags/习题答案/" style="font-size: 20.00px;">习题答案</a><a href="/tags/书单/" style="font-size: 10.00px;">书单</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 13.33px;">基础</a><a href="/tags/性能测试/" style="font-size: 10.00px;">性能测试</a><a href="/tags/日记/" style="font-size: 10.00px;">日记</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/监控/" style="font-size: 10.00px;">监控</a><a href="/tags/经验总结/" style="font-size: 10.00px;">经验总结</a><a href="/tags/读书笔记/" style="font-size: 13.33px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">收藏</p>
+    <ul>
+        
+          <li>
+            <a href="http://ifeve.com/" target="_blank" title="并发编程网">并发编程网</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.nosqlfan.com/" target="_blank" title="NoSQLFan">NoSQLFan</a>
+          </li>
+        
+          <li>
+            <a href="http://coolshell.cn/" target="_blank" title="CoolShell">CoolShell</a>
+          </li>
+        
+          <li>
+            <a href="http://timyang.net/" target="_blank" title="Tim Yang">Tim Yang</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ruanyifeng.com/" target="_blank" title="阮一峰">阮一峰</a>
+          </li>
+        
+          <li>
+            <a href="http://mindhacks.cn/" target="_blank" title="刘未鹏">刘未鹏</a>
+          </li>
+        
+          <li>
+            <a href="http://www.matrix67.com/blog/" target="_blank" title="Matrix67">Matrix67</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.yufeng.info/" target="_blank" title="褚霸">褚霸</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/sunli/" target="_blank" title="草屋主人">草屋主人</a>
+          </li>
+        
+          <li>
+            <a href="http://tianchunbinghe.blog.163.com/" target="_blank" title="冰河">冰河</a>
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Vernon Zheng(郑雪峰). <br/>
+			T：旅行，B：球类运动，C：coding，R：翻书。 T::=(C,R)-&gt;money++.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/vernonzheng" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2830104/vernon-zheng" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/vernonzheng/" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:kevonzheng@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Pacman">Jacman</a> © 2015 
+		
+		<a href="http://vernonzheng.com/about" target="_blank" title="Vernon Zheng">Vernon Zheng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"vernonzheng"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F1c6aeb80f79b63b35b25a0e55ca39b3c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>
