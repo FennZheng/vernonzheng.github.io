@@ -1,0 +1,571 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《快学scala》第十一章习题解答 | Vernon Zheng 郑雪峰</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Vernon Zheng">
+    
+    <meta name="description" content="《快学Scala》（英文版：《Scala for the Impatient》），代码已传github：
+https://github.com/vernonzheng/scala-for-the-Impatient
+书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X ">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="Vernon Zheng 郑雪峰" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="Vernon Zheng 郑雪峰" title="Vernon Zheng 郑雪峰"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Vernon Zheng 郑雪峰">Vernon Zheng 郑雪峰</a></h1>
+				<h2 class="blog-motto">tech | life | thinking | note</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="http://book.douban.com/people/vernonzheng">豆瓣读书</a></li>
+					
+						<li><a href="https://github.com/vernonzheng">Github</a></li>
+					
+						<li><a href="http://blog.csdn.net/vernonzheng">旧博客</a></li>
+					
+						<li><a href="/about.html">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:vernonzheng.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/02/03/《快学scala》第十一章习题解答/" title="《快学scala》第十一章习题解答" itemprop="url">《快学scala》第十一章习题解答</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
+		
+  <p class="article-time">
+    <time datetime="2015-02-03T10:40:42.000Z" itemprop="datePublished"> 发表于 2月 3 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十一章_操作符"><span class="toc-number">1.</span> <span class="toc-text">第十一章 操作符</span></a></li></ol>
+		
+		</div>
+		
+		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十一章_操作符">第十一章 操作符</h2>
+<p><strong>11.1</strong><br>根据优先级规则,3 + 4 -&gt; 5和3 -&gt; 4 + 5是如何被求值的？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="number">3</span>+<span class="number">4</span>-&gt;<span class="number">5</span></div><div class="line">res0: (Int, Int) = (<span class="number">7</span>,<span class="number">5</span>)</div><div class="line"></div><div class="line">scala&gt; <span class="number">3</span>-&gt;<span class="number">4</span>+<span class="number">5</span></div><div class="line">&lt;console&gt;:<span class="number">8</span>: error: <span class="keyword">type</span> mismatch;</div><div class="line"> found   : Int(<span class="number">5</span>)</div><div class="line"> required: String</div><div class="line">              <span class="number">3</span>-&gt;<span class="number">4</span>+<span class="number">5</span></div><div class="line">                   ^</div></pre></td></tr></table></figure>
+
+<p><strong>11.2</strong><br>BigInt类有一个pow方法,但没有用操作符字符。Scala类库的设计者为什么没有选用**(像Fortran那样)或者^(像Pascal那样)作为乘方操作符呢？</p>
+<p>Scala中的操作符就是方法，其优先级是根据首字母来判断的，优先级如下<br>最高优先级:除以下字符外的操作符字符</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">* / % </div><div class="line">+ - </div><div class="line">: </div><div class="line">= ! </div><div class="line">&lt; &gt; </div><div class="line">& </div><div class="line">ˆ </div><div class="line">| </div><div class="line">非操作符</div><div class="line">最低优先级:赋值操作符</div></pre></td></tr></table></figure>
+
+<p>一般乘方的操作符是优于乘法操作的，如果使用<em>*作为乘方的话，那么其优先级则与</em>相同，而如果使用^的话，则优先级低于*操作。优先级都是有问题的。故没有使用这两种操作符</p>
+<p><strong>11.3</strong><br>实现Fraction类，支持+<em>/操作。支持约分，例如将15/-6变为-5/2。除以最大公约数,像这样:<br>class Fraction(n:Int,d:Int){<br>    private val num:Int = if(d==0) 1 else n </em> sign(d)/gcd(n,d);<br>    private val den:Int = if(d==0) 0 else d * sign(d)/gcd(n,d);<br>    override def toString = num + “/“ + den<br>    def sign(a:Int) = if(a &gt; 0) 1 else if (a &lt; 0) -1 else 0<br>    def gcd(a:Int,b:Int):Int = if(b==0) abs(a) else gcd(b,a%b)<br>    …<br>}</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">mport scala.math.abs</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fraction</span><span class="params">(n: Int, d: Int)</span> </span>{</div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> num: Int = <span class="keyword">if</span> (d == <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> n * sign(d) / gcd(n, d);</div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> den: Int = <span class="keyword">if</span> (d == <span class="number">0</span>) <span class="number">0</span> <span class="keyword">else</span> d * sign(d) / gcd(n, d);</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString = num + <span class="string">"/"</span> + den</div><div class="line"></div><div class="line">  <span class="keyword">def</span> sign(a: Int) = <span class="keyword">if</span> (a &gt; <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> <span class="keyword">if</span> (a &lt; <span class="number">0</span>) -<span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line"></div><div class="line">  <span class="keyword">def</span> gcd(a: Int, b: Int): Int = <span class="keyword">if</span> (b == <span class="number">0</span>) abs(a) <span class="keyword">else</span> gcd(b, a % b)</div><div class="line"></div><div class="line">  <span class="keyword">def</span> +(other:Fraction):Fraction={</div><div class="line">    newFraction((<span class="keyword">this</span>.num * other.den) + (other.num * <span class="keyword">this</span>.den),<span class="keyword">this</span>.den * other.den)</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> -(other:Fraction):Fraction={</div><div class="line">    newFraction((<span class="keyword">this</span>.num * other.den) - (other.num * <span class="keyword">this</span>.den),<span class="keyword">this</span>.den * other.den)</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> *(other:Fraction):Fraction={</div><div class="line">    newFraction(<span class="keyword">this</span>.num * other.num,<span class="keyword">this</span>.den * other.den)</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> /(other:Fraction):Fraction={</div><div class="line">    newFraction(<span class="keyword">this</span>.num * other.den,<span class="keyword">this</span>.den * other.num)</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">private</span> <span class="keyword">def</span> newFraction(a:Int,b:Int):Fraction={</div><div class="line">    <span class="keyword">val</span> x:Int = <span class="keyword">if</span> (b == <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> a * sign(b) / gcd(a, b)</div><div class="line">    <span class="keyword">val</span> y:Int = <span class="keyword">if</span> (b == <span class="number">0</span>) <span class="number">0</span> <span class="keyword">else</span> b * sign(b) / gcd(a, b)</div><div class="line">    <span class="keyword">new</span> Fraction(x,y)</div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> f = <span class="keyword">new</span> Fraction(<span class="number">15</span>,-<span class="number">6</span>)</div><div class="line">  <span class="keyword">val</span> p = <span class="keyword">new</span> Fraction(<span class="number">20</span>,<span class="number">60</span>)</div><div class="line">  println(f)</div><div class="line">  println(p)</div><div class="line">  println(f + p)</div><div class="line">  println(f - p)</div><div class="line">  println(f * p)</div><div class="line">  println(f / p)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>11.4</strong><br>实现一个Money类,加入美元和美分字段。提供+,-操作符以及比较操作符==和&lt;。举例来说，Money(1,75)+Money(0,50)==Money(2,25)应为true。你应该同时提供*和/操作符吗？为什么？</p>
+<p>不需要提供，金额的乘除没有实际意义。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Money</span><span class="params">(dollar:Int,cent:Int)</span></span>{</div><div class="line">  <span class="keyword">def</span> + (other:Money):Money = {</div><div class="line">    <span class="keyword">val</span> (a,b) = (<span class="keyword">this</span>.cent + other.cent) % <span class="number">100</span></div><div class="line">    <span class="keyword">new</span> Money(<span class="keyword">this</span>.dollar + other.dollar + a,b)</div><div class="line">  }</div><div class="line">  <span class="keyword">def</span> -(other:Money):Money={</div><div class="line">    <span class="keyword">val</span> (d,c) = (<span class="keyword">this</span>.toCent() - other.toCent()) % <span class="number">100</span></div><div class="line">    <span class="keyword">new</span> Money(d,c)</div><div class="line">  }</div><div class="line">  <span class="keyword">def</span> ==(other:Money):Boolean = <span class="keyword">this</span>.dollar == other.dollar && <span class="keyword">this</span>.cent == other.cent</div><div class="line"></div><div class="line">  <span class="keyword">def</span> &lt;(other:Money):Boolean = <span class="keyword">this</span>.dollar &lt; other.dollar || (<span class="keyword">this</span>.dollar == other.dollar && <span class="keyword">this</span>.cent &lt; other.cent)</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString = <span class="string">"dollar = "</span> + dollar + <span class="string">" cent = "</span> + cent</div><div class="line"></div><div class="line">  <span class="keyword">private</span> <span class="keyword">def</span> toCent()={</div><div class="line">    <span class="keyword">this</span>.dollar * <span class="number">100</span> + <span class="keyword">this</span>.cent</div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Money</span></span>{</div><div class="line">  <span class="keyword">def</span> apply(dollar:Int, cent:Int): Money ={</div><div class="line">    <span class="keyword">new</span> Money(dollar,cent)</div><div class="line">  }</div><div class="line">  <span class="keyword">def</span> main(args:Array[String]){</div><div class="line"></div><div class="line">    <span class="keyword">val</span> m1 = Money(<span class="number">1</span>,<span class="number">200</span>)</div><div class="line">    <span class="keyword">val</span> m2 = Money(<span class="number">2</span>,<span class="number">2</span>)</div><div class="line">    println(m1 + m2)</div><div class="line">    println(m1 - m2)</div><div class="line">    println(m1 == m2)</div><div class="line">    println(m1 &lt; m2)</div><div class="line">    println(Money(<span class="number">1</span>,<span class="number">75</span>)+Money(<span class="number">0</span>,<span class="number">50</span>))</div><div class="line">    println(Money(<span class="number">1</span>,<span class="number">75</span>)+Money(<span class="number">0</span>,<span class="number">50</span>)==Money(<span class="number">2</span>,<span class="number">25</span>))</div><div class="line"></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>11.5</strong><br>提供操作符用于构造HTML表格。例如:Table() | “Java” | “Scala” || “Gosling” | “Odersky” || “JVM” | “JVM,.NET”应产出:<table><tr><td>Java</td></tr><td>Scala</td><tr><td>Gosling…</td></tr></table></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Table</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">var</span> s:String = <span class="string">""</span></div><div class="line"></div><div class="line">  <span class="keyword">def</span> |(str:String):Table={</div><div class="line">    <span class="keyword">val</span> t = Table()</div><div class="line">    t.s = <span class="keyword">this</span>.s + <span class="string">"&lt;td&gt;"</span> + str + <span class="string">"&lt;/td&gt;"</span></div><div class="line">    t</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> ||(str:String):Table={</div><div class="line">    <span class="keyword">val</span> t = Table()</div><div class="line">    t.s = <span class="keyword">this</span>.s + <span class="string">"&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;"</span> + str + <span class="string">"&lt;/td&gt;"</span></div><div class="line">    t</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString():String={</div><div class="line">    <span class="string">"&lt;table&gt;&lt;tr&gt;"</span> + <span class="keyword">this</span>.s + <span class="string">"&lt;/tr&gt;&lt;/table&gt;"</span></div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Table</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">def</span> apply():Table={</div><div class="line">    <span class="keyword">new</span> Table()</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> main(args: Array[String]) {</div><div class="line">    println(Table() | <span class="string">"Java"</span> | <span class="string">"Scala"</span> || <span class="string">"Gosling"</span> | <span class="string">"Odersky"</span> || <span class="string">"JVM"</span> | <span class="string">"JVM,.NET"</span>)</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>11.6</strong><br>提供一个ASCIIArt类，其对象包含类似这样的图形:<br> /_/\<br>( ‘ ‘ )<br>(  -  )<br> | | |<br>(<strong>|</strong>)<br>提供将两个ASCIIArt图形横向或纵向结合的操作符。选用适当优先级的操作符命名。纵向结合的实例<br> /_/\     ——-<br>( ‘ ‘ )  / Hello \<br>(  -  ) &lt;  Scala |<br> | | |   \ Coder /<br>(<strong>|</strong>)    ——-</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> collection.mutable.ArrayBuffer</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ASCIIArt</span><span class="params">(str:String)</span></span>{</div><div class="line">  <span class="keyword">val</span> arr:ArrayBuffer[ArrayBuffer[String]] = <span class="keyword">new</span> ArrayBuffer[ArrayBuffer[String]]()</div><div class="line"></div><div class="line">  <span class="keyword">if</span> (str != <span class="keyword">null</span> && !str.trim.eq(<span class="string">""</span>)){</div><div class="line">    str.split(<span class="string">"[\r\n]+"</span>).foreach{</div><div class="line">      line =&gt;</div><div class="line">        <span class="keyword">val</span> s = <span class="keyword">new</span> ArrayBuffer[String]()</div><div class="line">        s += line</div><div class="line">        arr += s</div><div class="line">    }</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> <span class="keyword">this</span>(){</div><div class="line">    <span class="keyword">this</span>(<span class="string">""</span>)</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> +(other:ASCIIArt):ASCIIArt={</div><div class="line">    <span class="keyword">val</span> art = <span class="keyword">new</span> ASCIIArt()</div><div class="line">    <span class="keyword">val</span> length = <span class="keyword">if</span> (<span class="keyword">this</span>.arr.length &gt;= other.arr.length) <span class="keyword">this</span>.arr.length <span class="keyword">else</span> other.arr.length</div><div class="line">    <span class="keyword">for</span>(i &lt;- <span class="number">0</span> until length){</div><div class="line">      <span class="keyword">val</span> s = <span class="keyword">new</span> ArrayBuffer[String]()</div><div class="line">      <span class="keyword">val</span> thisArr:ArrayBuffer[String] = <span class="keyword">if</span> (i &lt; <span class="keyword">this</span>.arr.length) <span class="keyword">this</span>.arr(i) <span class="keyword">else</span> <span class="keyword">new</span> ArrayBuffer[String]()</div><div class="line">      <span class="keyword">val</span> otherArr:ArrayBuffer[String] = <span class="keyword">if</span> (i &lt; other.arr.length) other.arr(i) <span class="keyword">else</span> <span class="keyword">new</span> ArrayBuffer[String]()</div><div class="line">      thisArr.foreach(s += _)</div><div class="line">      otherArr.foreach(s += _)</div><div class="line">      art.arr += s</div><div class="line">    }</div><div class="line">    art</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> *(other:ASCIIArt):ASCIIArt={</div><div class="line">    <span class="keyword">val</span> art = <span class="keyword">new</span> ASCIIArt()</div><div class="line">    <span class="keyword">this</span>.arr.foreach(art.arr += _)</div><div class="line">    other.arr.foreach(art.arr += _)</div><div class="line">    art</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString()={</div><div class="line">    <span class="keyword">var</span> ss:String = <span class="string">""</span></div><div class="line">    arr.foreach{</div><div class="line">      ss += _.mkString(<span class="string">" "</span>) + <span class="string">"\n"</span></div><div class="line">    }</div><div class="line">    ss</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> a = <span class="keyword">new</span> ASCIIArt(<span class="string">""" /\_/\</span></div><div class="line">                         |( ' ' )</div><div class="line">                         |(  -  )</div><div class="line">                         | | | |</div><div class="line">                         |(__|__)</div><div class="line">                         |""".stripMargin)</div><div class="line">  <span class="keyword">val</span> b = <span class="keyword">new</span> ASCIIArt( <span class="string">"""    -----</span></div><div class="line">                          |  / Hello \</div><div class="line">                          | &lt;  Scala |</div><div class="line">                          |  \ Coder /</div><div class="line">                          |    -----</div><div class="line">                          |""".stripMargin)</div><div class="line">  println(a + b * b)</div><div class="line">  println((a + b) * b)</div><div class="line">  println(a * b)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>11.7</strong><br>实现一个BigSequence类,将64个bit的序列打包在一个Long值中。提供apply和update操作来获取和设置某个具体的bit</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BitSequence</span><span class="params">(private var value: Long = 0)</span> </span>{</div><div class="line"></div><div class="line">  implicit <span class="keyword">def</span> bool2int(b: Boolean) = <span class="keyword">if</span> (b) <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line"></div><div class="line">  <span class="keyword">def</span> update(bit: Int, state: Int) = value |= (state & <span class="number">1</span>L) &lt;&lt; bit % <span class="number">64</span></div><div class="line">  <span class="keyword">def</span> apply(bit: Int): Int = <span class="keyword">if</span> ((value & <span class="number">1</span>L &lt;&lt; bit % <span class="number">64</span>) &gt; <span class="number">0</span>) <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString = <span class="string">"%64s"</span>.format(value.toBinaryString).replace(<span class="string">" "</span>, <span class="string">"0"</span>)</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">val</span> x = <span class="keyword">new</span> BitSequence()</div><div class="line"></div><div class="line">x(<span class="number">5</span>) = <span class="number">1</span></div><div class="line">x(<span class="number">63</span>) = <span class="number">1</span></div><div class="line">x(<span class="number">64</span>) = <span class="number">1</span></div><div class="line"></div><div class="line">println(x(<span class="number">5</span>))</div><div class="line"></div><div class="line">println(x)</div></pre></td></tr></table></figure>
+
+<p><strong>11.8</strong><br>提供一个Matrix类—你可以选择需要的是一个2<em>2的矩阵，任意大小的正方形矩阵，或m</em>n的矩阵。支持+和<em>操作。</em>操作应同样适用于单值，例如mat*2。单个元素可以通过mat(row,col)得到</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Matrix</span><span class="params">(val m: Int, val n: Int=m)</span> </span>{</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">val</span> value = Array.ofDim[Double](m, n)</div><div class="line"></div><div class="line">	<span class="keyword">def</span> update(x: Int, y: Int, v: Double) = value(x)(y) = v</div><div class="line">	<span class="keyword">def</span> apply(x: Int, y: Int) = value(x)(y)</div><div class="line"></div><div class="line">	<span class="keyword">def</span> +(other: Matrix) = {</div><div class="line">		require (n == other.n)</div><div class="line">		require (m == other.m)</div><div class="line"></div><div class="line">		<span class="keyword">var</span> res = <span class="keyword">new</span> Matrix(m, n)</div><div class="line">		<span class="keyword">for</span>(i &lt;- <span class="number">0</span> until m; j &lt;- <span class="number">0</span> until n) {</div><div class="line">			res(i, j) = <span class="keyword">this</span>.value(i)(j) + other.value(i)(j)</div><div class="line">		}</div><div class="line">		res </div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">def</span> -(other: Matrix) = <span class="keyword">this</span> + other * -<span class="number">1</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">	<span class="keyword">def</span> *(factor: Double) = {</div><div class="line">		<span class="keyword">var</span> res = <span class="keyword">new</span> Matrix(m, n)</div><div class="line">		<span class="keyword">for</span>(i &lt;- <span class="number">0</span> until m; j &lt;- <span class="number">0</span> until n) {</div><div class="line">			res(i, j) = <span class="keyword">this</span>.value(i)(j) * factor</div><div class="line">		}</div><div class="line">		res </div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">def</span> prod(other: Matrix, i: Int, j: Int) = {</div><div class="line">		(<span class="keyword">for</span> (k &lt;- <span class="number">0</span> until n) <span class="keyword">yield</span> value(i)(k) * other.value(j)(k)).sum</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="keyword">def</span> *(other: Matrix) = {</div><div class="line">		require(n == other.m)</div><div class="line">		<span class="keyword">var</span> res = <span class="keyword">new</span> Matrix(m, n)</div><div class="line">		<span class="keyword">for</span>(i &lt;- <span class="number">0</span> until m; j &lt;- <span class="number">0</span> until n) {</div><div class="line">			res(i, j) = prod(other, i, j)</div><div class="line">		}</div><div class="line">		res </div><div class="line">	}</div><div class="line">	</div><div class="line">	<span class="keyword">override</span> <span class="keyword">def</span> toString = value.map(_.mkString(<span class="string">" "</span>)).mkString(<span class="string">"\n"</span>)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = <span class="keyword">new</span> Matrix(<span class="number">2</span>, <span class="number">2</span>)</div><div class="line">x(<span class="number">0</span>, <span class="number">0</span>) = <span class="number">1</span></div><div class="line">x(<span class="number">0</span>, <span class="number">1</span>) = <span class="number">2</span></div><div class="line">x(<span class="number">1</span>, <span class="number">0</span>) = <span class="number">3</span></div><div class="line">x(<span class="number">1</span>, <span class="number">1</span>) = <span class="number">4</span></div><div class="line"></div><div class="line">println(x)</div><div class="line">println()</div><div class="line">println(x * <span class="number">2</span>)</div><div class="line">println()</div><div class="line">println(x * <span class="number">2</span> - x)</div><div class="line">println()</div><div class="line"></div><div class="line">println((x * <span class="number">2</span>) * (x * <span class="number">3</span>))</div></pre></td></tr></table></figure>
+
+<p><strong>11.9</strong><br>为RichFile类定义unapply操作，提取文件路径，名称和扩展名。举例来说，文件/home/cay/readme.txt的路径为/home/cay,名称为readme,扩展名为txt</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RichFile</span><span class="params">(val path:String)</span> <span class="keyword">extends</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">File</span><span class="params">(path)</span></span>{</div><div class="line"></div><div class="line">}</div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">RichFile</span></span>{</div><div class="line">  <span class="keyword">def</span> unapply(richFile:RichFile): Unit ={</div><div class="line">    <span class="keyword">val</span> path = richFile.path</div><div class="line">    <span class="keyword">val</span> pos = path.lastIndexOf(<span class="string">"/"</span>)</div><div class="line">    <span class="keyword">if</span> (pos == -<span class="number">1</span>) None <span class="keyword">else</span> Some((path.substring(<span class="number">0</span>, pos), path.substring(pos + <span class="number">1</span>)))</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>11.10</strong><br>为RichFile类定义一个unapplySeq，提取所有路径段。举例来说，对于/home/cay/readme.txt，你应该产出三个路径段的序列:home,cay和readme.txt</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">RichFile</span> </span>{</div><div class="line">  <span class="keyword">def</span> unapplySeq(s: String): Option[Seq[String]] = {</div><div class="line">    <span class="keyword">if</span> (s.trim == <span class="string">""</span>) None <span class="keyword">else</span> Some(s.trim.split(<span class="string">"/"</span>))</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/scala/">scala</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/scala/">scala</a><a href="/tags/习题答案/">习题答案</a>
+  </div>
+
+</div>
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://vernonzheng.com/2015/02/03/《快学scala》第十一章习题解答/" data-title="《快学scala》第十一章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/02/02/《快学scala》第十章习题解答/"  title="《快学scala》第十章习题解答">
+ <strong>下一篇：</strong><br/> 
+ <span>《快学scala》第十章习题解答
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/02/03/《快学scala》第十一章习题解答/" data-title="《快学scala》第十一章习题解答" data-url="http://vernonzheng.com/2015/02/03/《快学scala》第十一章习题解答/"></div>
+</section>
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十一章_操作符"><span class="toc-number">1.</span> <span class="toc-text">第十一章 操作符</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+			<li><a href="/categories/java/" title="java">java<sup>1</sup></a></li>
+		
+			<li><a href="/categories/linux/" title="linux">linux<sup>2</sup></a></li>
+		
+			<li><a href="/categories/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
+			<li><a href="/categories/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		
+			<li><a href="/categories/scala/" title="scala">scala<sup>11</sup></a></li>
+		
+			<li><a href="/categories/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>11</sup></a></li>
+		
+			<li><a href="/tags/scala/" title="scala">scala<sup>11</sup></a></li>
+		
+			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
+		
+			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
+		
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+		
+			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
+		
+			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+		
+			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">10</span></li></ul>
+  </div>
+
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/coffeescript/" style="font-size: 10.00px;">coffeescript</a><a href="/tags/java/" style="font-size: 10.00px;">java</a><a href="/tags/linux/" style="font-size: 13.33px;">linux</a><a href="/tags/mongodb/" style="font-size: 10.00px;">mongodb</a><a href="/tags/nodejs/" style="font-size: 16.67px;">nodejs</a><a href="/tags/nosql/" style="font-size: 10.00px;">nosql</a><a href="/tags/scala/" style="font-size: 20.00px;">scala</a><a href="/tags/sentry/" style="font-size: 10.00px;">sentry</a><a href="/tags/习题答案/" style="font-size: 20.00px;">习题答案</a><a href="/tags/书单/" style="font-size: 10.00px;">书单</a><a href="/tags/命令行/" style="font-size: 10.00px;">命令行</a><a href="/tags/基础/" style="font-size: 13.33px;">基础</a><a href="/tags/性能测试/" style="font-size: 10.00px;">性能测试</a><a href="/tags/日记/" style="font-size: 10.00px;">日记</a><a href="/tags/环境变量/" style="font-size: 10.00px;">环境变量</a><a href="/tags/监控/" style="font-size: 10.00px;">监控</a><a href="/tags/经验总结/" style="font-size: 10.00px;">经验总结</a><a href="/tags/读书笔记/" style="font-size: 13.33px;">读书笔记</a><a href="/tags/阅读方法/" style="font-size: 10.00px;">阅读方法</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">收藏</p>
+    <ul>
+        
+          <li>
+            <a href="http://ifeve.com/" target="_blank" title="并发编程网">并发编程网</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.nosqlfan.com/" target="_blank" title="NoSQLFan">NoSQLFan</a>
+          </li>
+        
+          <li>
+            <a href="http://coolshell.cn/" target="_blank" title="CoolShell">CoolShell</a>
+          </li>
+        
+          <li>
+            <a href="http://timyang.net/" target="_blank" title="Tim Yang">Tim Yang</a>
+          </li>
+        
+          <li>
+            <a href="http://www.ruanyifeng.com/" target="_blank" title="阮一峰">阮一峰</a>
+          </li>
+        
+          <li>
+            <a href="http://mindhacks.cn/" target="_blank" title="刘未鹏">刘未鹏</a>
+          </li>
+        
+          <li>
+            <a href="http://www.matrix67.com/blog/" target="_blank" title="Matrix67">Matrix67</a>
+          </li>
+        
+          <li>
+            <a href="http://blog.yufeng.info/" target="_blank" title="褚霸">褚霸</a>
+          </li>
+        
+          <li>
+            <a href="http://www.cnblogs.com/sunli/" target="_blank" title="草屋主人">草屋主人</a>
+          </li>
+        
+          <li>
+            <a href="http://tianchunbinghe.blog.163.com/" target="_blank" title="冰河">冰河</a>
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Vernon Zheng(郑雪峰). <br/>
+			T：旅行，B：球类运动，C：coding，R：翻书。 T::=(C,R)-&gt;money++.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/vernonzheng" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		<a href="http://stackoverflow.com/users/2830104/vernon-zheng" target="_blank" class="icon-stack-overflow" title="stackoverflow"></a>
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/vernonzheng/" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		
+		
+		<a href="mailto:kevonzheng@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Pacman">Jacman</a> © 2015 
+		
+		<a href="http://vernonzheng.com/about" target="_blank" title="Vernon Zheng">Vernon Zheng</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"vernonzheng"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F1c6aeb80f79b63b35b25a0e55ca39b3c' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>
