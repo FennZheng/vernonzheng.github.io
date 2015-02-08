@@ -131,10 +131,13 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span>$ <span class="keyword">extends</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Object</span></span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test$ MODULE$;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> {};</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">allDifferent</span>(java.lang.Object, java.lang.Object, java.lang.Ob</div><div class="line">ject);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mZc$<span class="title">sp</span>(<span class="keyword">boolean</span>, <span class="keyword">boolean</span>, <span class="keyword">boolean</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mBc$<span class="title">sp</span>(<span class="keyword">byte</span>, <span class="keyword">byte</span>, <span class="keyword">byte</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mCc$<span class="title">sp</span>(<span class="keyword">char</span>, <span class="keyword">char</span>, <span class="keyword">char</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mDc$<span class="title">sp</span>(<span class="keyword">double</span>, <span class="keyword">double</span>, <span class="keyword">double</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mFc$<span class="title">sp</span>(<span class="keyword">float</span>, <span class="keyword">float</span>, <span class="keyword">float</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mIc$<span class="title">sp</span>(<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">int</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mJc$<span class="title">sp</span>(<span class="keyword">long</span>, <span class="keyword">long</span>, <span class="keyword">long</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mSc$<span class="title">sp</span>(<span class="keyword">short</span>, <span class="keyword">short</span>, <span class="keyword">short</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mVc$<span class="title">sp</span>(scala.runtime.BoxedUnit, scala.runtime.Bo</div><div class="line">xedUnit, scala.runtime.BoxedUnit);</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p><strong>15.9</strong><br>Range.foreach方法被注解为@specialized(Unit)。为什么？通过以下命令检查字节码:<br>javap -classpath /path/to/scala/lib/scala-library.jar scala.collection.immutable.Range<br>并考虑Function1上的@specialized注解。点击Scaladoc中的Function1.scala链接进行查看</p>
-<p>首先来看Function1的源码<br>……<br>trait Function1[@specialized(scala.Int, scala.Long, scala.Float, scala.Double/<em>, scala.AnyRef</em>/) -T1, @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double/<em>, scala.AnyRef</em>/) +R] extends AnyRef { self =&gt;<br>  /** Apply the body of this function to the argument.</p>
-<ul>
-<li>@return   the result of function application.<br>*/<br>def apply(v1: T1): R<br>……<br>可以看到Function1参数可以是scala.Int,scala.Long,scala.Float,scala.Double，返回值可以是scala.Unit,scala.Boolean,scala.Int,scala.Float,scala.Long,scala.Double 再来看Range.foreach的源码<br>……<br>@inline final override def foreach<a href="f: Int =&gt; U" target="_blank" rel="external">@specialized(Unit) U</a> {<br>if (validateRangeBoundaries(f)) {<br>var i = start<br>val terminal = terminalElement<br>val step = this.step<br>while (i != terminal) {<br>  f(i)<br>  i += step<br>}<br>}<br>}<br>……<br>首先此方法是没有返回值的，也就是Unit。而Function1的返回值可以是scala.Unit,scala.Boolean,scala.Int,scala.Float,scala.Long,scala.Double 如果不限定@specialized(Unit),则Function1可能返回其他类型，但是此方法体根本就不返回，即使设置了也无法获得返回值</li>
-</ul>
+<p>首先来看Function1的源码</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Function1</span>[@<span class="title">specialized</span><span class="params">(scala.Int, scala.Long, scala.Float, scala.Double/*, scala.AnyRef*/)</span> -<span class="title">T1</span>, @<span class="title">specialized</span><span class="params">(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double/*, scala.AnyRef*/)</span> +<span class="title">R</span>] <span class="keyword">extends</span> <span class="title">AnyRef</span> </span>{ self =&gt;</div><div class="line">  <span class="javadoc">/** Apply the body of this function to the argument.</span></div><div class="line">   *  <span class="javadoctag">@return</span>   the result of function application.</div><div class="line">   */</div><div class="line">  <span class="keyword">def</span> apply(v1: T1): R</div><div class="line">......</div></pre></td></tr></table></figure>
+
+<p>可以看到Function1参数可以是scala.Int,scala.Long,scala.Float,scala.Double，返回值可以是scala.Unit,scala.Boolean,scala.Int,scala.Float,scala.Long,scala.Double 再来看Range.foreach的源码</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">...... </div><div class="line"><span class="annotation">@inline</span> <span class="keyword">final</span> <span class="keyword">override</span> <span class="keyword">def</span> foreach[<span class="annotation">@specialized</span>(Unit) U](f: Int =&gt; U) {</div><div class="line">    <span class="keyword">if</span> (validateRangeBoundaries(f)) {</div><div class="line">      <span class="keyword">var</span> i = start</div><div class="line">      <span class="keyword">val</span> terminal = terminalElement</div><div class="line">      <span class="keyword">val</span> step = <span class="keyword">this</span>.step</div><div class="line">      <span class="keyword">while</span> (i != terminal) {</div><div class="line">        f(i)</div><div class="line">        i += step</div><div class="line">      }</div><div class="line">    }</div><div class="line">  }</div><div class="line">......</div></pre></td></tr></table></figure>
+
+<p>首先此方法是没有返回值的，也就是Unit。而Function1的返回值可以是scala.Unit,scala.Boolean,scala.Int,scala.Float,scala.Long,scala.Double 如果不限定@specialized(Unit),则Function1可能返回其他类型，但是此方法体根本就不返回，即使设置了也无法获得返回值</p>
 <p><strong>15.10</strong><br>添加assert(n &gt;= 0)到factorial方法。在启用断言的情况下编译并校验factorial(-1)会抛异常。在禁用断言的情况下编译。会发生什么？用javap检查该断言调用</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> </span>{</div><div class="line">  <span class="keyword">def</span> factorial(n: Int): Int = {</div><div class="line">    assert(n &gt; <span class="number">0</span>)</div><div class="line">    n</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> main(args: Array[String]) {</div><div class="line">    factorial(-<span class="number">1</span>)</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
@@ -239,21 +242,21 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/scala/" title="scala">scala<sup>15</sup></a></li>
-		
 			<li><a href="/tags/习题答案/" title="习题答案">习题答案<sup>15</sup></a></li>
+		
+			<li><a href="/tags/scala/" title="scala">scala<sup>15</sup></a></li>
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
-			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
-		
 			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
 		
-			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
@@ -263,15 +266,15 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
-			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
-		
-			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
-		
-			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
+			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
 			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
+			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
+		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
+		
+			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
 			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
 		
