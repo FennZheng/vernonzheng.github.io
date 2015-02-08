@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://vernonzheng.com/2015/01/31/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%AF%B9%E8%B1%A1/</loc>
+    <lastmod>2015-02-08T07:18:08.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://vernonzheng.com/2015/01/25/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%98%A0%E5%B0%84%E4%B8%8E%E5%85%83%E7%BB%84/</loc>
+    <lastmod>2015-02-08T07:17:55.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D%E5%92%8C%E6%A0%B7%E4%BE%8B%E9%9B%86%E5%90%88/</loc>
     <lastmod>2015-02-08T07:16:17.000Z</lastmod>
   </url>
@@ -59,16 +69,6 @@
   <url>
     <loc>http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2015-02-08T07:08:43.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://vernonzheng.com/2015/01/31/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%AF%B9%E8%B1%A1/</loc>
-    <lastmod>2015-01-31T09:25:41.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://vernonzheng.com/2015/01/25/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%98%A0%E5%B0%84%E4%B8%8E%E5%85%83%E7%BB%84/</loc>
-    <lastmod>2015-01-25T11:21:19.000Z</lastmod>
   </url>
   
   <url>

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-08T07:16:39.398Z</updated>
+  <updated>2015-02-08T07:18:17.168Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -470,11 +470,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第六章习题解答]]></title>
+    <title><![CDATA[《快学scala》习题解答-第六章-对象]]></title>
     <link href="http://vernonzheng.com/2015/01/31/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%AF%B9%E8%B1%A1/"/>
     <id>http://vernonzheng.com/2015/01/31/《快学scala》习题解答-第六章-对象/</id>
     <published>2015-01-31T08:32:42.000Z</published>
-    <updated>2015-01-31T09:25:41.000Z</updated>
+    <updated>2015-02-08T07:18:08.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -587,11 +587,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第四章习题解答]]></title>
+    <title><![CDATA[《快学scala》习题解答-第四章-映射与元组]]></title>
     <link href="http://vernonzheng.com/2015/01/25/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%98%A0%E5%B0%84%E4%B8%8E%E5%85%83%E7%BB%84/"/>
     <id>http://vernonzheng.com/2015/01/25/《快学scala》习题解答-第四章-映射与元组/</id>
     <published>2015-01-25T09:27:42.000Z</published>
-    <updated>2015-01-25T11:21:19.000Z</updated>
+    <updated>2015-02-08T07:17:55.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
