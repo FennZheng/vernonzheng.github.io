@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-08T07:18:17.168Z</updated>
+  <updated>2015-02-08T10:25:47.479Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -13,6 +13,74 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[《快学scala》习题解答-第十五章-注解]]></title>
+    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0-%E6%B3%A8%E8%A7%A3/"/>
+    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十五章-注解/</id>
+    <published>2015-02-08T09:51:42.000Z</published>
+    <updated>2015-02-08T10:25:37.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十五章_注解">第十五章 注解</h2>
+<p><strong>15.1</strong><br>编写四个JUnit测试用例，分别使用带或不带某个参数的@Test注解。用JUnit执行这些测试</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.junit.Test</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ScalaTest</span> </span>{</div><div class="line"></div><div class="line">  <span class="annotation">@Test</span></div><div class="line">  <span class="keyword">def</span> test1(){</div><div class="line">    print(<span class="string">"test1"</span>)</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="annotation">@Test</span>(timeout = <span class="number">1</span>L)</div><div class="line">  <span class="keyword">def</span> test2(){</div><div class="line">    print(<span class="string">"test2"</span>)</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>15.2</strong><br>创建一个类的示例，展示注解可以出现的所有位置。用@deprecated作为你的示例注解。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="annotation">@deprecated</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>{</div><div class="line"></div><div class="line">  <span class="annotation">@deprecated</span></div><div class="line">  <span class="keyword">val</span> t = _;</div><div class="line"></div><div class="line">  <span class="annotation">@deprecated</span>(message = <span class="string">"unuse"</span>)</div><div class="line">  <span class="keyword">def</span> hello(){</div><div class="line">    println(<span class="string">"hello"</span>)</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="annotation">@deprecated</span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> t = <span class="keyword">new</span> Test()</div><div class="line">  t.hello()</div><div class="line">  t.t</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>15.3</strong><br>Scala类库中的哪些注解用到了元注解@param,@field,@getter,@setter,@beanGetter或@beanSetter?</p>
+<p>略</p>
+<p><strong>15.4</strong><br>编写一个Scala方法sum,带有可变长度的整型参数，返回所有参数之和。从Java调用该方法。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.annotation.varargs</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>{</div><div class="line">  <span class="annotation">@varargs</span> <span class="keyword">def</span> sum(nums: Int*): Int = {</div><div class="line">    nums.sum</div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="javadoc">/** Test2.java</span></div><div class="line">class Test2 {</div><div class="line"></div><div class="line">  public static void main(String[] args){</div><div class="line">    Test t = new Test();</div><div class="line">    System.out.println(t.sum(1,2,3));</div><div class="line">  }</div><div class="line">}</div><div class="line">  **/</div></pre></td></tr></table></figure>
+
+<p><strong>15.5</strong><br>编写一个返回包含某文件所有行的字符串的方法。从Java调用该方法。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> io.Source</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test5</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">def</span> read()={</div><div class="line">    Source.fromFile(<span class="string">"test.txt"</span>).mkString</div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="javadoc">/*** Test2.java</span></div><div class="line">public class Hello {</div><div class="line">  public static void main(String[] args){</div><div class="line">    Test5 t = new Test5();</div><div class="line">    System.out.println(t.read());</div><div class="line">  }</div><div class="line">}</div><div class="line">  ***/</div></pre></td></tr></table></figure>
+
+<p><strong>15.6</strong><br>编写一个Scala对象，该对象带有一个易失(volatile)的Boolean字段。让某一个线程睡眠一段时间，之后将该字段设为true，打印消息，然后退出。而另一个线程不停的检查该字段是否为true。如果是，它将打印一个消息并退出。如果不是，则它将短暂睡眠，然后重试。如果变量不是易失的，会发生什么？</p>
+<p>没区别</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> concurrent.ops.spawn</div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test06</span></span>{</div><div class="line">  <span class="annotation">@volatile</span> <span class="keyword">var</span> value = <span class="keyword">false</span></div><div class="line">}</div><div class="line"></div><div class="line">spawn {</div><div class="line">  Thread.sleep(<span class="number">100</span>);</div><div class="line">  Test06.value = <span class="keyword">true</span></div><div class="line">  println(<span class="string">"Thread1: setting value to TRUE!"</span>)</div><div class="line">}</div><div class="line"></div><div class="line">spawn {</div><div class="line">  <span class="keyword">while</span>(!Test06.value) Thread.sleep(<span class="number">20</span>);</div><div class="line">  println(<span class="string">"Thread2: value is TRUE!"</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>15.7</strong><br>给出一个示例，展示如果方法可被重写，则尾递归优化为非法</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> annotation.tailrec</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="annotation">@tailrec</span></div><div class="line">  <span class="keyword">def</span> sum2(xs : Seq[Int],partial : BigInt) : BigInt = {</div><div class="line">    <span class="keyword">if</span> (xs.isEmpty) partial <span class="keyword">else</span> sum2(xs.tail,xs.head + partial)</div><div class="line">  }</div><div class="line"></div><div class="line">  println(sum2(<span class="number">1</span> to <span class="number">1000000</span>,<span class="number">0</span>))</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>15.8</strong><br>将allDifferent方法添加到对象，编译并检查字节码。@specialized注解产生了哪些方法?</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span></span>{</div><div class="line">  <span class="keyword">def</span> allDifferent[<span class="annotation">@specialized</span> T](x:T,y:T,z:T) = x != y && x!= z && y != z</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>javap Test$得到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span>$ <span class="keyword">extends</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Object</span></span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Test$ MODULE$;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> {};</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">allDifferent</span>(java.lang.Object, java.lang.Object, java.lang.Ob</div><div class="line">ject);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mZc$<span class="title">sp</span>(<span class="keyword">boolean</span>, <span class="keyword">boolean</span>, <span class="keyword">boolean</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mBc$<span class="title">sp</span>(<span class="keyword">byte</span>, <span class="keyword">byte</span>, <span class="keyword">byte</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mCc$<span class="title">sp</span>(<span class="keyword">char</span>, <span class="keyword">char</span>, <span class="keyword">char</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mDc$<span class="title">sp</span>(<span class="keyword">double</span>, <span class="keyword">double</span>, <span class="keyword">double</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mFc$<span class="title">sp</span>(<span class="keyword">float</span>, <span class="keyword">float</span>, <span class="keyword">float</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mIc$<span class="title">sp</span>(<span class="keyword">int</span>, <span class="keyword">int</span>, <span class="keyword">int</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mJc$<span class="title">sp</span>(<span class="keyword">long</span>, <span class="keyword">long</span>, <span class="keyword">long</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mSc$<span class="title">sp</span>(<span class="keyword">short</span>, <span class="keyword">short</span>, <span class="keyword">short</span>);</div><div class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> allDifferent$mVc$<span class="title">sp</span>(scala.runtime.BoxedUnit, scala.runtime.Bo</div><div class="line">xedUnit, scala.runtime.BoxedUnit);</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>15.9</strong><br>Range.foreach方法被注解为@specialized(Unit)。为什么？通过以下命令检查字节码:<br>javap -classpath /path/to/scala/lib/scala-library.jar scala.collection.immutable.Range<br>并考虑Function1上的@specialized注解。点击Scaladoc中的Function1.scala链接进行查看</p>
+<p>首先来看Function1的源码<br>……<br>trait Function1[@specialized(scala.Int, scala.Long, scala.Float, scala.Double/<em>, scala.AnyRef</em>/) -T1, @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double/<em>, scala.AnyRef</em>/) +R] extends AnyRef { self =&gt;<br>  /** Apply the body of this function to the argument.</p>
+<ul>
+<li>@return   the result of function application.<br>*/<br>def apply(v1: T1): R<br>……<br>可以看到Function1参数可以是scala.Int,scala.Long,scala.Float,scala.Double，返回值可以是scala.Unit,scala.Boolean,scala.Int,scala.Float,scala.Long,scala.Double 再来看Range.foreach的源码<br>……<br>@inline final override def foreach<a href="f: Int =&gt; U" target="_blank" rel="external">@specialized(Unit) U</a> {<br>if (validateRangeBoundaries(f)) {<br>var i = start<br>val terminal = terminalElement<br>val step = this.step<br>while (i != terminal) {<br>  f(i)<br>  i += step<br>}<br>}<br>}<br>……<br>首先此方法是没有返回值的，也就是Unit。而Function1的返回值可以是scala.Unit,scala.Boolean,scala.Int,scala.Float,scala.Long,scala.Double 如果不限定@specialized(Unit),则Function1可能返回其他类型，但是此方法体根本就不返回，即使设置了也无法获得返回值</li>
+</ul>
+<p><strong>15.10</strong><br>添加assert(n &gt;= 0)到factorial方法。在启用断言的情况下编译并校验factorial(-1)会抛异常。在禁用断言的情况下编译。会发生什么？用javap检查该断言调用</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> </span>{</div><div class="line">  <span class="keyword">def</span> factorial(n: Int): Int = {</div><div class="line">    assert(n &gt; <span class="number">0</span>)</div><div class="line">    n</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> main(args: Array[String]) {</div><div class="line">    factorial(-<span class="number">1</span>)</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>编译报错</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">Exception in thread <span class="string">"main"</span> java.lang.AssertionError: assertion failed</div><div class="line">        at scala.Predef$.<span class="keyword">assert</span>(Predef.scala:<span class="number">165</span>)</div><div class="line">        at Test$.factorial(Test.scala:<span class="number">6</span>)</div><div class="line">        at Test$.main(Test.scala:<span class="number">11</span>)</div><div class="line">        at Test.main(Test.scala)</div><div class="line">        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</div><div class="line">        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:<span class="number">39</span>)</div><div class="line">        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:<span class="number">25</span>)</div><div class="line">        at java.lang.reflect.Method.invoke(Method.java:<span class="number">597</span>)</div><div class="line">        at com.intellij.rt.execution.application.AppMain.main(AppMain.java:<span class="number">120</span>)</div></pre></td></tr></table></figure>
+
+<p>禁用assert<br>-Xelide-below 2011<br>反编译此类javap -c Test$ 得到</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">factorial</span>(<span class="keyword">int</span>);</div><div class="line">  Code:</div><div class="line">   <span class="number">0</span>:   getstatic       #<span class="number">19</span>; <span class="comment">//Field scala/Predef$.MODULE$:Lscala/Predef$;</span></div><div class="line">   <span class="number">3</span>:   iload_1</div><div class="line">   <span class="number">4</span>:   iconst_0</div><div class="line">   <span class="number">5</span>:   if_icmple       <span class="number">12</span></div><div class="line">   <span class="number">8</span>:   iconst_1</div><div class="line">   <span class="number">9</span>:   goto    <span class="number">13</span></div><div class="line">   <span class="number">12</span>:  iconst_0</div><div class="line">   <span class="number">13</span>:  invokevirtual   #<span class="number">23</span>; <span class="comment">//Method scala/Predef$.assert:(Z)V</span></div><div class="line">   <span class="number">16</span>:  iload_1</div><div class="line">   <span class="number">17</span>:  ireturn</div><div class="line">......</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[《快学scala》习题解答-第十四章-模式匹配和样例集合]]></title>
@@ -1697,192 +1765,6 @@
       <category term="基础" scheme="http://vernonzheng.com/tags/%E5%9F%BA%E7%A1%80/"/>
     
       <category term="coffeescript" scheme="http://vernonzheng.com/categories/coffeescript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[没耐心的NodeJS基础教程]]></title>
-    <link href="http://vernonzheng.com/2014/12/17/%E6%B2%A1%E8%80%90%E5%BF%83%E7%9A%84NodeJS%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/"/>
-    <id>http://vernonzheng.com/2014/12/17/没耐心的NodeJS基础教程/</id>
-    <published>2014-12-17T15:21:00.000Z</published>
-    <updated>2014-12-28T10:41:42.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>这是一篇没耐心的nodejs教程，写给希望迅速上手的学习者。基础篇介绍权限，模块，包，工程目录结构，<span class="built_in">npm</span>等，不涉及常用api和中间件等。
-</code></pre><h2 id="一、权限问题">一、权限问题</h2>
-<p>linux下，nodejs需要监听80或443端口提供HTTP（S）服务时需要root权限。<br>有两种方式：</p>
-<ul>
-<li>（1）（推荐）需要js提供root权限<blockquote>
-<p>$ sudo node server.js</p>
-</blockquote>
-</li>
-<li>（2）使用chmod+s命令让nodejs总是以root权限运行，不安全。<blockquote>
-<p>$ sudo chown root /usr/local/bin/node<br>$ sudo chmod +s /usr/local/bin/node</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="二、模块">二、模块</h2>
-<p>一个文件为一个模块，一个文件路径为一个模块名。<br>编写模块时，有require，exports，module三个变量。</p>
-<ul>
-<li><strong>2.1 required</strong><br>导入某个模块<blockquote>
-<p>var foo1 = required(‘./foo’);//.js后缀可以省略<br>var foo2 = required(“./foo.js”);</p>
-</blockquote>
-</li>
-</ul>
-<p>也可以加载或者导入一个json：</p>
-<blockquote>
-<p>var data = require(‘./data.json’);</p>
-</blockquote>
-<ul>
-<li><p><strong>2.2 exports</strong><br>是当前模块的导出对象，用于导出模块共有方式和属性。</p>
-<blockquote>
-<p>exports.hello = function(){</p>
-<pre><code>console.<span class="built_in">log</span>(‘Hello World!’);
-</code></pre><p>};</p>
-</blockquote>
-</li>
-<li><p><strong>2.3 module</strong><br>可以访问当前模块的一些信息，最多的用途就是替换当前模块的到处对象。</p>
-<blockquote>
-<p>module.export = function(){</p>
-<pre><code> console.<span class="built_in">log</span>(‘Hello World!’);
-</code></pre><p>};</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="三、模块初始化">三、模块初始化</h2>
-<p>NodeJS使用CMD模块系统，主模块作为程序入口点，所有模块在执行过程中只初始化一次。</p>
-<p><strong>初始化一次</strong></p>
-<p>一个模块中的JS代码仅在模块第一次被使用时执行一次，并在执行过程中初始化模块的导出对象。之后，缓存起来的导出对象被重复利用。</p>
-<ul>
-<li><p><strong>3.1 主模块</strong><br>通过命令行参数传递给NodeJS以启动程序的模块被称为主模块。主模块负责调度组成整个程序的其他模块完成工作。默认是路径下的main.js。</p>
-</li>
-<li><p><strong>3.2 二进制模块（不推荐）</strong><br>nodejs支持使用c/c++编写二进制模块。编译好的二进制模块除了文件扩展名是.node外，和JS块的使用方式相同。</p>
-</li>
-</ul>
-<h2 id="四、模块路径解析规则">四、模块路径解析规则</h2>
-<p>除了相对路径和绝对路径外，require函数还支持第三种形式的路径。</p>
-<ul>
-<li><p><strong>4.1 内置模块</strong></p>
-</li>
-<li><p><strong>4.2 node_modules目录</strong><br>专门存放模块的路径。比如某个模块的绝对路径是/home/user/hello.js, 在该模块中使用require(‘foo/bar’)方式加载模块，则NodeJS依次尝试使用以下路径。</p>
-<blockquote>
-<p>/home/user/node_modules/foo/bar<br>/home/node_modules/foo/bar<br>/node_moduels/foo/bar</p>
-</blockquote>
-</li>
-<li><p><strong>4.3 NODE_PATH环境变量</strong><br>指定额外的模块搜索路径。因为是额外，所以最后搜索。<br>使用：设置NODE_PATH环境变量，linux用：分隔，windows使用；分隔。</p>
-</li>
-</ul>
-<h2 id="五、包">五、包</h2>
-<ul>
-<li><p><strong>5.1 入口模块</strong><br>多个js模块，组成一个包。所有模块都是同一个路径里，且需要指定一个入口模块，入口模块的导出对象作为包的导出对象。<br>比如cat目录下有main.js,lib1.js,lib2.js。<br>main.js作为入口模块，require lib1.js,lib2.js。</p>
-</li>
-<li><p><strong>5.2 index.js</strong><br>当模块文件名为index.js,加载模块时就可以使用模块所在目录的路径代替模块文件路径，如可写成<br>var cat = require(‘/home/user/lib/cat’);<br>var cat = require(‘/home/user/lib/cat/index’);</p>
-</li>
-<li><p><strong>5.3 自定义入口模块和存放位置（package.json）</strong><br>如果你想自定义入口模块的文件名和存放位置，就需要在包目录下包含一个package.json文件，如</p>
-<blockquote>
-<p>{</p>
-<pre><code>“name”: “cat”,
-“main”: “./lib/main.js<span class="string">"</span>
-</code></pre><p>}<br>如此一来，就可以用require(‘/home/user/lib/cat’)加载。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="六、命令行程序">六、命令行程序</h2>
-<p>将固定node命令开头执行的方式，变成命令行的方式。<br>node xx.js [param] =&gt; xx [param]，<br>如$node /home/user/bin/node-echo.js Hello World<br>变成<br>$node-echo Hello World<br>简便很多</p>
-<p>那么如何做到，只讲在linux下怎么做：</p>
-<ul>
-<li>(1)node-echo.js顶部增加<blockquote>
-<p>#!/usr/bin/env node</p>
-</blockquote>
-</li>
-<li>(2)然后增加执行权限，并再/usr/local/bin下创建软链接<blockquote>
-<p>$ chmod +x /home/user/bin/node-echo.js<br>$ sudo ln -s /home/user/bin/node-echo.js /usr/local/bin/node-echo</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="七、工程目录结构">七、工程目录结构</h2>
-<blockquote>
-<ul>
-<li>/home/user/workspace/node-echo/<ul>
-<li>bin/<br>  node-echo</li>
-</ul>
-<ul>
-<li>doc/</li>
-</ul>
-<ul>
-<li>lib/<br>  echo.js</li>
-<li>node_modules/<ul>
-<li>argv/</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>tests/<br>package.json<br>README.md</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<p>其中部分文件：</p>
-<blockquote>
-<p>/<em> bin/node-echo </em>/<br>var argv = require(‘argue’),<br>     echo = require(‘../ilb/echo’);<br>console.log(echo(argv.join(‘ ‘)));</p>
-<p>/<em> lib/echo.js</em>/<br>module.exports = function(message){<br>    return message;<br>}</p>
-<p>/<em> pacakge.json </em>/<br>{<br>    “name”:”node-echo”,<br>    “main”:”./lib/echo.js”<br>}</p>
-</blockquote>
-<h2 id="八、NPM:包管理工具">八、NPM:包管理工具</h2>
-<p>（1）允许用户从NPM服务器下载别人编写的三方包到本地使用。<br>（2）允许用户从NPM服务器下载并安装别人编写的命令行程序到本地使用。<br>（3）允许用户将自己编写的包或者命令行程序上传到NPM服务器供别人使用。</p>
-<ul>
-<li><strong>8.1 下载第三方包</strong></li>
-</ul>
-<p>一般这样使用别人的包(如argv)，<br>在项目目录下，npm install argv@1.1.1，那么argv包就会放到node_modules目录下，直接require(‘argv’)就可以使用了。</p>
-<p>依赖的包比较多时，通过package.json字段做了扩展。<br>如：<br>{<br>    “name”: “node-echo”,<br>    “main”: “./lib/echo.js”,<br>    “denpendencies”:{<br>        “argv”: “0.0.2”<br>    }<br>}<br>然后在工程目录，npm install即可。btw，传递的依赖会被自动下载。</p>
-<ul>
-<li><strong>8.2 安装命令行工具</strong></li>
-</ul>
-<p>如上面例子的node-echo，只要node-echo自己配置好了对应的package.json字段，对于用户而言，这样安装：</p>
-<blockquote>
-<p>$ npm install node-echo -g<br>其中-g表示全局安装，node-echo会默认安装到以下位置，并且NPM会自动创建好Linux系统下需要的软链文件。</p>
-<ul>
-<li>/usr/local/<ul>
-<li>lib/node_modules/<ul>
-<li>node-echo/<br>…</li>
-</ul>
-</li>
-<li>bin/<br>  node-echo<br>…</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<ul>
-<li><strong>8.3 发布代码</strong></li>
-</ul>
-<p>第一次发布npm，需要注册个号码。执行npm adduser，按提示操作。账号完成设置后，编辑需要发布的项目的package.json，加入npm必须字段。<br>如：</p>
-<blockquote>
-<p>{<br>   “name”: ”node-echo”，#包名，与NPM服务器保持唯一<br>   “version”： “1.0.0”，#当前版本号<br>   “dependencies”：{<br>       “argv”： “0.0.2”<br>   }，<br>   “main”： “./lib/echo.js”,<br>   “bin”: {<br>       “node-echo”: “./bin/node-echo”  #命令行程序名和主模块位置<br>   }<br>}<br>然后，在package.json所在目录下运行npm publish 发布代码。</p>
-</blockquote>
-<ul>
-<li><strong>8.4 版本号</strong></li>
-</ul>
-<p>使用npm下载或者发布代码都要用到版本号。<br>语义版版本号分为X.Y.Z三位，<br> 分别为主版本号、（大变动，向下不兼容）<br> 次版本号（新增功能，向下兼容）、<br> 补丁版本号（修复bug）。</p>
-<h2 id="九、最后npm比较有用的命令行：">九、最后npm比较有用的命令行：</h2>
-<ul>
-<li>在package.json目录，npm install . -g 可先在本地安装当前命令行程序，用于发布前本地测试。</li>
-<li>npm update  <package>当前目录下node_modules子目录下对应模块更新到最新版本。</package></li>
-<li>npm update <package> -g 把全局安装的对应命令行程序更新至最新版。</package></li>
-<li>npm cache clear 清空NPM本地缓存，用于对于使用相同版本号发布新版本的人。</li>
-<li>npm unpublish <package>@<version> 可以撤销自己发布过的某个版本代码。</version></package></li>
-</ul>
-<hr>
-<p>参考：<br>七天学会NodeJS：<a href="http://nqdeng.github.io/7-days-nodejs/\#3.2.1" target="_blank" rel="external">http://nqdeng.github.io/7-days-nodejs/\#3.2.1</a></p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>这是一篇没耐心的nodejs教程，写给希望迅速上手的学习者。基础篇介绍权限，模块，包，工程目录结构，<span class="built_in">npm</span>等，不涉及常用api和中间件等。
-</code></pre><h2 id="一、权限问题">]]>
-    </summary>
-    
-      <category term="nodejs" scheme="http://vernonzheng.com/tags/nodejs/"/>
-    
-      <category term="基础" scheme="http://vernonzheng.com/tags/%E5%9F%BA%E7%A1%80/"/>
-    
-      <category term="nodejs" scheme="http://vernonzheng.com/categories/nodejs/"/>
     
   </entry>
   
