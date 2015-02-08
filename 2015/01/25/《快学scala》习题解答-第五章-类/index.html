@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>《快学scala》第九章习题解答 | Vernon Zheng 郑雪峰</title>
+    <title>《快学scala》习题解答-第五章-类 | Vernon Zheng 郑雪峰</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
@@ -79,14 +79,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/01/《快学scala》第九章习题解答/" title="《快学scala》第九章习题解答" itemprop="url">《快学scala》第九章习题解答</a>
+      <a href="/2015/01/25/《快学scala》习题解答-第五章-类/" title="《快学scala》习题解答-第五章-类" itemprop="url">《快学scala》习题解答-第五章-类</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2015-02-01T02:30:42.000Z" itemprop="datePublished"> 发表于 2月 1 2015</time>
+    <time datetime="2015-01-25T11:27:42.000Z" itemprop="datePublished"> 发表于 1月 25 2015</time>
     
   </p>
 </header>
@@ -95,43 +95,52 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第九章_文件和正则表达式"><span class="toc-number">1.</span> <span class="toc-text">第九章 文件和正则表达式</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章_类"><span class="toc-number">1.</span> <span class="toc-text">第五章 类</span></a></li></ol>
 		
 		</div>
 		
 		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
-<h2 id="第九章_文件和正则表达式">第九章 文件和正则表达式</h2>
-<p><strong>9.1</strong><br>编写一小段Scala代码，将某个文件中的行倒转顺序(将最后一行作为第一行,依此类推)</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> path = <span class="string">"./exercise01.txt"</span></div><div class="line"><span class="keyword">val</span> file = Source.fromFile(path)</div><div class="line"><span class="keyword">val</span> reverseLines = file.getLines().toArray.reverse</div><div class="line"><span class="keyword">val</span> pw = <span class="keyword">new</span> PrintWriter(path)</div><div class="line">reverseLines.foreach (line =&gt; pw.write(line+<span class="string">"\n"</span>))</div><div class="line">pw.close()</div></pre></td></tr></table></figure>
+<h2 id="第五章_类">第五章 类</h2>
+<p><strong>5.1</strong><br>改进5.1节的Counter类,让它不要在Int.MaxValue时变成负数</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Counter</span><span class="params">()</span></span>{</div><div class="line">  <span class="keyword">private</span> <span class="keyword">var</span> value = <span class="number">0</span></div><div class="line">  <span class="keyword">def</span> increment(){ <span class="keyword">if</span>(value&lt;Int.MaxValue) value += <span class="number">1</span> }</div><div class="line">  <span class="keyword">def</span> current() = value</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>9.2</strong><br>编写Scala程序,从一个带有制表符的文件读取内容,将每个制表符替换成一组空格,使得制表符隔开的n列仍然保持纵向对齐,并将结果写入同一个文件</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> io.Source</div><div class="line"><span class="keyword">import</span> java.io.PrintWriter</div><div class="line"></div><div class="line"><span class="keyword">val</span> path = <span class="string">"test.txt"</span></div><div class="line"></div><div class="line"><span class="keyword">val</span> reader = Source.fromFile(path).getLines()</div><div class="line"></div><div class="line"><span class="keyword">val</span> result = <span class="keyword">for</span> ( t &lt;- reader) <span class="keyword">yield</span> t.replaceAll(<span class="string">"\\t"</span>,<span class="string">"    "</span>)</div><div class="line"></div><div class="line"><span class="keyword">val</span> pw = <span class="keyword">new</span> PrintWriter(path)</div><div class="line"></div><div class="line">result.foreach(line =&gt; pw.write(line + <span class="string">"\n"</span>))</div><div class="line"></div><div class="line">pw.close()</div></pre></td></tr></table></figure>
+<p><strong>5.2</strong><br>编写一个BankAccount类，加入deposit和withdraw方法，和一个只读的balance属性</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BankAccount</span></span>{</div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> banlance = <span class="number">0</span></div><div class="line">  <span class="keyword">def</span> deposit(){}</div><div class="line">  <span class="keyword">def</span> withdraw(){}</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>9.3</strong><br>编写一小段Scala代码,从一个文件读取内容并把所有字符数大于12的单词打印到控制台。如果你能用单行代码完成会有额外奖励</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scala.io.Source.fromFile(<span class="string">"./exercise01.txt"</span>).mkString.split(<span class="string">"\\s+"</span>).foreach(line=&gt; <span class="keyword">if</span>(line.length&gt;<span class="number">12</span>) println(line))</div></pre></td></tr></table></figure>
+<p><strong>5.3</strong><br>编写一个Time类，加入只读属性hours和minutes，和一个检查某一时刻是否早于另一时刻的方法before(other:Time):Boolean。Time对象应该以new Time(hrs,min)方式构建。其中hrs以军用时间格式呈现(介于0和23之间)</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Time</span><span class="params">(private[this] val hrs:Int,private[this] val min:Int)</span></span>{</div><div class="line">  <span class="keyword">val</span> hours = hrs</div><div class="line">  <span class="keyword">val</span> minutes = min</div><div class="line">  <span class="keyword">def</span> before(other:Time):Boolean = {</div><div class="line">    <span class="keyword">if</span>(hours&lt;other.hours)</div><div class="line">      <span class="keyword">true</span></div><div class="line">    <span class="keyword">if</span>(hours==other.hours)</div><div class="line">      <span class="keyword">if</span>(minutes&lt;other.minutes)</div><div class="line">        <span class="keyword">true</span></div><div class="line">    <span class="keyword">false</span></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>9.4</strong><br>编写Scala程序，从包含浮点数的文本文件读取内容，打印出文件中所有浮点数之和，平均值，最大值和最小值</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.io.Source</div><div class="line"><span class="keyword">val</span> nums = Source.fromFile(<span class="string">"exercise01.txt"</span>).mkString.split(<span class="string">"\\s+"</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> total = <span class="number">0</span>d</div><div class="line"></div><div class="line">nums.foreach(total += _.toDouble)</div><div class="line"></div><div class="line">println(total)</div><div class="line">println(total/nums.length)</div><div class="line">println(nums.max)</div><div class="line">println(nums.min)</div></pre></td></tr></table></figure>
+<p><strong>5.4</strong><br>重新实现前一个类中的Time类，将内部呈现改成午夜起的分钟数(介于0到24*60-1之间)。不要改变公有接口。也就是说，客户端代码不应因你的修改而受影响</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Time</span><span class="params">(private[this] val hrs:Int,private[this] val min:Int)</span></span>{</div><div class="line">  <span class="keyword">val</span> minutesInDay = hrs*<span class="number">24</span>+min</div><div class="line">  <span class="keyword">def</span> before(other:Time):Boolean = {</div><div class="line">    <span class="keyword">if</span>(minutesInDay&lt;other.minutesInDay)</div><div class="line">      <span class="keyword">true</span></div><div class="line">    <span class="keyword">false</span></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>9.5</strong><br>编写Scala程序，向文件中写入2的n次方及其倒数，指数n从0到20。对齐各列:<br>  1         1<br>  2         0.5<br>  4         0.25<br>…         …</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.PrintWriter</div><div class="line"></div><div class="line"><span class="keyword">val</span> pw = <span class="keyword">new</span> PrintWriter(<span class="string">"exercise01.txt"</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> ( n &lt;- <span class="number">0</span> to <span class="number">20</span>){</div><div class="line">  <span class="keyword">val</span> t = BigDecimal(<span class="number">2</span>).pow(n)</div><div class="line">  pw.write(t.toString())</div><div class="line">  pw.write(<span class="string">"\t\t"</span>)</div><div class="line">  pw.write((<span class="number">1</span>/t).toString())</div><div class="line">  pw.write(<span class="string">"\n"</span>)</div><div class="line">}</div><div class="line"></div><div class="line">pw.close()</div></pre></td></tr></table></figure>
+<p><strong>5.5</strong><br>创建一个Student类，加入可读写的JavaBeans属性name(类型为String)和id(类型为Long)。有哪些方法被生产？(用javap查看。)你可以在Scala中调用JavaBeans的getter和setter方法吗？应该这样做吗？</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.beans.BeanProperty</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>{</div><div class="line">  <span class="annotation">@BeanProperty</span> <span class="keyword">var</span> name:String = _</div><div class="line">  <span class="annotation">@BeanProperty</span> <span class="keyword">var</span> id:Long = _</div><div class="line">}</div><div class="line"><span class="javadoc">/**</span></div><div class="line">javap -c Student 后显示如下</div><div class="line"></div><div class="line">Compiled from "Student.scala"</div><div class="line">public class Student extends java.lang.Object implements scala.ScalaObject{</div><div class="line">  public java.lang.String name();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   getfield        #13; //Field name:Ljava/lang/String;</div><div class="line">  4:   areturn</div><div class="line"></div><div class="line">  public void name_$eq(java.lang.String);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   aload_1</div><div class="line">  2:   putfield        #13; //Field name:Ljava/lang/String;</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public void setName(java.lang.String);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   aload_1</div><div class="line">  2:   putfield        #13; //Field name:Ljava/lang/String;</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public long id();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   getfield        #19; //Field id:J</div><div class="line">  4:   lreturn</div><div class="line"></div><div class="line">  public void id_$eq(long);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   lload_1</div><div class="line">  2:   putfield        #19; //Field id:J</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public void setId(long);</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   lload_1</div><div class="line">  2:   putfield        #19; //Field id:J</div><div class="line">  5:   return</div><div class="line"></div><div class="line">  public long getId();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   invokevirtual   #25; //Method id:()J</div><div class="line">  4:   lreturn</div><div class="line"></div><div class="line">  public java.lang.String getName();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   invokevirtual   #28; //Method name:()Ljava/lang/String;</div><div class="line">  4:   areturn</div><div class="line"></div><div class="line">  public Student();</div><div class="line">  Code:</div><div class="line">  0:   aload_0</div><div class="line">  1:   invokespecial   #34; //Method java/lang/Object."&lt;init&gt;":()V</div><div class="line">  4:   return</div><div class="line"></div><div class="line">}</div><div class="line">  **/</div></pre></td></tr></table></figure>
 
-<p><strong>9.6</strong><br>编写正则表达式,匹配Java或C++程序代码中类似”like this,maybe with \” or\“这样的带引号的字符串。编写Scala程序将某个源文件中所有类似的字符串打印出来</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">val source = scala.io.Source.fromFile("test.txt").mkString</div><div class="line"></div><div class="line">val pattern = """"([^"\\]*([\\]+"[^"\\]*)*)"""".r</div><div class="line"></div><div class="line">pattern.findAllIn(source).foreach(println)</div></pre></td></tr></table></figure>
+<p><strong>5.6</strong><br>在5.2节的Person类中提供一个主构造器,将负年龄转换为0</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(var age:Int)</span></span>{</div><div class="line">  age = <span class="keyword">if</span>(age &lt; <span class="number">0</span>) <span class="number">0</span> <span class="keyword">else</span> age</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>9.7</strong><br>编写Scala程序，从文本文件读取内容，并打印出所有的非浮点数的词法单位。要求使用正则表达式</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> io.Source</div><div class="line"></div><div class="line"><span class="keyword">val</span> source = Source.fromFile(<span class="string">"test.txt"</span>).mkString</div><div class="line"></div><div class="line"><span class="keyword">val</span> pattern = <span class="string">"""[^((\d+\.){0,1}\d+)^\s+]+"""</span>.r</div><div class="line"></div><div class="line">pattern.findAllIn(source).foreach(println)</div></pre></td></tr></table></figure>
+<p><strong>5.7</strong><br>编写一个Person类，其主构造器接受一个字符串，该字符串包含名字，空格和姓，如new Person(“Fred Smith”)。提供只读属性firstName和lastName。主构造器参数应该是var,val还是普通参数？为什么？</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(private[this] val name:String)</span></span>{</div><div class="line">  <span class="keyword">private</span>[<span class="keyword">this</span>] <span class="keyword">val</span> tmp = name.split(<span class="string">"\\s+"</span>)</div><div class="line">  <span class="keyword">val</span> firstName = tmp(<span class="number">0</span>)</div><div class="line">  <span class="keyword">val</span> lastName = tmp(<span class="number">1</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><strong>9.8</strong><br>编写Scala程序打印出某个网页中所有img标签的src属性。使用正则表达式和分组</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> pattern = <span class="string">"""&lt;img[^&gt;]+(src\s*=\s*"[^&gt;^"]+")[^&gt;]*&gt;"""</span>.r</div><div class="line"><span class="keyword">val</span> source = scala.io.Source.fromURL(<span class="string">"http://www.vernonzheng.com"</span>,<span class="string">"utf-8"</span>).mkString</div><div class="line"></div><div class="line"><span class="keyword">for</span> (pattern(str) &lt;- pattern.findAllIn(source)) println(str)</div></pre></td></tr></table></figure>
+<p><strong>5.8</strong><br>创建一个Car类，以只读属性对应制造商，型号名称，型号年份以及一个可读写的属性用于车牌。提供四组构造器。每个构造器fc都要求制造商和型号为必填。型号年份和车牌可选，如果未填，则型号年份为-1，车牌为空串。你会选择哪一个作为你的主构造器？为什么？</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(val manufactuer:String, val model: String, val year: Int = -1, var license: String = <span class="string">""</span>)</span></span></div></pre></td></tr></table></figure>
 
-<p><strong>9.9</strong><br>编写Scala程序，盘点给定目录及其子目录中总共有多少以.class为扩展名的文件</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> countClass(dir:java.io.File): Int = {</div><div class="line">  <span class="keyword">var</span> num:Int = <span class="number">0</span></div><div class="line">  <span class="keyword">val</span> files = dir.listFiles()</div><div class="line">  num += files.filter(_.isFile).count(_.getName.endsWith(<span class="string">".class"</span>))</div><div class="line">  files.filter(_.isDirectory).foreach(num += countClass(_))</div><div class="line">  num</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>9.10</strong><br>扩展那个可序列化的Person类，让它能以一个集合保存某个人的朋友信息。构造出一些Person对象，让他们中的一些人成为朋友，然后将Array[Person]保存到文件。将这个数组从文件中重新读出来，校验朋友关系是否完好</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">mport collection.mutable.ArrayBuffer</div><div class="line"><span class="keyword">import</span> java.io.{ObjectInputStream, FileOutputStream, FileInputStream, ObjectOutputStream}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(var name:String)</span> <span class="keyword">extends</span> <span class="title">Serializable</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">val</span> friends = <span class="keyword">new</span> ArrayBuffer[Person]()</div><div class="line"></div><div class="line">  <span class="keyword">def</span> addFriend(friend : Person){</div><div class="line">    friends += friend</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString() = {</div><div class="line">    <span class="keyword">var</span> str = <span class="string">"My name is "</span> + name + <span class="string">" and my friends name is "</span></div><div class="line">    friends.foreach(str += _.name + <span class="string">","</span>)</div><div class="line">    str</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> p1 = <span class="keyword">new</span> Person(<span class="string">"Ivan"</span>)</div><div class="line">  <span class="keyword">val</span> p2 = <span class="keyword">new</span> Person(<span class="string">"F2"</span>)</div><div class="line">  <span class="keyword">val</span> p3 = <span class="keyword">new</span> Person(<span class="string">"F3"</span>)</div><div class="line"></div><div class="line">  p1.addFriend(p2)</div><div class="line">  p1.addFriend(p3)</div><div class="line">  println(p1)</div><div class="line"></div><div class="line">  <span class="keyword">val</span> out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"person.obj"</span>))</div><div class="line">  out.writeObject(p1)</div><div class="line">  out.close()</div><div class="line"></div><div class="line">  <span class="keyword">val</span> in =  <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"person.obj"</span>))</div><div class="line">  <span class="keyword">val</span> p = in.readObject().asInstanceOf[Person]</div><div class="line">  println(p)</div><div class="line">}</div></pre></td></tr></table></figure>
+<p><strong>5.9</strong><br>在Java,C#或C++重做前一个练习。Scala相比之下精简多少？</p>
+<p>答：<br>略</p>
+<p><strong>5.10</strong><br>考虑如下的类</p>
+<p>class Employ(val name:String,var salary:Double){<br>    def this(){this(“John Q. Public”,0.0)}<br>}<br>重写该类,使用显示的字段定义，和一个缺省主构造器。你更倾向于使用哪种形式？为什么？</p>
+<p>答：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employ</span><span class="params">()</span></span>{</div><div class="line">  <span class="keyword">val</span> name:String = <span class="string">"John Q. Public"</span></div><div class="line">  <span class="keyword">var</span> salary:Double = <span class="number">0.0</span></div><div class="line">}</div></pre></td></tr></table></figure>
 
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
@@ -157,7 +166,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2015/02/01/《快学scala》第九章习题解答/" data-title="《快学scala》第九章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/01/25/《快学scala》习题解答-第五章-类/" data-title="《快学scala》习题解答-第五章-类 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -167,18 +176,18 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/02/《快学scala》第十章习题解答/" title="《快学scala》第十章习题解答">
+ <a href="/2015/01/31/《快学scala》习题解答-第六章-对象/" title="《快学scala》第六章习题解答">
   <strong>上一篇：</strong><br/>
   <span>
-  《快学scala》第十章习题解答</span>
+  《快学scala》第六章习题解答</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/01/《快学scala》第八章习题解答/"  title="《快学scala》第八章习题解答">
+<a href="/2015/01/25/《快学scala》习题解答-第四章-映射与元组/"  title="《快学scala》第四章习题解答">
  <strong>下一篇：</strong><br/> 
- <span>《快学scala》第八章习题解答
+ <span>《快学scala》第四章习题解答
 </span>
 </a>
 </div>
@@ -187,7 +196,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/02/01/《快学scala》第九章习题解答/" data-title="《快学scala》第九章习题解答" data-url="http://vernonzheng.com/2015/02/01/《快学scala》第九章习题解答/"></div>
+	<div class="ds-thread" data-thread-key="2015/01/25/《快学scala》习题解答-第五章-类/" data-title="《快学scala》习题解答-第五章-类" data-url="http://vernonzheng.com/2015/01/25/《快学scala》习题解答-第五章-类/"></div>
 </section>
 
 
@@ -198,7 +207,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第九章_文件和正则表达式"><span class="toc-number">1.</span> <span class="toc-text">第九章 文件和正则表达式</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章_类"><span class="toc-number">1.</span> <span class="toc-text">第五章 类</span></a></li></ol>
  
   </div>
 
@@ -242,37 +251,37 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
 			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
 			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
-		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
-		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
-			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
-		
-			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
-		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
-			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
 		</ul>
 </div>

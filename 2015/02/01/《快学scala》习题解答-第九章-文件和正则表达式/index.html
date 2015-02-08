@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>《快学scala》第十二章习题解答 | Vernon Zheng 郑雪峰</title>
+    <title>《快学scala》习题解答-第九章-文件和正则表达式 | Vernon Zheng 郑雪峰</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
@@ -79,14 +79,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/04/《快学scala》第十二章习题解答/" title="《快学scala》第十二章习题解答" itemprop="url">《快学scala》第十二章习题解答</a>
+      <a href="/2015/02/01/《快学scala》习题解答-第九章-文件和正则表达式/" title="《快学scala》习题解答-第九章-文件和正则表达式" itemprop="url">《快学scala》习题解答-第九章-文件和正则表达式</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2015-02-04T14:11:42.000Z" itemprop="datePublished"> 发表于 2月 4 2015</time>
+    <time datetime="2015-02-01T02:30:42.000Z" itemprop="datePublished"> 发表于 2月 1 2015</time>
     
   </p>
 </header>
@@ -95,45 +95,44 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二章_高阶函数"><span class="toc-number">1.</span> <span class="toc-text">第十二章 高阶函数</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第九章_文件和正则表达式"><span class="toc-number">1.</span> <span class="toc-text">第九章 文件和正则表达式</span></a></li></ol>
 		
 		</div>
 		
 		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
-<h2 id="第十二章_高阶函数">第十二章 高阶函数</h2>
-<p><strong>12.1</strong><br>编写函数values(fun:(Int)=&gt;Int,low:Int,high:Int),该函数输出一个集合，对应给定区间内给定函数的输入和输出。比如，values(x=&gt;x*x,-5,5)应该产出一个对偶的集合(-5,25),(-4,16),(-3,9),…,(5,25)</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> values(fun:(Int)=&gt;Int,low:Int,high:Int) ={</div><div class="line">  <span class="keyword">var</span> array = List[(Int,Int)]()</div><div class="line">  low to high foreach {</div><div class="line">    x =&gt;</div><div class="line">      array = (x, fun(x)) :: array</div><div class="line">  }</div><div class="line">  array</div><div class="line">}</div><div class="line">println(values(x =&gt; x * x, -<span class="number">5</span>, <span class="number">5</span>).mkString)</div></pre></td></tr></table></figure>
+<h2 id="第九章_文件和正则表达式">第九章 文件和正则表达式</h2>
+<p><strong>9.1</strong><br>编写一小段Scala代码，将某个文件中的行倒转顺序(将最后一行作为第一行,依此类推)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> path = <span class="string">"./exercise01.txt"</span></div><div class="line"><span class="keyword">val</span> file = Source.fromFile(path)</div><div class="line"><span class="keyword">val</span> reverseLines = file.getLines().toArray.reverse</div><div class="line"><span class="keyword">val</span> pw = <span class="keyword">new</span> PrintWriter(path)</div><div class="line">reverseLines.foreach (line =&gt; pw.write(line+<span class="string">"\n"</span>))</div><div class="line">pw.close()</div></pre></td></tr></table></figure>
 
-<p><strong>12.2</strong><br>如何用reduceLeft得到数组中的最大元素?</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> arr = Array(<span class="number">1</span>,<span class="number">333</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">32</span>,<span class="number">6</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">2</span>)</div><div class="line">print(arr.reduceLeft((l,r)=&gt;<span class="keyword">if</span>(l&gt;=r) l <span class="keyword">else</span> r))</div></pre></td></tr></table></figure>
+<p><strong>9.2</strong><br>编写Scala程序,从一个带有制表符的文件读取内容,将每个制表符替换成一组空格,使得制表符隔开的n列仍然保持纵向对齐,并将结果写入同一个文件</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> io.Source</div><div class="line"><span class="keyword">import</span> java.io.PrintWriter</div><div class="line"></div><div class="line"><span class="keyword">val</span> path = <span class="string">"test.txt"</span></div><div class="line"></div><div class="line"><span class="keyword">val</span> reader = Source.fromFile(path).getLines()</div><div class="line"></div><div class="line"><span class="keyword">val</span> result = <span class="keyword">for</span> ( t &lt;- reader) <span class="keyword">yield</span> t.replaceAll(<span class="string">"\\t"</span>,<span class="string">"    "</span>)</div><div class="line"></div><div class="line"><span class="keyword">val</span> pw = <span class="keyword">new</span> PrintWriter(path)</div><div class="line"></div><div class="line">result.foreach(line =&gt; pw.write(line + <span class="string">"\n"</span>))</div><div class="line"></div><div class="line">pw.close()</div></pre></td></tr></table></figure>
 
-<p><strong>12.3</strong><br>用to和reduceLeft实现阶乘函数,不得使用循环或递归 </p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> factorial(n:Int): Unit ={</div><div class="line">  <span class="number">1</span> to n reduceLeft(_ * _)</div><div class="line">}</div></pre></td></tr></table></figure>
+<p><strong>9.3</strong><br>编写一小段Scala代码,从一个文件读取内容并把所有字符数大于12的单词打印到控制台。如果你能用单行代码完成会有额外奖励</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scala.io.Source.fromFile(<span class="string">"./exercise01.txt"</span>).mkString.split(<span class="string">"\\s+"</span>).foreach(line=&gt; <span class="keyword">if</span>(line.length&gt;<span class="number">12</span>) println(line))</div></pre></td></tr></table></figure>
 
-<p><strong>12.4</strong><br>前一个实现需要处理一个特殊情况，即n&lt;1的情况。展示如何用foldLeft来避免这个需要。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> factorial(n:Int) = (<span class="number">1</span> to n).foldLeft(<span class="number">1</span>)(_ * _)</div><div class="line"></div><div class="line">factorial(-<span class="number">3</span>)</div><div class="line">factorial(<span class="number">3</span>)</div></pre></td></tr></table></figure>
+<p><strong>9.4</strong><br>编写Scala程序，从包含浮点数的文本文件读取内容，打印出文件中所有浮点数之和，平均值，最大值和最小值</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.io.Source</div><div class="line"><span class="keyword">val</span> nums = Source.fromFile(<span class="string">"exercise01.txt"</span>).mkString.split(<span class="string">"\\s+"</span>)</div><div class="line"></div><div class="line"><span class="keyword">var</span> total = <span class="number">0</span>d</div><div class="line"></div><div class="line">nums.foreach(total += _.toDouble)</div><div class="line"></div><div class="line">println(total)</div><div class="line">println(total/nums.length)</div><div class="line">println(nums.max)</div><div class="line">println(nums.min)</div></pre></td></tr></table></figure>
 
-<p><strong>12.5</strong><br>编写函数largest(fun:(Int)=&gt;Int,inputs:Seq[Int]),输出在给定输入序列中给定函数的最大值。举例来说，largest(x=&gt;10<em>x-x</em>x,1 to 10)应该返回25.不得使用循环或递归 </p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> largest1(fun:(Int)=&gt;Int, inputs:Seq[Int]) = inputs.foldLeft(<span class="number">1</span>)((a,b)=&gt; <span class="keyword">if</span>(fun(b)&gt;a) fun(b) <span class="keyword">else</span> a)</div><div class="line"></div><div class="line"><span class="keyword">def</span> largest2(fun:(Int)=&gt;Int, inputs:Seq[Int]) = inputs.map(fun(_)).max</div><div class="line"></div><div class="line">println(largest1(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div><div class="line">println(largest2(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div></pre></td></tr></table></figure>
+<p><strong>9.5</strong><br>编写Scala程序，向文件中写入2的n次方及其倒数，指数n从0到20。对齐各列:<br>  1         1<br>  2         0.5<br>  4         0.25<br>…         …</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.io.PrintWriter</div><div class="line"></div><div class="line"><span class="keyword">val</span> pw = <span class="keyword">new</span> PrintWriter(<span class="string">"exercise01.txt"</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> ( n &lt;- <span class="number">0</span> to <span class="number">20</span>){</div><div class="line">  <span class="keyword">val</span> t = BigDecimal(<span class="number">2</span>).pow(n)</div><div class="line">  pw.write(t.toString())</div><div class="line">  pw.write(<span class="string">"\t\t"</span>)</div><div class="line">  pw.write((<span class="number">1</span>/t).toString())</div><div class="line">  pw.write(<span class="string">"\n"</span>)</div><div class="line">}</div><div class="line"></div><div class="line">pw.close()</div></pre></td></tr></table></figure>
 
-<p><strong>12.6</strong><br>修改前一个函数，返回最大的输出对应的输入。举例来说,largestAt(fun:(Int)=&gt;Int,inputs:Seq[Int])应该返回5。不得使用循环或递归 </p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> largestAt1(fun:(Int)=&gt;Int, inputs:Seq[Int]) = inputs.reduce((a,b)=&gt; <span class="keyword">if</span>(fun(b)&gt;fun(a)) b <span class="keyword">else</span> a)</div><div class="line"></div><div class="line"><span class="keyword">def</span> largestAt2(fun: (Int) =&gt; Int, inputs: Seq[Int]) = inputs.map(x =&gt; (x, fun(x))).reduceLeft((x,y) =&gt; <span class="keyword">if</span> (x._2 &gt; y._2) x <span class="keyword">else</span> y)._1</div><div class="line"></div><div class="line">println(largestAt1(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div><div class="line">println(largestAt2(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div></pre></td></tr></table></figure>
+<p><strong>9.6</strong><br>编写正则表达式,匹配Java或C++程序代码中类似”like this,maybe with \” or\“这样的带引号的字符串。编写Scala程序将某个源文件中所有类似的字符串打印出来</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">val source = scala.io.Source.fromFile("test.txt").mkString</div><div class="line"></div><div class="line">val pattern = """"([^"\\]*([\\]+"[^"\\]*)*)"""".r</div><div class="line"></div><div class="line">pattern.findAllIn(source).foreach(println)</div></pre></td></tr></table></figure>
 
-<p><strong>12.7</strong><br>要得到一个序列的对偶很容易，比如:<br>val pairs = (1 to 10) zip (11 to 20)<br>假定你想要对这个序列做某中操作—比如，给对偶中的值求和，但是你不能直接使用:</p>
-<p>pairs.map(<em> + </em>)<br>函数<em> + </em> 接受两个Int作为参数，而不是(Int,Int)对偶。编写函数adjustToPair,该函数接受一个类型为(Int,Int)=&gt;Int的函数作为参数，并返回一个等效的, 可以以对偶作为参数的函数。举例来说就是:adjustToPair(<em> * </em>)((6,7))应得到42。然后用这个函数通过map计算出各个对偶的元素之和</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> ajustToPair(fun: (Int, Int) =&gt; Int) = (x: (Int, Int)) =&gt; fun(x._1, x._2)</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = ajustToPair(_ * _)((<span class="number">6</span>, <span class="number">7</span>))</div><div class="line">println(x)</div><div class="line"></div><div class="line"><span class="keyword">val</span> pairs = (<span class="number">1</span> to <span class="number">10</span>) zip (<span class="number">11</span> to <span class="number">20</span>)</div><div class="line">println(pairs)</div><div class="line"></div><div class="line"><span class="keyword">val</span> y = pairs.map(ajustToPair(_ + _))</div><div class="line">println(y)</div></pre></td></tr></table></figure>
+<p><strong>9.7</strong><br>编写Scala程序，从文本文件读取内容，并打印出所有的非浮点数的词法单位。要求使用正则表达式</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> io.Source</div><div class="line"></div><div class="line"><span class="keyword">val</span> source = Source.fromFile(<span class="string">"test.txt"</span>).mkString</div><div class="line"></div><div class="line"><span class="keyword">val</span> pattern = <span class="string">"""[^((\d+\.){0,1}\d+)^\s+]+"""</span>.r</div><div class="line"></div><div class="line">pattern.findAllIn(source).foreach(println)</div></pre></td></tr></table></figure>
 
-<p><strong>12.8</strong><br>在12.8节中，你看到了用于两组字符串数组的corresponds方法。做出一个对该方法的调用，让它帮我们判断某个字符串数组里的所有元素的长度是否和某个给定的整数数组相对应 </p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> a = Array(<span class="string">"asd"</span>,<span class="string">"df"</span>,<span class="string">"abcd"</span>)</div><div class="line"><span class="keyword">val</span> b = Array(<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>)</div><div class="line"><span class="keyword">val</span> c = Array(<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>)</div><div class="line"></div><div class="line">println(a.corresponds(b)(_.length == _))</div><div class="line">println(a.corresponds(c)(_.length == _))</div></pre></td></tr></table></figure>
+<p><strong>9.8</strong><br>编写Scala程序打印出某个网页中所有img标签的src属性。使用正则表达式和分组</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> pattern = <span class="string">"""&lt;img[^&gt;]+(src\s*=\s*"[^&gt;^"]+")[^&gt;]*&gt;"""</span>.r</div><div class="line"><span class="keyword">val</span> source = scala.io.Source.fromURL(<span class="string">"http://www.vernonzheng.com"</span>,<span class="string">"utf-8"</span>).mkString</div><div class="line"></div><div class="line"><span class="keyword">for</span> (pattern(str) &lt;- pattern.findAllIn(source)) println(str)</div></pre></td></tr></table></figure>
 
-<p><strong>12.9</strong><br>不使用柯里化实现corresponds。然后尝试从前一个练习的代码来调用。你遇到了什么问题？</p>
-<p>没有柯里化则不能使用前一个练习里的代码方式来调用</p>
-<p><strong>12.10</strong><br>实现一个unless控制抽象，工作机制类似if,但条件是反过来的。第一个参数需要是换名调用的参数吗？你需要柯里化吗？</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> unless(condition: =&gt; Boolean)(block: =&gt; Unit) { <span class="keyword">if</span> (!condition) { block } }</div><div class="line"></div><div class="line">unless (<span class="number">0</span> &gt; <span class="number">1</span>) { println(<span class="string">"Unless!"</span>) }</div></pre></td></tr></table></figure>
+<p><strong>9.9</strong><br>编写Scala程序，盘点给定目录及其子目录中总共有多少以.class为扩展名的文件</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> countClass(dir:java.io.File): Int = {</div><div class="line">  <span class="keyword">var</span> num:Int = <span class="number">0</span></div><div class="line">  <span class="keyword">val</span> files = dir.listFiles()</div><div class="line">  num += files.filter(_.isFile).count(_.getName.endsWith(<span class="string">".class"</span>))</div><div class="line">  files.filter(_.isDirectory).foreach(num += countClass(_))</div><div class="line">  num</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>需要换名和柯里化</p>
+<p><strong>9.10</strong><br>扩展那个可序列化的Person类，让它能以一个集合保存某个人的朋友信息。构造出一些Person对象，让他们中的一些人成为朋友，然后将Array[Person]保存到文件。将这个数组从文件中重新读出来，校验朋友关系是否完好</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">mport collection.mutable.ArrayBuffer</div><div class="line"><span class="keyword">import</span> java.io.{ObjectInputStream, FileOutputStream, FileInputStream, ObjectOutputStream}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(var name:String)</span> <span class="keyword">extends</span> <span class="title">Serializable</span></span>{</div><div class="line"></div><div class="line">  <span class="keyword">val</span> friends = <span class="keyword">new</span> ArrayBuffer[Person]()</div><div class="line"></div><div class="line">  <span class="keyword">def</span> addFriend(friend : Person){</div><div class="line">    friends += friend</div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString() = {</div><div class="line">    <span class="keyword">var</span> str = <span class="string">"My name is "</span> + name + <span class="string">" and my friends name is "</span></div><div class="line">    friends.foreach(str += _.name + <span class="string">","</span>)</div><div class="line">    str</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span></span>{</div><div class="line">  <span class="keyword">val</span> p1 = <span class="keyword">new</span> Person(<span class="string">"Ivan"</span>)</div><div class="line">  <span class="keyword">val</span> p2 = <span class="keyword">new</span> Person(<span class="string">"F2"</span>)</div><div class="line">  <span class="keyword">val</span> p3 = <span class="keyword">new</span> Person(<span class="string">"F3"</span>)</div><div class="line"></div><div class="line">  p1.addFriend(p2)</div><div class="line">  p1.addFriend(p3)</div><div class="line">  println(p1)</div><div class="line"></div><div class="line">  <span class="keyword">val</span> out = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"person.obj"</span>))</div><div class="line">  out.writeObject(p1)</div><div class="line">  out.close()</div><div class="line"></div><div class="line">  <span class="keyword">val</span> in =  <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"person.obj"</span>))</div><div class="line">  <span class="keyword">val</span> p = in.readObject().asInstanceOf[Person]</div><div class="line">  println(p)</div><div class="line">}</div></pre></td></tr></table></figure>
+
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
@@ -158,7 +157,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2015/02/04/《快学scala》第十二章习题解答/" data-title="《快学scala》第十二章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/02/01/《快学scala》习题解答-第九章-文件和正则表达式/" data-title="《快学scala》习题解答-第九章-文件和正则表达式 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -168,18 +167,18 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/07/《快学scala》第十三章习题解答/" title="《快学scala》第十三章习题解答">
+ <a href="/2015/02/02/《快学scala》习题解答-第十章-特质/" title="《快学scala》习题解答-第十章-特质">
   <strong>上一篇：</strong><br/>
   <span>
-  《快学scala》第十三章习题解答</span>
+  《快学scala》习题解答-第十章-特质</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/03/《快学scala》第十一章习题解答/"  title="《快学scala》第十一章习题解答">
+<a href="/2015/02/01/《快学scala》习题解答-第八章-继承/"  title="《快学scala》习题解答-第八章-继承">
  <strong>下一篇：</strong><br/> 
- <span>《快学scala》第十一章习题解答
+ <span>《快学scala》习题解答-第八章-继承
 </span>
 </a>
 </div>
@@ -188,7 +187,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/02/04/《快学scala》第十二章习题解答/" data-title="《快学scala》第十二章习题解答" data-url="http://vernonzheng.com/2015/02/04/《快学scala》第十二章习题解答/"></div>
+	<div class="ds-thread" data-thread-key="2015/02/01/《快学scala》习题解答-第九章-文件和正则表达式/" data-title="《快学scala》习题解答-第九章-文件和正则表达式" data-url="http://vernonzheng.com/2015/02/01/《快学scala》习题解答-第九章-文件和正则表达式/"></div>
 </section>
 
 
@@ -199,7 +198,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二章_高阶函数"><span class="toc-number">1.</span> <span class="toc-text">第十二章 高阶函数</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第九章_文件和正则表达式"><span class="toc-number">1.</span> <span class="toc-text">第九章 文件和正则表达式</span></a></li></ol>
  
   </div>
 
@@ -243,37 +242,37 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
 			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
 			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
-		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
-		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
-			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
-		
-			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
-		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
-			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
 		</ul>
 </div>

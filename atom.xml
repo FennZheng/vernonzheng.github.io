@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-08T06:56:14.506Z</updated>
+  <updated>2015-02-08T07:16:39.398Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[《快学scala》第十四章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/02/08/《快学scala》第十四章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第十四章-模式匹配和样例集合]]></title>
+    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D%E5%92%8C%E6%A0%B7%E4%BE%8B%E9%9B%86%E5%90%88/"/>
+    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十四章-模式匹配和样例集合/</id>
     <published>2015-02-08T05:15:42.000Z</published>
-    <updated>2015-02-08T06:56:07.000Z</updated>
+    <updated>2015-02-08T07:16:17.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -77,11 +77,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第十三章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/02/07/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/02/07/《快学scala》第十三章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第十三章-集合]]></title>
+    <link href="http://vernonzheng.com/2015/02/07/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0-%E9%9B%86%E5%90%88/"/>
+    <id>http://vernonzheng.com/2015/02/07/《快学scala》习题解答-第十三章-集合/</id>
     <published>2015-02-07T07:36:42.000Z</published>
-    <updated>2015-02-07T16:29:04.000Z</updated>
+    <updated>2015-02-08T07:16:02.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -133,11 +133,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第十二章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/02/04/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/02/04/《快学scala》第十二章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第十二章-高阶函数]]></title>
+    <link href="http://vernonzheng.com/2015/02/04/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/"/>
+    <id>http://vernonzheng.com/2015/02/04/《快学scala》习题解答-第十二章-高阶函数/</id>
     <published>2015-02-04T14:11:42.000Z</published>
-    <updated>2015-02-05T15:02:59.000Z</updated>
+    <updated>2015-02-08T07:15:47.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -191,11 +191,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第十一章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/02/03/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/02/03/《快学scala》第十一章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第十一章-操作符]]></title>
+    <link href="http://vernonzheng.com/2015/02/03/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E6%93%8D%E4%BD%9C%E7%AC%A6/"/>
+    <id>http://vernonzheng.com/2015/02/03/《快学scala》习题解答-第十一章-操作符/</id>
     <published>2015-02-03T10:40:42.000Z</published>
-    <updated>2015-02-03T15:55:29.000Z</updated>
+    <updated>2015-02-08T07:15:29.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -251,11 +251,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第十章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/02/02/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%8D%81%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/02/02/《快学scala》第十章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第十章-特质]]></title>
+    <link href="http://vernonzheng.com/2015/02/02/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E7%AB%A0-%E7%89%B9%E8%B4%A8/"/>
+    <id>http://vernonzheng.com/2015/02/02/《快学scala》习题解答-第十章-特质/</id>
     <published>2015-02-01T16:30:42.000Z</published>
-    <updated>2015-02-02T13:36:51.000Z</updated>
+    <updated>2015-02-08T07:15:13.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -306,11 +306,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第九章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/02/01/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%B9%9D%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/02/01/《快学scala》第九章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第九章-文件和正则表达式]]></title>
+    <link href="http://vernonzheng.com/2015/02/01/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E6%96%87%E4%BB%B6%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    <id>http://vernonzheng.com/2015/02/01/《快学scala》习题解答-第九章-文件和正则表达式/</id>
     <published>2015-02-01T02:30:42.000Z</published>
-    <updated>2015-02-01T07:10:22.000Z</updated>
+    <updated>2015-02-08T07:14:57.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -363,11 +363,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第八章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/02/01/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%85%AB%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/02/01/《快学scala》第八章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第八章-继承]]></title>
+    <link href="http://vernonzheng.com/2015/02/01/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%85%AB%E7%AB%A0-%E7%BB%A7%E6%89%BF/"/>
+    <id>http://vernonzheng.com/2015/02/01/《快学scala》习题解答-第八章-继承/</id>
     <published>2015-02-01T00:10:42.000Z</published>
-    <updated>2015-02-01T01:19:53.000Z</updated>
+    <updated>2015-02-08T07:14:45.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -417,11 +417,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第七章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/31/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%B8%83%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/31/《快学scala》第七章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第七章-包和引入]]></title>
+    <link href="http://vernonzheng.com/2015/01/31/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E5%8C%85%E5%92%8C%E5%BC%95%E5%85%A5/"/>
+    <id>http://vernonzheng.com/2015/01/31/《快学scala》习题解答-第七章-包和引入/</id>
     <published>2015-01-31T11:32:42.000Z</published>
-    <updated>2015-01-31T12:14:37.000Z</updated>
+    <updated>2015-02-08T07:14:28.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -471,8 +471,8 @@
   
   <entry>
     <title><![CDATA[《快学scala》第六章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/31/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/31/《快学scala》第六章习题解答/</id>
+    <link href="http://vernonzheng.com/2015/01/31/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%AF%B9%E8%B1%A1/"/>
+    <id>http://vernonzheng.com/2015/01/31/《快学scala》习题解答-第六章-对象/</id>
     <published>2015-01-31T08:32:42.000Z</published>
     <updated>2015-01-31T09:25:41.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
@@ -521,11 +521,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第五章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/25/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%BA%94%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/25/《快学scala》第五章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第五章-类]]></title>
+    <link href="http://vernonzheng.com/2015/01/25/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%BA%94%E7%AB%A0-%E7%B1%BB/"/>
+    <id>http://vernonzheng.com/2015/01/25/《快学scala》习题解答-第五章-类/</id>
     <published>2015-01-25T11:27:42.000Z</published>
-    <updated>2015-01-25T12:12:51.000Z</updated>
+    <updated>2015-02-08T07:13:21.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -588,8 +588,8 @@
   
   <entry>
     <title><![CDATA[《快学scala》第四章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/25/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E5%9B%9B%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/25/《快学scala》第四章习题解答/</id>
+    <link href="http://vernonzheng.com/2015/01/25/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%98%A0%E5%B0%84%E4%B8%8E%E5%85%83%E7%BB%84/"/>
+    <id>http://vernonzheng.com/2015/01/25/《快学scala》习题解答-第四章-映射与元组/</id>
     <published>2015-01-25T09:27:42.000Z</published>
     <updated>2015-01-25T11:21:19.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
@@ -656,11 +656,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第三章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/21/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%B8%89%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/21/《快学scala》第三章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第三章-数组相关操作]]></title>
+    <link href="http://vernonzheng.com/2015/01/21/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C/"/>
+    <id>http://vernonzheng.com/2015/01/21/《快学scala》习题解答-第三章-数组相关操作/</id>
     <published>2015-01-21T14:40:42.000Z</published>
-    <updated>2015-01-25T06:28:43.000Z</updated>
+    <updated>2015-02-08T07:10:32.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -718,11 +718,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第二章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/20/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%BA%8C%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/20/《快学scala》第二章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第二章-控制结构和函数]]></title>
+    <link href="http://vernonzheng.com/2015/01/20/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84%E5%92%8C%E5%87%BD%E6%95%B0/"/>
+    <id>http://vernonzheng.com/2015/01/20/《快学scala》习题解答-第二章-控制结构和函数/</id>
     <published>2015-01-20T14:46:42.000Z</published>
-    <updated>2015-01-21T05:21:43.000Z</updated>
+    <updated>2015-02-08T07:10:00.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
@@ -1020,11 +1020,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》第一章习题解答]]></title>
-    <link href="http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E7%AC%AC%E4%B8%80%E7%AB%A0%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94/"/>
-    <id>http://vernonzheng.com/2015/01/12/《快学scala》第一章习题解答/</id>
+    <title><![CDATA[《快学scala》习题解答-第一章-基础]]></title>
+    <link href="http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%9F%BA%E7%A1%80/"/>
+    <id>http://vernonzheng.com/2015/01/12/《快学scala》习题解答-第一章-基础/</id>
     <published>2015-01-12T14:20:42.000Z</published>
-    <updated>2015-01-20T14:46:18.000Z</updated>
+    <updated>2015-02-08T07:08:43.000Z</updated>
     <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
 <p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。 </p>

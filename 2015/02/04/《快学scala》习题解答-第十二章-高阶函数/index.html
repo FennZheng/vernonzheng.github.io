@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>《快学scala》第一章习题解答 | Vernon Zheng 郑雪峰</title>
+    <title>《快学scala》习题解答-第十二章-高阶函数 | Vernon Zheng 郑雪峰</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
@@ -79,14 +79,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/01/12/《快学scala》第一章习题解答/" title="《快学scala》第一章习题解答" itemprop="url">《快学scala》第一章习题解答</a>
+      <a href="/2015/02/04/《快学scala》习题解答-第十二章-高阶函数/" title="《快学scala》习题解答-第十二章-高阶函数" itemprop="url">《快学scala》习题解答-第十二章-高阶函数</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2015-01-12T14:20:42.000Z" itemprop="datePublished"> 发表于 1月 12 2015</time>
+    <time datetime="2015-02-04T14:11:42.000Z" itemprop="datePublished"> 发表于 2月 4 2015</time>
     
   </p>
 </header>
@@ -95,55 +95,45 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一章_基础"><span class="toc-number">1.</span> <span class="toc-text">第一章 基础</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二章_高阶函数"><span class="toc-number">1.</span> <span class="toc-text">第十二章 高阶函数</span></a></li></ol>
 		
 		</div>
 		
 		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
 </code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
-<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。 </p>
-<h2 id="第一章_基础">第一章 基础</h2>
-<p><strong>1.1</strong><br>在Scala REPL中键入3,然后按Tab键。有哪些方法可以被应用? </p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">%   +   &gt;    &gt;&gt;&gt;            isInstanceOf   toDouble   toLong     unary_+   |</div><div class="line">&   -   &gt;=   ^              toByte         toFloat    toShort    unary_-</div><div class="line">*   /   &gt;&gt;   asInstanceOf   toChar         toInt      toString   unary_~</div></pre></td></tr></table></figure>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十二章_高阶函数">第十二章 高阶函数</h2>
+<p><strong>12.1</strong><br>编写函数values(fun:(Int)=&gt;Int,low:Int,high:Int),该函数输出一个集合，对应给定区间内给定函数的输入和输出。比如，values(x=&gt;x*x,-5,5)应该产出一个对偶的集合(-5,25),(-4,16),(-3,9),…,(5,25)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> values(fun:(Int)=&gt;Int,low:Int,high:Int) ={</div><div class="line">  <span class="keyword">var</span> array = List[(Int,Int)]()</div><div class="line">  low to high foreach {</div><div class="line">    x =&gt;</div><div class="line">      array = (x, fun(x)) :: array</div><div class="line">  }</div><div class="line">  array</div><div class="line">}</div><div class="line">println(values(x =&gt; x * x, -<span class="number">5</span>, <span class="number">5</span>).mkString)</div></pre></td></tr></table></figure>
 
-<p><strong>1.2</strong><br>在Scala REPL中，计算3的平方根,然后再对该值求平方。现在，这个结果与3相差多少？(提示:res变量是你的朋友) </p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">import</span> scala.math._</div><div class="line"><span class="keyword">import</span> scala.math._</div><div class="line"></div><div class="line">scala&gt; sqrt(<span class="number">3</span>)</div><div class="line">res7: Double = <span class="number">1.7320508075688772</span></div><div class="line"></div><div class="line">scala&gt; <span class="number">3</span> - res7</div><div class="line">res8: Double = <span class="number">1.2679491924311228</span></div></pre></td></tr></table></figure>
+<p><strong>12.2</strong><br>如何用reduceLeft得到数组中的最大元素?</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> arr = Array(<span class="number">1</span>,<span class="number">333</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">32</span>,<span class="number">6</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">2</span>)</div><div class="line">print(arr.reduceLeft((l,r)=&gt;<span class="keyword">if</span>(l&gt;=r) l <span class="keyword">else</span> r))</div></pre></td></tr></table></figure>
 
-<p><strong>1.3</strong><br>res变量是val还是var? </p>
-<p>答：<br>res变量是val</p>
-<p><strong>1.4</strong><br>Scala允许你用数字去乘字符串—去REPL中试一下”crazy”*3。这个操作做什么？在Scaladoc中如何找到这个操作? </p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"crazy"</span>*<span class="number">3</span></div><div class="line">res9: String = crazycrazycrazy</div></pre></td></tr></table></figure>
+<p><strong>12.3</strong><br>用to和reduceLeft实现阶乘函数,不得使用循环或递归 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> factorial(n:Int): Unit ={</div><div class="line">  <span class="number">1</span> to n reduceLeft(_ * _)</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>scala docs 去查StringOps:<a href="http://www.scala-lang.org/api/current/#scala.collection.immutable.StringOps" target="_blank" rel="external">http://www.scala-lang.org/api/current/#scala.collection.immutable.StringOps</a></p>
-<p><strong>1.5</strong><br>10 max 2的含义是什么？max方法定义在哪个类中？</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="number">10</span> max <span class="number">2</span></div><div class="line">res10: Int = <span class="number">10</span></div></pre></td></tr></table></figure>
+<p><strong>12.4</strong><br>前一个实现需要处理一个特殊情况，即n&lt;1的情况。展示如何用foldLeft来避免这个需要。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> factorial(n:Int) = (<span class="number">1</span> to n).foldLeft(<span class="number">1</span>)(_ * _)</div><div class="line"></div><div class="line">factorial(-<span class="number">3</span>)</div><div class="line">factorial(<span class="number">3</span>)</div></pre></td></tr></table></figure>
 
-<p>返回两者中比较大的一个<br>max方法定义在RichInt方法中。<a href="http://www.scala-lang.org/api/current/#scala.runtime.RichInt" target="_blank" rel="external">http://www.scala-lang.org/api/current/#scala.runtime.RichInt</a></p>
-<p><strong>1.6</strong><br>用BigInt计算2的1024次方</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; BigInt(<span class="number">2</span>).pow(<span class="number">1024</span>)</div><div class="line">res13: scala.math.BigInt = <span class="number">179769313486231590772930519078902473361797697894230657273430081157732675805500963132708477322407536021120113879871393357658789768814416622492847430639474124377767893424865485276302219601246094119453082952085005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137216</span></div></pre></td></tr></table></figure>
+<p><strong>12.5</strong><br>编写函数largest(fun:(Int)=&gt;Int,inputs:Seq[Int]),输出在给定输入序列中给定函数的最大值。举例来说，largest(x=&gt;10<em>x-x</em>x,1 to 10)应该返回25.不得使用循环或递归 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> largest1(fun:(Int)=&gt;Int, inputs:Seq[Int]) = inputs.foldLeft(<span class="number">1</span>)((a,b)=&gt; <span class="keyword">if</span>(fun(b)&gt;a) fun(b) <span class="keyword">else</span> a)</div><div class="line"></div><div class="line"><span class="keyword">def</span> largest2(fun:(Int)=&gt;Int, inputs:Seq[Int]) = inputs.map(fun(_)).max</div><div class="line"></div><div class="line">println(largest1(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div><div class="line">println(largest2(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div></pre></td></tr></table></figure>
 
-<p><strong>1.7</strong><br>为了在使用probablePrime(100,Random)获取随机素数时不在probablePrime和Radom之前使用任何限定符，你需要引入什么？</p>
-<p>答：<br>import需要的包。Random在scala.util中，而probablePrime是BigInt中的方法。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.math.BigInt._  </div><div class="line"><span class="keyword">import</span> scala.util.Random  </div><div class="line">  </div><div class="line">probablePrime(<span class="number">100</span>,Random) </div><div class="line">res15: scala.math.BigInt = <span class="number">1137139793510393954801305013479</span></div></pre></td></tr></table></figure>
+<p><strong>12.6</strong><br>修改前一个函数，返回最大的输出对应的输入。举例来说,largestAt(fun:(Int)=&gt;Int,inputs:Seq[Int])应该返回5。不得使用循环或递归 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> largestAt1(fun:(Int)=&gt;Int, inputs:Seq[Int]) = inputs.reduce((a,b)=&gt; <span class="keyword">if</span>(fun(b)&gt;fun(a)) b <span class="keyword">else</span> a)</div><div class="line"></div><div class="line"><span class="keyword">def</span> largestAt2(fun: (Int) =&gt; Int, inputs: Seq[Int]) = inputs.map(x =&gt; (x, fun(x))).reduceLeft((x,y) =&gt; <span class="keyword">if</span> (x._2 &gt; y._2) x <span class="keyword">else</span> y)._1</div><div class="line"></div><div class="line">println(largestAt1(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div><div class="line">println(largestAt2(x =&gt; <span class="number">10</span> * x - x * x, <span class="number">1</span> to <span class="number">10</span>))</div></pre></td></tr></table></figure>
 
-<p><strong>1.8</strong><br>创建随机文件的方式之一是生成一个随机的BigInt，然后将它转换成三十六进制，输出类似”qsnvbevtomcj38o06kul”这样的字符串。查阅Scaladoc，找到在Scala中实现该逻辑的办法。</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; scala.math.BigInt(scala.util.Random.nextInt).toString(<span class="number">36</span>)</div><div class="line">res19: String = -wda3r0</div></pre></td></tr></table></figure>
+<p><strong>12.7</strong><br>要得到一个序列的对偶很容易，比如:<br>val pairs = (1 to 10) zip (11 to 20)<br>假定你想要对这个序列做某中操作—比如，给对偶中的值求和，但是你不能直接使用:</p>
+<p>pairs.map(<em> + </em>)<br>函数<em> + </em> 接受两个Int作为参数，而不是(Int,Int)对偶。编写函数adjustToPair,该函数接受一个类型为(Int,Int)=&gt;Int的函数作为参数，并返回一个等效的, 可以以对偶作为参数的函数。举例来说就是:adjustToPair(<em> * </em>)((6,7))应得到42。然后用这个函数通过map计算出各个对偶的元素之和</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> ajustToPair(fun: (Int, Int) =&gt; Int) = (x: (Int, Int)) =&gt; fun(x._1, x._2)</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = ajustToPair(_ * _)((<span class="number">6</span>, <span class="number">7</span>))</div><div class="line">println(x)</div><div class="line"></div><div class="line"><span class="keyword">val</span> pairs = (<span class="number">1</span> to <span class="number">10</span>) zip (<span class="number">11</span> to <span class="number">20</span>)</div><div class="line">println(pairs)</div><div class="line"></div><div class="line"><span class="keyword">val</span> y = pairs.map(ajustToPair(_ + _))</div><div class="line">println(y)</div></pre></td></tr></table></figure>
 
-<p><strong>1.9</strong><br>在Scala中如何获取字符串的首字符和尾字符？</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"Hello"</span>(<span class="number">0</span>)</div><div class="line">res20: Char = H</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello"</span>.take(<span class="number">1</span>)</div><div class="line">res21: String = H</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello"</span>.reverse(<span class="number">0</span>)</div><div class="line">res22: Char = o</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello"</span>.takeRight(<span class="number">1</span>)</div><div class="line">res23: String = o</div></pre></td></tr></table></figure>
+<p><strong>12.8</strong><br>在12.8节中，你看到了用于两组字符串数组的corresponds方法。做出一个对该方法的调用，让它帮我们判断某个字符串数组里的所有元素的长度是否和某个给定的整数数组相对应 </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">val</span> a = Array(<span class="string">"asd"</span>,<span class="string">"df"</span>,<span class="string">"abcd"</span>)</div><div class="line"><span class="keyword">val</span> b = Array(<span class="number">3</span>,<span class="number">2</span>,<span class="number">4</span>)</div><div class="line"><span class="keyword">val</span> c = Array(<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>)</div><div class="line"></div><div class="line">println(a.corresponds(b)(_.length == _))</div><div class="line">println(a.corresponds(c)(_.length == _))</div></pre></td></tr></table></figure>
 
-<p><strong>1.10</strong><br>take,drop,takeRight和dropRight这些字符串函数是做什么用的？和substring相比，他们的优点和缺点都是哪些？</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"Hello world"</span>.take(<span class="number">3</span>)</div><div class="line">res26: String = Hel</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.takeRight(<span class="number">3</span>)</div><div class="line">res27: String = rld</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.drop(<span class="number">3</span>)</div><div class="line">res28: String = lo world</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.dropRight(<span class="number">3</span>)</div><div class="line">res29: String = Hello wo</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.take(<span class="number">3</span>).drop(<span class="number">1</span>)</div><div class="line">res32: String = el</div></pre></td></tr></table></figure>
+<p><strong>12.9</strong><br>不使用柯里化实现corresponds。然后尝试从前一个练习的代码来调用。你遇到了什么问题？</p>
+<p>没有柯里化则不能使用前一个练习里的代码方式来调用</p>
+<p><strong>12.10</strong><br>实现一个unless控制抽象，工作机制类似if,但条件是反过来的。第一个参数需要是换名调用的参数吗？你需要柯里化吗？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> unless(condition: =&gt; Boolean)(block: =&gt; Unit) { <span class="keyword">if</span> (!condition) { block } }</div><div class="line"></div><div class="line">unless (<span class="number">0</span> &gt; <span class="number">1</span>) { println(<span class="string">"Unless!"</span>) }</div></pre></td></tr></table></figure>
 
-<p>take,drop,takeRight,dropRight适合从两边处理字符串，很方便可以配合使用，substring适合处理中间的字符串。</p>
+<p>需要换名和柯里化</p>
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
@@ -168,7 +158,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2015/01/12/《快学scala》第一章习题解答/" data-title="《快学scala》第一章习题解答 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/02/04/《快学scala》习题解答-第十二章-高阶函数/" data-title="《快学scala》习题解答-第十二章-高阶函数 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -178,18 +168,18 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/01/19/《MongoDB实战》笔记/" title="《MongoDB实战》笔记">
+ <a href="/2015/02/07/《快学scala》习题解答-第十三章-集合/" title="《快学scala》习题解答-第十三章-集合">
   <strong>上一篇：</strong><br/>
   <span>
-  《MongoDB实战》笔记</span>
+  《快学scala》习题解答-第十三章-集合</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2014/12/28/2014年终小结与书单/"  title="2014年终小结与书单">
+<a href="/2015/02/03/《快学scala》习题解答-第十一章-操作符/"  title="《快学scala》习题解答-第十一章-操作符">
  <strong>下一篇：</strong><br/> 
- <span>2014年终小结与书单
+ <span>《快学scala》习题解答-第十一章-操作符
 </span>
 </a>
 </div>
@@ -198,7 +188,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/01/12/《快学scala》第一章习题解答/" data-title="《快学scala》第一章习题解答" data-url="http://vernonzheng.com/2015/01/12/《快学scala》第一章习题解答/"></div>
+	<div class="ds-thread" data-thread-key="2015/02/04/《快学scala》习题解答-第十二章-高阶函数/" data-title="《快学scala》习题解答-第十二章-高阶函数" data-url="http://vernonzheng.com/2015/02/04/《快学scala》习题解答-第十二章-高阶函数/"></div>
 </section>
 
 
@@ -209,7 +199,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一章_基础"><span class="toc-number">1.</span> <span class="toc-text">第一章 基础</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十二章_高阶函数"><span class="toc-number">1.</span> <span class="toc-text">第十二章 高阶函数</span></a></li></ol>
  
   </div>
 
@@ -253,37 +243,37 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/nodejs/" title="nodejs">nodejs<sup>3</sup></a></li>
 		
+			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+		
 			<li><a href="/tags/linux/" title="linux">linux<sup>2</sup></a></li>
 		
 			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>2</sup></a></li>
 		
-			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
 			<li><a href="/tags/经验总结/" title="经验总结">经验总结<sup>1</sup></a></li>
 		
-			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
+		
+			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
 			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
 		
 			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
-			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
-		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
-		
-			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
 		
-			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
-		
-			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
-		
 			<li><a href="/tags/coffeescript/" title="coffeescript">coffeescript<sup>1</sup></a></li>
 		
-			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
 		</ul>
 </div>
