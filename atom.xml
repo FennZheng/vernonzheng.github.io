@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-08T10:31:04.458Z</updated>
+  <updated>2015-02-09T10:36:23.147Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -13,6 +13,61 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[开源分布式配置中心选型]]></title>
+    <link href="http://vernonzheng.com/2015/02/09/%E5%BC%80%E6%BA%90%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E9%80%89%E5%9E%8B/"/>
+    <id>http://vernonzheng.com/2015/02/09/开源分布式配置中心选型/</id>
+    <published>2015-02-09T10:23:08.000Z</published>
+    <updated>2015-02-09T10:36:05.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="一、目标">一、目标</h2>
+<p>实现分布式配置中心：<br>（1）集中管理外部依赖的服务配置和服务内部配置<br>（2）提供web管理平台进行配置和查询<br>（3）支持服务注册与发现<br>（4）支持客户端拉取配置<br>（5）支持订阅与发布，配置变更主动通知到client，实时变更配置</p>
+<p>备注：client为nodeJS，java等</p>
+<h2 id="二、开源解决方案调研">二、开源解决方案调研</h2>
+<h3 id="2-1_disconf">2.1 disconf</h3>
+<p>百度开源<br>与spring集成的很好，有web管理，client只支持java。</p>
+<p><strong>介绍</strong><br><a href="https://github.com/knightliao/disconf/wiki" target="_blank" rel="external">https://github.com/knightliao/disconf/wiki</a></p>
+<p><strong>源码</strong><br><a href="https://github.com/knightliao/disconf" target="_blank" rel="external">https://github.com/knightliao/disconf</a></p>
+<h3 id="2-2_diamond">2.2 diamond</h3>
+<p>阿里开源<br>阿里内部应用广泛，由http server(nameservers), diamond-server ，web组成，diamond-server连接同一个mysql，数据同步通过mysql dump文件同步（同步效率？），支持订阅发布，client只支持java。</p>
+<p><strong>介绍</strong><br><a href="http://code.taobao.org/p/diamond/wiki/index/" target="_blank" rel="external">http://code.taobao.org/p/diamond/wiki/index/</a></p>
+<p><strong>源码</strong><br><a href="http://code.taobao.org/svn/diamond/trunk" target="_blank" rel="external">http://code.taobao.org/svn/diamond/trunk</a> </p>
+<h3 id="2-3_doozer">2.3 doozer</h3>
+<p>设计倾向于实时的数据变更通知，数据全部放于内存，不会持久化文件。（有独立工具支持，不知支持性怎样？）</p>
+<h3 id="2-4_etcd">2.4 etcd</h3>
+<p>CoreOS开源。<br>轻量级分布式key-value数据库，同时为集群环境的服务发现和注册而设计。<br>它提供了数据TTL失效（通过TTL更新来判断机器下线，来避免一定的网络分区问题）、数据改变监视、多值、目录监听、分布式锁原子操作等功能，来管理节点状态。</p>
+<p><strong>特性</strong></p>
+<ul>
+<li>简单: curl可访问的用户的API（HTTP+JSON）</li>
+<li>安全: 可选的SSL客户端证书认证</li>
+<li>快速: 单实例每秒 1000 次写操作</li>
+<li>可靠: 使用Raft保证一致性<br>注：zookeeper使用的比较复杂基于Paxos的Zab协议，etcd使用的Standford新的一致性算法Raft，概念上会简单些，0.4.6版本依赖于go-raft，0.5.0以上重新设计。</li>
+</ul>
+<p><strong>目前版本</strong><br>网上的介绍文章基本停留到稳定版0.4.6上。目前版本已从0.x直接跳到了2.0版本。（2015-1-28）<br><a href="https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/" target="_blank" rel="external">https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/</a><br>2.0介绍（需要翻墙）：<br><a href="https://www.youtube.com/watch?v=z6tjawXZ71E" target="_blank" rel="external">https://www.youtube.com/watch?v=z6tjawXZ71E</a></p>
+<p>使用go语言，部署简单，同时项目较年轻。</p>
+<p><strong>介绍</strong><br>从实现原理到应用场景多方位解读（2015-1-30）<br><a href="http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle" target="_blank" rel="external">http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle</a></p>
+<p><strong>源码</strong><br><a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a></p>
+<h3 id="2-5_zookeeper">2.5 zookeeper</h3>
+<p>成熟的分布式配置解决方案，待续。。</p>
+<h3 id="2-6_比较etcd和zookeeper">2.6 比较etcd和zookeeper</h3>
+<p>Jason Wilder的一篇博客分别对常见的服务发现开源项目Zookeeper、Doozer、etcd进行了总结。<br><a href="http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/" target="_blank" rel="external">http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/</a></p>
+<p>待续。。</p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="一、目标">一、目标</h2>
+<p>实现分布式配置中心：<br>（1）集中管理外部依赖的服务配置和服务内部配置<br>（2）提供web管理平台进行配置和查询<br>（3）支持服务注册与发现<br>（4）支持客户端拉取配置<br>（5）支持订阅与发布，配置变更主动]]>
+    </summary>
+    
+      <category term="etcd" scheme="http://vernonzheng.com/tags/etcd/"/>
+    
+      <category term="zookeeper" scheme="http://vernonzheng.com/tags/zookeeper/"/>
+    
+      <category term="diamond" scheme="http://vernonzheng.com/tags/diamond/"/>
+    
+      <category term="中间件" scheme="http://vernonzheng.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[《快学scala》习题解答-第十五章-注解]]></title>
@@ -1641,133 +1696,6 @@
       <category term="性能测试" scheme="http://vernonzheng.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
       <category term="nodejs" scheme="http://vernonzheng.com/categories/nodejs/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Coffeescript极简教程]]></title>
-    <link href="http://vernonzheng.com/2014/12/20/Coffeescript%E6%9E%81%E7%AE%80%E6%95%99%E7%A8%8B/"/>
-    <id>http://vernonzheng.com/2014/12/20/Coffeescript极简教程/</id>
-    <published>2014-12-20T14:17:30.000Z</published>
-    <updated>2014-12-28T10:38:17.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>配合没耐心的nodejs教程，写给希望快速上手的coffeescript使用者。
-</code></pre><h2 id="一、一些简写和约定：">一、一些简写和约定：</h2>
-<p>coffeescript和python类似，空格，缩写都是有意义的。<br>换行替换分号，缩进替换花括号，空格替换括号，<br>但是数组的’[]’不能省略。</p>
-<h2 id="二、全局变量：">二、全局变量：</h2>
-<p>CoffeeScript剔除了全局变量，避免js中全局变量的误用。（CoffeeScript使用一个匿名函数把所有脚本都包裹起来，将其限定在局部作用域中，并且在为所有的变量赋值前自动添加var）</p>
-<p>当然也有需要用全局变量的时候，直接给全局对象windoow赋值即可：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">exports = this</div><div class="line">exports.tempVal = “tempVal”</div></pre></td></tr></table></figure>
-
-<p>这里在顶级作用域中使用，this相当于全局变量</p>
-<h2 id="三、函数">三、函数</h2>
-<h3 id="3-1_函数的标准写法">3.1 函数的标准写法</h3>
-<p>-&gt; 替代了function(){}<br>如</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sum = (nums...) -&gt; </div><div class="line">	result = <span class="number">0</span></div><div class="line">	nums.forEach(n) -&gt; result += n</div><div class="line">	result</div></pre></td></tr></table></figure>
-
-<p>（nums）为传入的参数槽（splats），…表示不定参数，同时自动返回result<br>调用输出结果 alert sum() 或者 alert sum a,b,c ,其中空格表示括号，但是易混淆或者无参调用的时候，请带上括号。</p>
-<p><strong><em>多重赋值：</em></strong></p>
-<p>btw，因为讲到…不定参数，就提下多重赋值与…的结合：<br>多重赋值就是将一个数组的值逐个赋给后面的一系列变量。<br>如</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">myArray = [<span class="string">"A"</span>, <span class="string">"B"</span>, <span class="string">"C"</span>, <span class="string">"D”] </span></div><div class="line">[start, middle..., end] = myArray </div><div class="line">console.log "start is <span class="comment">#{start}” </span></div><div class="line">console.log <span class="string">"middle is #{middle}” </span></div><div class="line">console.log "end is <span class="comment">#{end}”</span></div></pre></td></tr></table></figure>
-
-<p>输出：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">start is A </div><div class="line">middle is B,C </div><div class="line">end is D</div></pre></td></tr></table></figure>
-
-<p>顺便提下，数组是支持range的用法的，[1…10]</p>
-<h3 id="3-2函数上下文：">3.2函数上下文：</h3>
-<p>js的上下文变化会很频繁，尤其在回调函数内，coffeescript提供=&gt;或者self(this)的方式，以下为=&gt;的例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">this.clickHandler = -&gt; alert “clicked”</div><div class="line">element.addEventListener “click”, (e) =&gt;</div><div class="line">	his.clickHandler(e)</div></pre></td></tr></table></figure>
-
-<h2 id="四、集合遍历">四、集合遍历</h2>
-<h3 id="4-1_for循环：">4.1 for循环：</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">myLetters = [“a”,”b”,”c”,”d”]</div><div class="line"><span class="keyword">for</span> letter <span class="keyword">in</span> myLetters</div><div class="line">console.log letter.toUpperCase()</div></pre></td></tr></table></figure>
-
-<p>for中增加when条件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> num，i <span class="keyword">in</span> a when num &lt; <span class="number">5</span></div><div class="line">console.log “第<span class="comment">#{i}个数为#{num}"</span></div></pre></td></tr></table></figure>
-
-<h3 id="4-2_列表推导式(Comprehension)">4.2 列表推导式(Comprehension)</h3>
-<p>类似ruby的前缀表达式</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">myLetters = [“a”,”b”,”c”,”d”]</div><div class="line"></div><div class="line">console.log letter.toUpperCase() <span class="keyword">for</span> letter <span class="keyword">in</span> myLetters</div></pre></td></tr></table></figure>
-
-<h3 id="4-3_对象枚举的方式">4.3 对象枚举的方式</h3>
-<p>(这里in换成了of）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">person = </div><div class="line">firstName: “Mark”</div><div class="line">lastName: “Bates”</div><div class="line"></div><div class="line"><span class="keyword">for</span> key, value of person</div><div class="line">console.log “<span class="comment">#{key} is #{value}”</span></div></pre></td></tr></table></figure>
-
-<p>对象属性的枚举还支持when关键字；如果需要过滤继承属性，还可以使用own关键字</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">myObject = </div><div class="line">name: “Mark”</div><div class="line"></div><div class="line">Object.prototype.dob = new Date(<span class="number">1976</span>, <span class="number">7</span>, <span class="number">24</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> own key, value of myObject</div><div class="line">console.log “<span class="comment">#{key}:#{value}”</span></div></pre></td></tr></table></figure>
-
-<h3 id="4-4_while用法">4.4 while用法</h3>
-<p>与js不同，while还可以返回结果数组</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">num = <span class="number">6</span></div><div class="line">minstrel = <span class="keyword">while</span> num -= <span class="number">1</span></div><div class="line">	num + “ Brave Sir Robin ran away”</div></pre></td></tr></table></figure>
-
-<p>综合例子：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@updateAvatars = -&gt;</div><div class="line">name = $(‘.avatar[data-name]’),map -&gt; $(this).data(’name’)</div><div class="line">Utils.findAvatar(name) <span class="keyword">for</span> name <span class="keyword">in</span> $.unique(names)</div></pre></td></tr></table></figure>
-
-<h2 id="五、别名与存在操作符">五、别名与存在操作符</h2>
-<h3 id="5-1_别名：">5.1 别名：</h3>
-<p>@ 表示this的别名，如@saviour = this.saviour<br>:: 表示prototype</p>
-<h3 id="5-2_存在操作符？：">5.2 存在操作符？：</h3>
-<p>coffeescript中，？只会在变量不存在或者undefined的时候返回假，<br>如</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">praise <span class="keyword">if</span> brain?</div></pre></td></tr></table></figure>
-
-<p>还可以用来替换||操作符：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">velocity = southern ？ <span class="number">40</span></div></pre></td></tr></table></figure>
-
-<p>或者在访问对象时进行null检查，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">blacknight.getLegs()?.kick()</div></pre></td></tr></table></figure>
-
-<p>判断属性是否存在外，你还也可以把？放到kick右边，判断函数是否存在，是否可以调用等</p>
-<h2 id="六、类">六、类</h2>
-<p>Coffeescript中类定义是组合模式（组合使用构造模式和原型模式），继承方式则用寄生组合模式。</p>
-<h3 id="6-1_定义类">6.1 定义类</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class Employee</div><div class="line"></div><div class="line">constructor: (name) -&gt;</div><div class="line">@name = name</div><div class="line">dob: (year = <span class="number">1976</span>, month =<span class="number">7</span>, day = <span class="number">24</span>) -&gt;</div><div class="line">new Date(year, month, day)</div><div class="line"></div><div class="line">emp1 = new Employee(“Mark”)</div><div class="line">console.log emp1.name</div><div class="line">console.og emp11.dob()</div></pre></td></tr></table></figure>
-
-<h3 id="6-2_添加方法">6.2 添加方法</h3>
-<p>方法是直接定义在原型上，显示为原型添加方法，很简单：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Array::size = -&gt; @length</div></pre></td></tr></table></figure>
-
-<h3 id="6-3_构造函数简化">6.3 构造函数简化</h3>
-<p>如果把参数赋值给同名属性，可以用@语法糖，将构造函数简化为：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">constructor: (@name) -&gt;</div></pre></td></tr></table></figure>
-
-<h3 id="6-4_实例变量的使用">6.4 实例变量的使用</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">class Animal</div><div class="line">	price: <span class="number">5</span></div><div class="line"></div><div class="line">	sell: =&gt;</div><div class="line">		alert “Give me <span class="comment">#{@price} shillings!”</span></div><div class="line"></div><div class="line">animal = new Animal</div><div class="line">$(“<span class="comment">#sell”).click(animal.sell)</span></div></pre></td></tr></table></figure>
-
-<p>其中注意到=&gt;的使用，表示引用方法调用的上下文，输出5.</p>
-<h3 id="6-5_静态变量的使用">6.5 静态变量的使用</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">class Animal</div><div class="line">	@find: (name) -&gt;</div><div class="line"></div><div class="line">Animal.find(“Parrot”)</div></pre></td></tr></table></figure>
-
-<p>其实就是在类属性上（this）设置变量值。</p>
-<h3 id="6-6_继承">6.6 继承</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">class Animal</div><div class="line">	constructor: (@name) -&gt;</div><div class="line">class Parrot extends Animal</div><div class="line"></div><div class="line">Animal::rip = <span class="literal">true</span></div><div class="line"></div><div class="line">parrot = new Parrot(“Macaw”)</div><div class="line">alert(“This parrot is no more”) <span class="keyword">if</span> parrot.rip</div></pre></td></tr></table></figure>
-
-<p>这里要注意的是，静态变量是直接拷贝给子类的，而不是像实例属性那样使用原型来继承。</p>
-<h2 id="七、Mixins混入">七、Mixins混入</h2>
-<p>举个例子：<br>module类有两个静态方法，@extend()和@include()，分别来实现对类的静态属性和实例属性的扩展。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">moduleKeywords = [‘exteded’, ‘included’]</div><div class="line"></div><div class="line">class Module</div><div class="line">	@extend: (obj) -&gt;</div><div class="line">		<span class="keyword">for</span> key, value of obj when key not <span class="keyword">in</span> moduleKeywords</div><div class="line">			@[key] = value</div><div class="line">			obj.extended?.apply(@)</div><div class="line">			this</div><div class="line"></div><div class="line">	@include: (obj) -&gt;</div><div class="line">		<span class="keyword">for</span> key, value of obj when key not <span class="keyword">in</span> moduleKeywords</div><div class="line">			<span class="comment"># Assign properties to the prototype</span></div><div class="line">			@::[key] = value</div><div class="line"></div><div class="line">		obj.included?.apply(@)</div><div class="line">		this</div></pre></td></tr></table></figure>
-
-<p>然后是如何使用：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">classProperties = </div><div class="line">	find: (id) -&gt;</div><div class="line">	create: (attrs) -&gt;</div><div class="line"></div><div class="line">instanceProperties = </div><div class="line">	save: -&gt;</div><div class="line"></div><div class="line">class User extends Module</div><div class="line">	@extends classProperties</div><div class="line">	@include instanceProperties</div><div class="line">	</div><div class="line"><span class="comment"># Usage:</span></div><div class="line">user = User.find((<span class="number">1</span>)</div><div class="line"></div><div class="line">user = new User</div><div class="line">user.save()</div></pre></td></tr></table></figure>
-
-<p>以上，我们为User类添加了静态属性find()和create()，还添加了实例属性save()。</p>
-<p>再给一个例子，在扩展类后执行回调：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ORM = </div><div class="line">	find: (id) -&gt;</div><div class="line">	create: (attrs) -&gt;</div><div class="line">	extended: -&gt;</div><div class="line">		@include</div><div class="line">			save: -&gt;</div><div class="line"></div><div class="line">class User extends Module</div><div class="line">	@extends ORM</div></pre></td></tr></table></figure>
-
-<p>基础讲完，接下来就可以围绕网络，文件，进程，异步等进行专项练习了，好运！</p>
-<hr>
-<p>参考：<br>《The Little Book on CoffeeScript》：<a href="http://book.douban.com/subject/10462179/" target="_blank" rel="external">http://book.douban.com/subject/10462179/</a><br>Learn X in Y minutes Where X=coffeescript：<a href="http://learnxinyminutes.com/docs/coffeescript/" target="_blank" rel="external">http://learnxinyminutes.com/docs/coffeescript/</a><br>CoffeeScript极简教程：<a href="http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/" target="_blank" rel="external">http://chunfenglee.com/blog/2013/10/13/beginning-coffeescript/</a></p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>配合没耐心的nodejs教程，写给希望快速上手的coffeescript使用者。
-</code></pre><h2 id="一、一些简写和约定：">一、一些简写和约定：</h2>
-<p>coffeescript和python类似，空格，缩写都是有意义的。<b]]>
-    </summary>
-    
-      <category term="coffeescript" scheme="http://vernonzheng.com/tags/coffeescript/"/>
-    
-      <category term="基础" scheme="http://vernonzheng.com/tags/%E5%9F%BA%E7%A1%80/"/>
-    
-      <category term="coffeescript" scheme="http://vernonzheng.com/categories/coffeescript/"/>
     
   </entry>
   

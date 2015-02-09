@@ -4,18 +4,16 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Linux环境变量解疑 | Vernon Zheng 郑雪峰</title>
+    <title>开源分布式配置中心选型 | Vernon Zheng 郑雪峰</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
     
-    <meta name="description" content="一、什么是环境变量
-bash shell用一个称为环境变量的特性来存储有关shell会话和工作环境的信息。
-环境变量有两类：全局变量和局部变量。局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。
-1.1 显示环境变量
-
-显示全局变量：printenv
-显示局部变量：s">
+    <meta name="description" content="一、目标
+实现分布式配置中心：（1）集中管理外部依赖的服务配置和服务内部配置（2）提供web管理平台进行配置和查询（3）支持服务注册与发现（4）支持客户端拉取配置（5）支持订阅与发布，配置变更主动通知到client，实时变更配置
+备注：client为nodeJS，java等
+二、开源解决方案调研
+2">
     
     
     
@@ -83,14 +81,14 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/06/Linux环境变量解疑/" title="Linux环境变量解疑" itemprop="url">Linux环境变量解疑</a>
+      <a href="/2015/02/09/开源分布式配置中心选型/" title="开源分布式配置中心选型" itemprop="url">开源分布式配置中心选型</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2014-12-06T09:02:59.000Z" itemprop="datePublished"> 发表于 12月 6 2014</time>
+    <time datetime="2015-02-09T10:23:08.000Z" itemprop="datePublished"> 发表于 2月 9 2015</time>
     
   </p>
 </header>
@@ -99,67 +97,42 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、目标"><span class="toc-number">1.</span> <span class="toc-text">一、目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、开源解决方案调研"><span class="toc-number">2.</span> <span class="toc-text">二、开源解决方案调研</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_disconf"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 disconf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_diamond"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 diamond</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_doozer"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 doozer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4_etcd"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 etcd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5_zookeeper"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 zookeeper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6_比较etcd和zookeeper"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 比较etcd和zookeeper</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="一、什么是环境变量">一、什么是环境变量</h2>
-<pre><code>bash <span class="keyword">shell</span>用一个称为环境变量的特性来存储有关<span class="keyword">shell</span>会话和工作环境的信息。
-</code></pre><p>环境变量有两类：<strong>全局变量</strong>和<strong>局部变量</strong>。<br>局部变量可以在这个shell进程和子进程中起作用，另创建一个shell，就无效了。</p>
-<p><strong>1.1 显示环境变量</strong></p>
+		<h2 id="一、目标">一、目标</h2>
+<p>实现分布式配置中心：<br>（1）集中管理外部依赖的服务配置和服务内部配置<br>（2）提供web管理平台进行配置和查询<br>（3）支持服务注册与发现<br>（4）支持客户端拉取配置<br>（5）支持订阅与发布，配置变更主动通知到client，实时变更配置</p>
+<p>备注：client为nodeJS，java等</p>
+<h2 id="二、开源解决方案调研">二、开源解决方案调研</h2>
+<h3 id="2-1_disconf">2.1 disconf</h3>
+<p>百度开源<br>与spring集成的很好，有web管理，client只支持java。</p>
+<p><strong>介绍</strong><br><a href="https://github.com/knightliao/disconf/wiki" target="_blank" rel="external">https://github.com/knightliao/disconf/wiki</a></p>
+<p><strong>源码</strong><br><a href="https://github.com/knightliao/disconf" target="_blank" rel="external">https://github.com/knightliao/disconf</a></p>
+<h3 id="2-2_diamond">2.2 diamond</h3>
+<p>阿里开源<br>阿里内部应用广泛，由http server(nameservers), diamond-server ，web组成，diamond-server连接同一个mysql，数据同步通过mysql dump文件同步（同步效率？），支持订阅发布，client只支持java。</p>
+<p><strong>介绍</strong><br><a href="http://code.taobao.org/p/diamond/wiki/index/" target="_blank" rel="external">http://code.taobao.org/p/diamond/wiki/index/</a></p>
+<p><strong>源码</strong><br><a href="http://code.taobao.org/svn/diamond/trunk" target="_blank" rel="external">http://code.taobao.org/svn/diamond/trunk</a> </p>
+<h3 id="2-3_doozer">2.3 doozer</h3>
+<p>设计倾向于实时的数据变更通知，数据全部放于内存，不会持久化文件。（有独立工具支持，不知支持性怎样？）</p>
+<h3 id="2-4_etcd">2.4 etcd</h3>
+<p>CoreOS开源。<br>轻量级分布式key-value数据库，同时为集群环境的服务发现和注册而设计。<br>它提供了数据TTL失效（通过TTL更新来判断机器下线，来避免一定的网络分区问题）、数据改变监视、多值、目录监听、分布式锁原子操作等功能，来管理节点状态。</p>
+<p><strong>特性</strong></p>
 <ul>
-<li>显示全局变量：printenv</li>
-<li>显示局部变量：set</li>
+<li>简单: curl可访问的用户的API（HTTP+JSON）</li>
+<li>安全: 可选的SSL客户端证书认证</li>
+<li>快速: 单实例每秒 1000 次写操作</li>
+<li>可靠: 使用Raft保证一致性<br>注：zookeeper使用的比较复杂基于Paxos的Zab协议，etcd使用的Standford新的一致性算法Raft，概念上会简单些，0.4.6版本依赖于go-raft，0.5.0以上重新设计。</li>
 </ul>
-<p><strong>1.2 设置环境变量</strong></p>
-<ul>
-<li>设置局部变量：通过等号来给环境变量赋值，如</li>
-</ul>
-<blockquote>
-<p>$test=testing<br>$echo $test<br>testing<br>$</p>
-</blockquote>
-<ul>
-<li>设置全局变量：通过将局部变量导出为全局变量的方式，如</li>
-</ul>
-<blockquote>
-<p>$echo $test<br>testing a long string<br>$export test<br>$bash<br>$echo $test<br>testing a long string<br>$</p>
-</blockquote>
-<p><strong>1.3 删除环境变量</strong></p>
-<ul>
-<li>局部变量：unset test</li>
-<li>全局变量：unset test 需要注意的是：如果你是在子进程中删除一个全局环境变量，它只对子进程失效。全局环境变量在父进程仍然有效。</li>
-</ul>
-<h2 id="二、系统环境变量">二、系统环境变量</h2>
-<p>linux启动启动一个bash shell时，默认情况下bash在几个文件中查找命令。这些文件称为启动文件，<strong>根据bash shell启动方式的不同，查找文件不同</strong>。</p>
-<p>bash shell有三种方式：</p>
-<h3 id="2-1_登陆时当做默认登陆shell">2.1 登陆时当做默认登陆shell</h3>
-<p>会依次查找一下路径：</p>
-<ul>
-<li>/etc/profile</li>
-<li>$HOME/.bash_profile</li>
-<li>$HOME/.bash_login</li>
-<li>$HOME/.profile</li>
-</ul>
-<p><strong>/etc/profile</strong>文件是系统上默认的bash shell的主启动文件。每个用户登陆都会执行这个启动文件，另外3个启动文件是用户专有的，可根据用户定制。</p>
-<h3 id="2-2_作为非登陆shell的交互式shell">2.2 作为非登陆shell的交互式shell</h3>
-<p>如果你的bash shell不是登陆系统时启动的，称为交互式shell。</p>
-<p>交互式shell不会去访问/etc/profile文件，而会去用户的HOME目录检查<strong>.bashrc</strong>是否存在。</p>
-<p><strong>.bashrc文件的作用</strong>：<br>有两个作用：</p>
-<ul>
-<li>一是查看/etc目录下的公用bashrc文件</li>
-<li>二是为用户提供一个定制自己的命令别名和私有脚本函数的地方。<br>（默认的文件会设置一些环境变量，但一般它没有执行export命令让它们称为全局的。）</li>
-</ul>
-<p>记住，交互式shell的启动文件只会在每次有新的交互式shell启动时才运行，因此任何子shell都会自动执行这个交互式shell的启动文件。</p>
-<p>还能看出，/etc/bashrc文件也会执行位于/etc/profile.d 目录下的那些应用专属的启动文件。</p>
-<h3 id="2-3_作为运行脚本的非交互shell">2.3 作为运行脚本的非交互shell</h3>
-<p>系统执行shell脚本时用的就是这种shell。</p>
-<p>当你每次在系统上运行脚本时需要运行特定的启动命令。为了处理这种情况，bash shell提供了BASH_ENV环境变量。</p>
-<p>当shell启动一个非交互式shell进程时，它会检查这个环境变量来查看要执行的启动文件。如果有指定，shell会执行文件里的命令。<br>（在linux发行版里，默认情况下这个环境变量并未设置。）</p>
-<hr>
-<p>参考：</p>
-<ul>
-<li>《Linux命令行与shell脚本编程大全》:<a href="http://book.douban.com/subject/11589828/" target="_blank" rel="external">http://book.douban.com/subject/11589828/</a></li>
-</ul>
+<p><strong>目前版本</strong><br>网上的介绍文章基本停留到稳定版0.4.6上。目前版本已从0.x直接跳到了2.0版本。（2015-1-28）<br><a href="https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/" target="_blank" rel="external">https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/</a><br>2.0介绍（需要翻墙）：<br><a href="https://www.youtube.com/watch?v=z6tjawXZ71E" target="_blank" rel="external">https://www.youtube.com/watch?v=z6tjawXZ71E</a></p>
+<p>使用go语言，部署简单，同时项目较年轻。</p>
+<p><strong>介绍</strong><br>从实现原理到应用场景多方位解读（2015-1-30）<br><a href="http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle" target="_blank" rel="external">http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle</a></p>
+<p><strong>源码</strong><br><a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a></p>
+<h3 id="2-5_zookeeper">2.5 zookeeper</h3>
+<p>成熟的分布式配置解决方案，待续。。</p>
+<h3 id="2-6_比较etcd和zookeeper">2.6 比较etcd和zookeeper</h3>
+<p>Jason Wilder的一篇博客分别对常见的服务发现开源项目Zookeeper、Doozer、etcd进行了总结。<br><a href="http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/" target="_blank" rel="external">http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/</a></p>
+<p>待续。。</p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
   
 	</div>
@@ -168,13 +141,13 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/linux/">linux</a>
+  <a class="article-category-link" href="/categories/中间件/">中间件</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/linux/">linux</a><a href="/tags/环境变量/">环境变量</a>
+  <span></span> <a href="/tags/etcd/">etcd</a><a href="/tags/zookeeper/">zookeeper</a><a href="/tags/diamond/">diamond</a>
   </div>
 
 </div>
@@ -182,7 +155,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2014/12/06/Linux环境变量解疑/" data-title="Linux环境变量解疑 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/02/09/开源分布式配置中心选型/" data-title="开源分布式配置中心选型 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -191,19 +164,11 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/10/Java异常-《Robust-Java-中文版》笔记总结/" title="Java异常-《Robust Java 中文版》 笔记总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Java异常-《Robust Java 中文版》 笔记总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/01/hello-world/"  title="Hello World">
+<a href="/2015/02/08/《快学scala》习题解答-第十五章-注解/"  title="《快学scala》习题解答-第十五章-注解">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>《快学scala》习题解答-第十五章-注解
 </span>
 </a>
 </div>
@@ -212,7 +177,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2014/12/06/Linux环境变量解疑/" data-title="Linux环境变量解疑" data-url="http://vernonzheng.com/2014/12/06/Linux环境变量解疑/"></div>
+	<div class="ds-thread" data-thread-key="2015/02/09/开源分布式配置中心选型/" data-title="开源分布式配置中心选型" data-url="http://vernonzheng.com/2015/02/09/开源分布式配置中心选型/"></div>
 </section>
 
 
@@ -223,7 +188,7 @@ bash shell用一个称为环境变量的特性来存储有关shell会话和工�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是环境变量"><span class="toc-number">1.</span> <span class="toc-text">一、什么是环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、系统环境变量"><span class="toc-number">2.</span> <span class="toc-text">二、系统环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_登陆时当做默认登陆shell"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 登陆时当做默认登陆shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_作为非登陆shell的交互式shell"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 作为非登陆shell的交互式shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_作为运行脚本的非交互shell"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 作为运行脚本的非交互shell</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、目标"><span class="toc-number">1.</span> <span class="toc-text">一、目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、开源解决方案调研"><span class="toc-number">2.</span> <span class="toc-text">二、开源解决方案调研</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_disconf"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 disconf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_diamond"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 diamond</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3_doozer"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 doozer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4_etcd"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 etcd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5_zookeeper"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 zookeeper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6_比较etcd和zookeeper"><span class="toc-number">2.6.</span> <span class="toc-text">2.6 比较etcd和zookeeper</span></a></li></ol></li></ol>
  
   </div>
 
