@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-10T10:36:46.441Z</updated>
+  <updated>2015-02-10T10:41:29.390Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://vernonzheng.com/2015/02/09/%E5%BC%80%E6%BA%90%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E9%80%89%E5%9E%8B/"/>
     <id>http://vernonzheng.com/2015/02/09/开源分布式配置中心选型/</id>
     <published>2015-02-09T10:23:08.000Z</published>
-    <updated>2015-02-10T10:36:36.000Z</updated>
+    <updated>2015-02-10T10:41:20.000Z</updated>
     <content type="html"><![CDATA[<h1 id="一、目标">一、目标</h1>
 <p>实现分布式配置中心：<br>（1）集中管理外部依赖的服务配置和服务内部配置<br>（2）提供web管理平台进行配置和查询<br>（3）支持服务注册与发现<br>（4）支持客户端拉取配置<br>（5）支持订阅与发布，配置变更主动通知到client，实时变更配置</p>
 <p>备注：client为nodeJS，java等</p>
@@ -32,9 +32,9 @@
 <p><a href="https://github.com/knightliao/disconf" target="_blank" rel="external">https://github.com/knightliao/disconf</a></p>
 <h2 id="2-2_diamond">2.2 diamond</h2>
 <p>阿里开源<br>阿里内部应用广泛，由http server(nameservers), diamond-server ，web组成，diamond-server连接同一个mysql，数据同步通过mysql dump文件同步（同步效率？），支持订阅发布，client只支持java。</p>
-<h2 id="2-2-1_介绍">2.2.1 介绍</h2>
+<h3 id="2-2-1_介绍">2.2.1 介绍</h3>
 <p><a href="http://code.taobao.org/p/diamond/wiki/index/" target="_blank" rel="external">http://code.taobao.org/p/diamond/wiki/index/</a></p>
-<h2 id="2-2-2_源码">2.2.2 源码</h2>
+<h3 id="2-2-2_源码">2.2.2 源码</h3>
 <p><a href="http://code.taobao.org/svn/diamond/trunk" target="_blank" rel="external">http://code.taobao.org/svn/diamond/trunk</a> </p>
 <h2 id="2-3_doozer">2.3 doozer</h2>
 <p>已停止更新，设计倾向于实时的数据变更通知，数据全部放于内存，不会持久化文件。（有独立工具支持，不知支持性怎样？）</p>
