@@ -131,10 +131,10 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> htmlToMap(str:String):Map[String,String] = {</div><div class="line">  <span class="keyword">val</span> dtMap = (str \\ <span class="string">"dt"</span>).toMap</div><div class="line">  <span class="keyword">val</span> ddMap = (str \\ <span class="string">"dd"</span>).toMap</div><div class="line">  dtMap.zip(ddMap)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = &lt;dl&gt;&lt;dt&gt;A&lt;/dt&gt;&lt;dd&gt;<span class="number">1</span>&lt;/dd&gt;&lt;dt&gt;B&lt;/dt&gt;&lt;dd&gt;<span class="number">2</span>&lt;/dd&gt;&lt;/dl&gt;</div><div class="line">println(htmlToMap(html).mkString(<span class="string">","</span>))</div></pre></td></tr></table></figure>
 
 <p><strong>16.9</strong><br>对一个XHTML文档进行变换，对所有不带alt属性的img元素添加一个alt=”TODO”属性，其他内容完全不变。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(!_.attribute(alt)) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(_.attribute(alt)==<span class="string">"NONE"</span>) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">  <span class="keyword">case</span> _ =&gt; html</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
 
 <p><strong>16.10</strong><br>编写一个函数，读取XHTML文档，执行前一个练习中的变换，并保存结果。确保保留了DTD以及所有CDATA内容。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> xml._</div><div class="line"><span class="keyword">import</span> xml.transform._</div><div class="line"><span class="keyword">import</span> xml.parsing.ConstructingParser</div><div class="line"><span class="keyword">import</span> xml.dtd.DocType</div><div class="line"><span class="keyword">import</span> java.io.File</div><div class="line"></div><div class="line"><span class="keyword">val</span> doc = ConstructingParser.fromFile(<span class="keyword">new</span> File(<span class="string">"./test.xml"</span>),</div><div class="line">  <span class="keyword">true</span>).document</div><div class="line"><span class="keyword">val</span> a = doc.docElem</div><div class="line"></div><div class="line"><span class="keyword">val</span> imgRule = <span class="keyword">new</span> RewriteRule {</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> transform(n:Node) = n <span class="keyword">match</span> {</div><div class="line">    <span class="keyword">case</span> i @ &lt;img&gt;{_*}&lt;/img&gt; <span class="keyword">if</span>(i.attribute(<span class="string">"alt"</span>) == None) =&gt;</div><div class="line">      i % Attribute(<span class="keyword">null</span>, <span class="string">"alt"</span>, <span class="string">"TODO"</span>, Null)</div><div class="line">    <span class="keyword">case</span> _ =&gt; n</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> result = <span class="keyword">new</span> RuleTransformer(imgRule).transform(a)</div><div class="line">XML.save(<span class="string">"./test.xml"</span>, result(<span class="number">0</span>), <span class="string">"UTF-8"</span>, <span class="keyword">false</span>,</div><div class="line">  DocType(<span class="string">"html"</span>, doc.dtd.externalID, Nil))</div></pre></td></tr></table></figure>
 
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
@@ -170,18 +170,18 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/02/08/《快学scala》习题解答-第十五章-注解/" title="《快学scala》习题解答-第十五章-注解">
+ <a href="/2015/02/09/开源分布式配置中心选型/" title="开源分布式配置中心选型">
   <strong>上一篇：</strong><br/>
   <span>
-  《快学scala》习题解答-第十五章-注解</span>
+  开源分布式配置中心选型</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/02/08/《快学scala》习题解答-第十四章-模式匹配和样例集合/"  title="《快学scala》习题解答-第十四章-模式匹配和样例集合">
+<a href="/2015/02/08/《快学scala》习题解答-第十五章-注解/"  title="《快学scala》习题解答-第十五章-注解">
  <strong>下一篇：</strong><br/> 
- <span>《快学scala》习题解答-第十四章-模式匹配和样例集合
+ <span>《快学scala》习题解答-第十五章-注解
 </span>
 </a>
 </div>
@@ -253,13 +253,13 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/基础/" title="基础">基础<sup>2</sup></a></li>
 		
-			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>1</sup></a></li>
-		
 			<li><a href="/tags/阅读方法/" title="阅读方法">阅读方法<sup>1</sup></a></li>
 		
-			<li><a href="/tags/etcd/" title="etcd">etcd<sup>1</sup></a></li>
-		
 			<li><a href="/tags/nosql/" title="nosql">nosql<sup>1</sup></a></li>
+		
+			<li><a href="/tags/mongodb/" title="mongodb">mongodb<sup>1</sup></a></li>
+		
+			<li><a href="/tags/etcd/" title="etcd">etcd<sup>1</sup></a></li>
 		
 			<li><a href="/tags/zookeeper/" title="zookeeper">zookeeper<sup>1</sup></a></li>
 		
@@ -269,6 +269,10 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		
 			<li><a href="/tags/环境变量/" title="环境变量">环境变量<sup>1</sup></a></li>
 		
+			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
 			<li><a href="/tags/命令行/" title="命令行">命令行<sup>1</sup></a></li>
 		
 			<li><a href="/tags/sentry/" title="sentry">sentry<sup>1</sup></a></li>
@@ -276,10 +280,6 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 			<li><a href="/tags/java/" title="java">java<sup>1</sup></a></li>
 		
 			<li><a href="/tags/监控/" title="监控">监控<sup>1</sup></a></li>
-		
-			<li><a href="/tags/书单/" title="书单">书单<sup>1</sup></a></li>
-		
-			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
 		
 		</ul>
 </div>
