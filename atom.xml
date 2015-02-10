@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-10T10:30:18.070Z</updated>
+  <updated>2015-02-10T10:36:46.441Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://vernonzheng.com/2015/02/09/%E5%BC%80%E6%BA%90%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E9%80%89%E5%9E%8B/"/>
     <id>http://vernonzheng.com/2015/02/09/开源分布式配置中心选型/</id>
     <published>2015-02-09T10:23:08.000Z</published>
-    <updated>2015-02-10T10:30:09.000Z</updated>
+    <updated>2015-02-10T10:36:36.000Z</updated>
     <content type="html"><![CDATA[<h1 id="一、目标">一、目标</h1>
 <p>实现分布式配置中心：<br>（1）集中管理外部依赖的服务配置和服务内部配置<br>（2）提供web管理平台进行配置和查询<br>（3）支持服务注册与发现<br>（4）支持客户端拉取配置<br>（5）支持订阅与发布，配置变更主动通知到client，实时变更配置</p>
 <p>备注：client为nodeJS，java等</p>
@@ -88,7 +88,19 @@
 <h4 id="2-6-4-1_综合实际情况">2.6.4.1 综合实际情况</h4>
 <p>线上已有zookeeper集群，考虑部署成本，避免踩坑，和zookeeper稳定和成熟配套工具，风险等，建议基于zookeeper进行封装开发。<br>如果小型集群，也是可以尝试etcd，毕竟架构部署简单省事。</p>
 <hr>
-<p>参考：<br><img src="http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/" alt="Open-Source Service Discovery"><br><img src="http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle" alt="etcd：从应用场景到实现原理的全方位解读"><br><img src="http://www.infoq.com/cn/news/2014/07/etcd-cluster-discovery" alt="etcd：用于服务发现的键值存储系统"><br><img src="http://blog.liuts.com/post/242/" alt="构建一个高可用及自动发现的Docker基础架构-HECD[原创]"><br><img src="http://www.infoq.com/cn/articles/coreos-analyse-etcd/" alt="CoreOS 实战：剖析 etcd"><br><img src="http://code.taobao.org/p/diamond/wiki/index/" alt="diamond wiki"><br><img src="https://github.com/knightliao/disconf/wiki" alt="disconf github"><br><img src="https://github.com/coreos/etcd" alt="etcd github"><br><img src="http://timyang.net/distributed/paxos-scenarios/" alt="Paxos在大型系统中常见的应用场景"><br><img src="http://raftconsensus.github.io/" alt="The Raft Consensus Algorithm"></p>
+<p>参考：</p>
+<ul>
+<li>Open-Source Service Discovery：<a href="http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/" target="_blank" rel="external">http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/</a></li>
+<li>etcd：从应用场景到实现原理的全方位解读：<a href="http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle" target="_blank" rel="external">http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle</a></li>
+<li>etcd：用于服务发现的键值存储系统：<a href="http://www.infoq.com/cn/news/2014/07/etcd-cluster-discovery" target="_blank" rel="external">http://www.infoq.com/cn/news/2014/07/etcd-cluster-discovery</a></li>
+<li>构建一个高可用及自动发现的Docker基础架构-HECD[原创]：<a href="http://blog.liuts.com/post/242/" target="_blank" rel="external">http://blog.liuts.com/post/242/</a></li>
+<li>CoreOS 实战：剖析 etcd：<a href="http://www.infoq.com/cn/articles/coreos-analyse-etcd/" target="_blank" rel="external">http://www.infoq.com/cn/articles/coreos-analyse-etcd/</a></li>
+<li>diamond wiki：<a href="http://code.taobao.org/p/diamond/wiki/index/" target="_blank" rel="external">http://code.taobao.org/p/diamond/wiki/index/</a></li>
+<li>disconf github：<a href="https://github.com/knightliao/disconf/wiki" target="_blank" rel="external">https://github.com/knightliao/disconf/wiki</a></li>
+<li>etcd github：<a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a></li>
+<li>Paxos在大型系统中常见的应用场景：<a href="http://timyang.net/distributed/paxos-scenarios/" target="_blank" rel="external">http://timyang.net/distributed/paxos-scenarios/</a></li>
+<li>The Raft Consensus Algorithm：<a href="http://raftconsensus.github.io/" target="_blank" rel="external">http://raftconsensus.github.io/</a></li>
+</ul>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
 ]]></content>
     <summary type="html">
