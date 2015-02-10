@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-10T09:08:49.409Z</updated>
+  <updated>2015-02-10T10:30:18.070Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -19,43 +19,80 @@
     <link href="http://vernonzheng.com/2015/02/09/%E5%BC%80%E6%BA%90%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E9%80%89%E5%9E%8B/"/>
     <id>http://vernonzheng.com/2015/02/09/开源分布式配置中心选型/</id>
     <published>2015-02-09T10:23:08.000Z</published>
-    <updated>2015-02-09T10:36:05.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="一、目标">一、目标</h2>
+    <updated>2015-02-10T10:30:09.000Z</updated>
+    <content type="html"><![CDATA[<h1 id="一、目标">一、目标</h1>
 <p>实现分布式配置中心：<br>（1）集中管理外部依赖的服务配置和服务内部配置<br>（2）提供web管理平台进行配置和查询<br>（3）支持服务注册与发现<br>（4）支持客户端拉取配置<br>（5）支持订阅与发布，配置变更主动通知到client，实时变更配置</p>
 <p>备注：client为nodeJS，java等</p>
-<h2 id="二、开源解决方案调研">二、开源解决方案调研</h2>
-<h3 id="2-1_disconf">2.1 disconf</h3>
+<h1 id="二、开源解决方案调研">二、开源解决方案调研</h1>
+<h2 id="2-1_disconf">2.1 disconf</h2>
 <p>百度开源<br>与spring集成的很好，有web管理，client只支持java。</p>
-<p><strong>介绍</strong><br><a href="https://github.com/knightliao/disconf/wiki" target="_blank" rel="external">https://github.com/knightliao/disconf/wiki</a></p>
-<p><strong>源码</strong><br><a href="https://github.com/knightliao/disconf" target="_blank" rel="external">https://github.com/knightliao/disconf</a></p>
-<h3 id="2-2_diamond">2.2 diamond</h3>
+<h3 id="2-1-1_介绍">2.1.1 介绍</h3>
+<p><a href="https://github.com/knightliao/disconf/wiki" target="_blank" rel="external">https://github.com/knightliao/disconf/wiki</a></p>
+<h3 id="2-1-2_源码">2.1.2 源码</h3>
+<p><a href="https://github.com/knightliao/disconf" target="_blank" rel="external">https://github.com/knightliao/disconf</a></p>
+<h2 id="2-2_diamond">2.2 diamond</h2>
 <p>阿里开源<br>阿里内部应用广泛，由http server(nameservers), diamond-server ，web组成，diamond-server连接同一个mysql，数据同步通过mysql dump文件同步（同步效率？），支持订阅发布，client只支持java。</p>
-<p><strong>介绍</strong><br><a href="http://code.taobao.org/p/diamond/wiki/index/" target="_blank" rel="external">http://code.taobao.org/p/diamond/wiki/index/</a></p>
-<p><strong>源码</strong><br><a href="http://code.taobao.org/svn/diamond/trunk" target="_blank" rel="external">http://code.taobao.org/svn/diamond/trunk</a> </p>
-<h3 id="2-3_doozer">2.3 doozer</h3>
-<p>设计倾向于实时的数据变更通知，数据全部放于内存，不会持久化文件。（有独立工具支持，不知支持性怎样？）</p>
-<h3 id="2-4_etcd">2.4 etcd</h3>
+<h2 id="2-2-1_介绍">2.2.1 介绍</h2>
+<p><a href="http://code.taobao.org/p/diamond/wiki/index/" target="_blank" rel="external">http://code.taobao.org/p/diamond/wiki/index/</a></p>
+<h2 id="2-2-2_源码">2.2.2 源码</h2>
+<p><a href="http://code.taobao.org/svn/diamond/trunk" target="_blank" rel="external">http://code.taobao.org/svn/diamond/trunk</a> </p>
+<h2 id="2-3_doozer">2.3 doozer</h2>
+<p>已停止更新，设计倾向于实时的数据变更通知，数据全部放于内存，不会持久化文件。（有独立工具支持，不知支持性怎样？）</p>
+<h2 id="2-4_etcd">2.4 etcd</h2>
 <p>CoreOS开源。<br>轻量级分布式key-value数据库，同时为集群环境的服务发现和注册而设计。<br>它提供了数据TTL失效（通过TTL更新来判断机器下线，来避免一定的网络分区问题）、数据改变监视、多值、目录监听、分布式锁原子操作等功能，来管理节点状态。</p>
-<p><strong>特性</strong></p>
+<h3 id="2-4-1_特性">2.4.1 特性</h3>
 <ul>
 <li>简单: curl可访问的用户的API（HTTP+JSON）</li>
 <li>安全: 可选的SSL客户端证书认证</li>
 <li>快速: 单实例每秒 1000 次写操作</li>
 <li>可靠: 使用Raft保证一致性<br>注：zookeeper使用的比较复杂基于Paxos的Zab协议，etcd使用的Standford新的一致性算法Raft，概念上会简单些，0.4.6版本依赖于go-raft，0.5.0以上重新设计。</li>
 </ul>
-<p><strong>目前版本</strong><br>网上的介绍文章基本停留到稳定版0.4.6上。目前版本已从0.x直接跳到了2.0版本。（2015-1-28）<br><a href="https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/" target="_blank" rel="external">https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/</a><br>2.0介绍（需要翻墙）：<br><a href="https://www.youtube.com/watch?v=z6tjawXZ71E" target="_blank" rel="external">https://www.youtube.com/watch?v=z6tjawXZ71E</a></p>
+<h3 id="2-4-2_目前版本">2.4.2 目前版本</h3>
+<p>网上的介绍文章基本停留到稳定版0.4.6上。目前版本已从0.x直接跳到了2.0版本。（2015-1-28）<br><a href="https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/" target="_blank" rel="external">https://coreos.com/blog/etcd-2.0-release-first-major-stable-release/</a><br>2.0介绍（需要翻墙）：<br><a href="https://www.youtube.com/watch?v=z6tjawXZ71E" target="_blank" rel="external">https://www.youtube.com/watch?v=z6tjawXZ71E</a></p>
 <p>使用go语言，部署简单，同时项目较年轻。</p>
-<p><strong>介绍</strong><br>从实现原理到应用场景多方位解读（2015-1-30）<br><a href="http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle" target="_blank" rel="external">http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle</a></p>
-<p><strong>源码</strong><br><a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a></p>
-<h3 id="2-5_zookeeper">2.5 zookeeper</h3>
+<h3 id="2-4-3_介绍">2.4.3 介绍</h3>
+<p>从实现原理到应用场景多方位解读（2015-1-30）<br><a href="http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle" target="_blank" rel="external">http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle</a></p>
+<h3 id="2-4-4_源码">2.4.4 源码</h3>
+<p><a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a></p>
+<h2 id="2-5_zookeeper">2.5 zookeeper</h2>
 <p>成熟的分布式配置解决方案，待续。。</p>
-<h3 id="2-6_比较etcd和zookeeper">2.6 比较etcd和zookeeper</h3>
+<h2 id="2-6_比较etcd和zookeeper">2.6 比较etcd和zookeeper</h2>
 <p>Jason Wilder的一篇博客分别对常见的服务发现开源项目Zookeeper、Doozer、etcd进行了总结。<br><a href="http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/" target="_blank" rel="external">http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/</a></p>
-<p>待续。。</p>
+<p>重点关注etcd是否能取代zookeeper。</p>
+<h3 id="2-6-1_性能">2.6.1 性能</h3>
+<p>只从实现语言上考虑，golang性能近c，java在大型集群的多线程能力较好，总体相差不多。都能支持上千节点。</p>
+<h3 id="2-6-2_功能性：关注订阅发布、ttl特性">2.6.2 功能性：关注订阅发布、ttl特性</h3>
+<h4 id="2-6-2-1_订阅发布">2.6.2.1 订阅发布</h4>
+<p>etcd 可以使用递归的Watcher，递归式的监控应用（主题）目录下所有信息的变动。这样就实现了机器IP（消息）变动的时候，能够实时通知到收集器调整任务分配。</p>
+<p><strong>递归订阅</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">etcd递归 watcher</div><div class="line">$ etcdctl watch /foo-service --recursive</div><div class="line">$ curl -L http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4001</span>/v2/keys/foo-service?wait=<span class="literal">true</span>\&recursive=<span class="literal">true</span></div></pre></td></tr></table></figure>
+
+<p><strong>订阅通知</strong>，在/foo-service增加container2，返回：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">etcd 递归监听 返回</div><div class="line">$ etcdctl watch /foo-service --recursive</div><div class="line">localhost:<span class="number">2222</span></div><div class="line">$ curl -L http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4001</span>/v2/keys/foo-service?wait=<span class="literal">true</span>\&recursive=<span class="literal">true</span></div><div class="line">{<span class="string">"action"</span>:<span class="string">"set"</span>,<span class="string">"node"</span>:{<span class="string">"key"</span>:<span class="string">"/foo-service/container2"</span>,<span class="string">"value"</span>:<span class="string">"localhost:2222"</span>,<span class="string">"modifiedIndex"</span>:<span class="number">23</span>,<span class="string">"createdIndex"</span>:<span class="number">23</span>}}</div></pre></td></tr></table></figure>
+
+<h4 id="2-6-2-2_TTL机制">2.6.2.2 TTL机制</h4>
+<p><strong>更新方式</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">etcd ttl更新</div><div class="line">$ etcdctl <span class="keyword">set</span> /foo <span class="string">"Expiring Soon"</span> --ttl <span class="number">20</span></div><div class="line">Expiring Soon</div><div class="line">$ curl -L -X PUT http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4001</span>/v2/keys/foo?ttl=<span class="number">20</span> <span class="operator">-d</span> value=bar</div><div class="line">{<span class="string">"action"</span>:<span class="string">"set"</span>,<span class="string">"node"</span>:{<span class="string">"key"</span>:<span class="string">"/foo"</span>,<span class="string">"value"</span>:<span class="string">"bar"</span>,<span class="string">"expiration"</span>:<span class="string">"2014-02-10T19:54:49.357382223Z"</span>,<span class="string">"ttl"</span>:<span class="number">20</span>,<span class="string">"modifiedIndex"</span>:<span class="number">31</span>,<span class="string">"createdIndex"</span>:<span class="number">31</span>}}</div></pre></td></tr></table></figure>
+
+<p><strong>get ttl过期的数据</strong>，返回errorCode：100</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">etcd ttl 过期数据返回</div><div class="line">$ etcdctl get /foo</div><div class="line">Error: <span class="number">100</span>: Key not found (/foo) [<span class="number">32</span>]</div><div class="line">$ curl -L http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4001</span>/v2/keys/foo</div><div class="line">{<span class="string">"errorCode"</span>:<span class="number">100</span>,<span class="string">"message"</span>:<span class="string">"Key not found"</span>,<span class="string">"cause"</span>:<span class="string">"/foo"</span>,<span class="string">"index"</span>:<span class="number">32</span>}</div></pre></td></tr></table></figure>
+
+<h3 id="2-6-3_部署结构">2.6.3 部署结构</h3>
+<p>etcd支持<strong>普通节点</strong>模式和<strong>proxy模式</strong>两种：<br>启动设置集群大小，超过集群大小的etcd节点自动转化为proxy模式。</p>
+<h4 id="2-6-3-1_proxy模式">2.6.3.1 proxy模式</h4>
+<p>etcd作为一个反向代理把客户的请求转发给可用的etcd集群。这样，你就可以在每一台机器都部署一个Proxy模式的etcd作为本地服务，如果这些etcd Proxy都能正常运行，那么你的服务发现必然是稳定可靠的。<br>如图：</p>
+<p><img src="http://7te9ul.com1.z0.glb.clouddn.com/etcd_proxy" alt="etcd-proxy"> </p>
+<h3 id="2-6-4_总结">2.6.4 总结</h3>
+<p>etcd特性略胜于zookeeper两点：<br>（1）etcd在订阅发布机制上能提供的功能与zookeeper相似。但是更轻量级，使用api更简单，依赖少，可直接使用curl/http+json或etcdctl的方式。<br>（2）etcd的TTL机制能避免一定的网络分区问题（如网络间断误认为注册服务下线）</p>
+<p>zookeeper胜于etcd两点：<br>（1）成熟，稳定性高，多数坑已被踩过。<br>（2）配套工具：etcd没有web监控平台，client有node-etcd 3.0，较年轻。zookeeper有简单易用的exhibitor监控，java client的curator替代zkclient，非常成熟易用，避免掉坑。</p>
+<h4 id="2-6-4-1_综合实际情况">2.6.4.1 综合实际情况</h4>
+<p>线上已有zookeeper集群，考虑部署成本，避免踩坑，和zookeeper稳定和成熟配套工具，风险等，建议基于zookeeper进行封装开发。<br>如果小型集群，也是可以尝试etcd，毕竟架构部署简单省事。</p>
+<hr>
+<p>参考：<br><img src="http://jasonwilder.com/blog/2014/02/04/service-discovery-in-the-cloud/" alt="Open-Source Service Discovery"><br><img src="http://www.infoq.com/cn/articles/etcd-interpretation-application-scenario-implement-principle" alt="etcd：从应用场景到实现原理的全方位解读"><br><img src="http://www.infoq.com/cn/news/2014/07/etcd-cluster-discovery" alt="etcd：用于服务发现的键值存储系统"><br><img src="http://blog.liuts.com/post/242/" alt="构建一个高可用及自动发现的Docker基础架构-HECD[原创]"><br><img src="http://www.infoq.com/cn/articles/coreos-analyse-etcd/" alt="CoreOS 实战：剖析 etcd"><br><img src="http://code.taobao.org/p/diamond/wiki/index/" alt="diamond wiki"><br><img src="https://github.com/knightliao/disconf/wiki" alt="disconf github"><br><img src="https://github.com/coreos/etcd" alt="etcd github"><br><img src="http://timyang.net/distributed/paxos-scenarios/" alt="Paxos在大型系统中常见的应用场景"><br><img src="http://raftconsensus.github.io/" alt="The Raft Consensus Algorithm"></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h2 id="一、目标">一、目标</h2>
+    <![CDATA[<h1 id="一、目标">一、目标</h1>
 <p>实现分布式配置中心：<br>（1）集中管理外部依赖的服务配置和服务内部配置<br>（2）提供web管理平台进行配置和查询<br>（3）支持服务注册与发现<br>（4）支持客户端拉取配置<br>（5）支持订阅与发布，配置变更主动]]>
     </summary>
     
@@ -66,66 +103,6 @@
       <category term="diamond" scheme="http://vernonzheng.com/tags/diamond/"/>
     
       <category term="中间件" scheme="http://vernonzheng.com/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[《快学scala》习题解答-第十六章-XML处理]]></title>
-    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0-XML%E5%A4%84%E7%90%86/"/>
-    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十六章-XML处理/</id>
-    <published>2015-02-08T09:51:42.000Z</published>
-    <updated>2015-02-10T09:08:42.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
-<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
-<h2 id="第十六章_XML处理">第十六章 XML处理</h2>
-<p><strong>16.1</strong></p>
-<p><fred>(0)得到什么？<fred>(0)(0)呢？为什么？</fred></fred></p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div><div class="line"></div><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>)(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div></pre></td></tr></table></figure>
-
-<p>因为都是scala.xml.Node，是NodeSeq的子类，等同于长度为1的序列。</p>
-<p><strong>16.2</strong><br>如下代码的值是什么？</p>
-<p><ul><br>  <li>Opening bracket:[</li><br>  <li>Closing bracket:]</li><br>  <li>Opening bracket:{</li><br>  <li>Closing bracket:}</li><br></ul><br>你如何修复它？</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; &lt;ul&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:\{\{&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:\}\}&lt;/li&gt;</div><div class="line">     | &lt;/ul&gt;</div><div class="line">res9: scala.xml.Elem =</div><div class="line">&lt;ul&gt;</div><div class="line">  &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">  &lt;li&gt;Opening bracket:{&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:}&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
-
-<p>花括号作为字面量，需要连写两个</p>
-<p><strong>16.3</strong><br>对比<br>  <li>Fred</li> match { case <li>{Text(t)}</li> =&gt; t }<br>和<br>  <li>{“Fred”}</li> match { case <li>{Text(t)}</li> =&gt; t}<br>为什么它们的行为不同？</p>
-<p>scala 2.11.4查不到Text api。。略</p>
-<p><strong>16.4</strong><br>读取一个XHTML文件并打印所有不带alt属性的img元素</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).filterNot(_.attributes(<span class="string">"alt"</span>).isDefined)</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; <span class="keyword">if</span> (!n.attributes(<span class="string">"alt"</span>)) =&gt; n</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.5</strong><br>打印XHTML文件中所有图像的名称，即打印所有位于img元素内的src属性值</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).flatMap(_.attributes(<span class="string">"src"</span>))</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; =&gt; Some(n.attributes(<span class="string">"src"</span>))</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.6</strong><br>读取XHTML文件并打印一个包含了文件中给出的所有超链接及其url的表格。即，打印所有a元素的child文本和href属性。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> links = (html \\ <span class="string">"a"</span>) map { (x: Node) =&gt; (x.attribute(<span class="string">"href"</span>).getOrElse(<span class="string">""</span>).toString, x.text) } filter {_._1.startsWith(<span class="string">"http"</span>)}</div><div class="line"></div><div class="line">println(links.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.7</strong><br>编写一个函数，带一个类型为Map[String,String]的参数，返回一个dl元素，其中针对映射中每个键对应有一个dt，每个值对应有一个dd，例如：<br>Map(“A”-&gt;”1”,”B”-&gt;”2”)<br>应产出<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl></p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> mapToHTML(map: Map[String, String]) = {</div><div class="line">  &lt;dl&gt;{<span class="keyword">for</span> ((k,v) &lt;- map) <span class="keyword">yield</span> &lt;dt&gt;{k}&lt;/dt&gt;&lt;dd&gt;{v}&lt;/dd&gt;}&lt;/dl&gt;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = Map(<span class="string">"A"</span> -&gt; <span class="string">"1"</span>, <span class="string">"B"</span> -&gt; <span class="string">"2"</span>)</div><div class="line"></div><div class="line">println(mapToHTML(x))</div></pre></td></tr></table></figure>
-
-<p><strong>16.8</strong><br>编写一个函数，接受dl元素，将它转成Map[String,String]。该函数应该是前一个练习中的<br>反向处理，前提是所有dt后代都是唯一的。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> htmlToMap(str:String):Map[String,String] = {</div><div class="line">  <span class="keyword">val</span> dtMap = (str \\ <span class="string">"dt"</span>).toMap</div><div class="line">  <span class="keyword">val</span> ddMap = (str \\ <span class="string">"dd"</span>).toMap</div><div class="line">  dtMap.zip(ddMap)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = &lt;dl&gt;&lt;dt&gt;A&lt;/dt&gt;&lt;dd&gt;<span class="number">1</span>&lt;/dd&gt;&lt;dt&gt;B&lt;/dt&gt;&lt;dd&gt;<span class="number">2</span>&lt;/dd&gt;&lt;/dl&gt;</div><div class="line">println(htmlToMap(html).mkString(<span class="string">","</span>))</div></pre></td></tr></table></figure>
-
-<p><strong>16.9</strong><br>对一个XHTML文档进行变换，对所有不带alt属性的img元素添加一个alt=”TODO”属性，其他内容完全不变。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(!_.attribute(alt)) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
-
-<p><strong>16.10</strong><br>编写一个函数，读取XHTML文档，执行前一个练习中的变换，并保存结果。确保保留了DTD以及所有CDATA内容。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-
-<hr>
-<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><]]>
-    </summary>
-    
-      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
-    
-      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
-    
-      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
     
   </entry>
   
@@ -182,6 +159,66 @@
 
 <p>禁用assert<br>-Xelide-below 2011<br>反编译此类javap -c Test$ 得到</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">factorial</span>(<span class="keyword">int</span>);</div><div class="line">  Code:</div><div class="line">   <span class="number">0</span>:   getstatic       #<span class="number">19</span>; <span class="comment">//Field scala/Predef$.MODULE$:Lscala/Predef$;</span></div><div class="line">   <span class="number">3</span>:   iload_1</div><div class="line">   <span class="number">4</span>:   iconst_0</div><div class="line">   <span class="number">5</span>:   if_icmple       <span class="number">12</span></div><div class="line">   <span class="number">8</span>:   iconst_1</div><div class="line">   <span class="number">9</span>:   goto    <span class="number">13</span></div><div class="line">   <span class="number">12</span>:  iconst_0</div><div class="line">   <span class="number">13</span>:  invokevirtual   #<span class="number">23</span>; <span class="comment">//Method scala/Predef$.assert:(Z)V</span></div><div class="line">   <span class="number">16</span>:  iload_1</div><div class="line">   <span class="number">17</span>:  ireturn</div><div class="line">......</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[《快学scala》习题解答-第十六章-XML处理]]></title>
+    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0-XML%E5%A4%84%E7%90%86/"/>
+    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十六章-XML处理/</id>
+    <published>2015-02-08T09:51:42.000Z</published>
+    <updated>2015-02-10T09:08:42.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十六章_XML处理">第十六章 XML处理</h2>
+<p><strong>16.1</strong></p>
+<p><fred>(0)得到什么？<fred>(0)(0)呢？为什么？</fred></fred></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div><div class="line"></div><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>)(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div></pre></td></tr></table></figure>
+
+<p>因为都是scala.xml.Node，是NodeSeq的子类，等同于长度为1的序列。</p>
+<p><strong>16.2</strong><br>如下代码的值是什么？</p>
+<p><ul><br>  <li>Opening bracket:[</li><br>  <li>Closing bracket:]</li><br>  <li>Opening bracket:{</li><br>  <li>Closing bracket:}</li><br></ul><br>你如何修复它？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; &lt;ul&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:\{\{&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:\}\}&lt;/li&gt;</div><div class="line">     | &lt;/ul&gt;</div><div class="line">res9: scala.xml.Elem =</div><div class="line">&lt;ul&gt;</div><div class="line">  &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">  &lt;li&gt;Opening bracket:{&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:}&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+
+<p>花括号作为字面量，需要连写两个</p>
+<p><strong>16.3</strong><br>对比<br>  <li>Fred</li> match { case <li>{Text(t)}</li> =&gt; t }<br>和<br>  <li>{“Fred”}</li> match { case <li>{Text(t)}</li> =&gt; t}<br>为什么它们的行为不同？</p>
+<p>scala 2.11.4查不到Text api。。略</p>
+<p><strong>16.4</strong><br>读取一个XHTML文件并打印所有不带alt属性的img元素</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).filterNot(_.attributes(<span class="string">"alt"</span>).isDefined)</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; <span class="keyword">if</span> (!n.attributes(<span class="string">"alt"</span>)) =&gt; n</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.5</strong><br>打印XHTML文件中所有图像的名称，即打印所有位于img元素内的src属性值</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).flatMap(_.attributes(<span class="string">"src"</span>))</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; =&gt; Some(n.attributes(<span class="string">"src"</span>))</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.6</strong><br>读取XHTML文件并打印一个包含了文件中给出的所有超链接及其url的表格。即，打印所有a元素的child文本和href属性。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> links = (html \\ <span class="string">"a"</span>) map { (x: Node) =&gt; (x.attribute(<span class="string">"href"</span>).getOrElse(<span class="string">""</span>).toString, x.text) } filter {_._1.startsWith(<span class="string">"http"</span>)}</div><div class="line"></div><div class="line">println(links.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.7</strong><br>编写一个函数，带一个类型为Map[String,String]的参数，返回一个dl元素，其中针对映射中每个键对应有一个dt，每个值对应有一个dd，例如：<br>Map(“A”-&gt;”1”,”B”-&gt;”2”)<br>应产出<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> mapToHTML(map: Map[String, String]) = {</div><div class="line">  &lt;dl&gt;{<span class="keyword">for</span> ((k,v) &lt;- map) <span class="keyword">yield</span> &lt;dt&gt;{k}&lt;/dt&gt;&lt;dd&gt;{v}&lt;/dd&gt;}&lt;/dl&gt;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = Map(<span class="string">"A"</span> -&gt; <span class="string">"1"</span>, <span class="string">"B"</span> -&gt; <span class="string">"2"</span>)</div><div class="line"></div><div class="line">println(mapToHTML(x))</div></pre></td></tr></table></figure>
+
+<p><strong>16.8</strong><br>编写一个函数，接受dl元素，将它转成Map[String,String]。该函数应该是前一个练习中的<br>反向处理，前提是所有dt后代都是唯一的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> htmlToMap(str:String):Map[String,String] = {</div><div class="line">  <span class="keyword">val</span> dtMap = (str \\ <span class="string">"dt"</span>).toMap</div><div class="line">  <span class="keyword">val</span> ddMap = (str \\ <span class="string">"dd"</span>).toMap</div><div class="line">  dtMap.zip(ddMap)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = &lt;dl&gt;&lt;dt&gt;A&lt;/dt&gt;&lt;dd&gt;<span class="number">1</span>&lt;/dd&gt;&lt;dt&gt;B&lt;/dt&gt;&lt;dd&gt;<span class="number">2</span>&lt;/dd&gt;&lt;/dl&gt;</div><div class="line">println(htmlToMap(html).mkString(<span class="string">","</span>))</div></pre></td></tr></table></figure>
+
+<p><strong>16.9</strong><br>对一个XHTML文档进行变换，对所有不带alt属性的img元素添加一个alt=”TODO”属性，其他内容完全不变。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(!_.attribute(alt)) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
+
+<p><strong>16.10</strong><br>编写一个函数，读取XHTML文档，执行前一个练习中的变换，并保存结果。确保保留了DTD以及所有CDATA内容。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
 
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
