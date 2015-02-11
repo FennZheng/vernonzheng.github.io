@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-10T15:31:36.240Z</updated>
+  <updated>2015-02-11T03:47:31.801Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -13,6 +13,59 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[《快学scala》习题解答-第十七章-类型参数]]></title>
+    <link href="http://vernonzheng.com/2015/02/10/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%B8%83%E7%AB%A0-%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0/"/>
+    <id>http://vernonzheng.com/2015/02/10/《快学scala》习题解答-第十七章-类型参数/</id>
+    <published>2015-02-10T15:38:42.000Z</published>
+    <updated>2015-02-11T03:47:23.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十七章_类型参数">第十七章 类型参数</h2>
+<p><strong>17.1</strong><br>定义一个不可变类Pair[T,S], 带一个swap方法，返回组件交换过位置的新对偶</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">T</span>,<span class="title">S</span>]<span class="params">(val t:T,val s:S)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap() = <span class="keyword">new</span> Pair(s,t)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>17.2</strong><br>定义一个可变类Pair[T]，带一个swap方法，交换对偶中组件的位置。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">T</span>]<span class="params">(val s:T,val t:T)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap() = <span class="keyword">new</span> Pair(t,s)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>17.3</strong><br>给定类Pair[T, S] ，编写一个泛型方法swap，接受对偶作为参数并返回组件交换过位置的新对偶。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">T</span>,<span class="title">S</span>]<span class="params">(val t:T, val s:S)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap[T,S](t:T,s:S) = <span class="keyword">new</span> Pair(s,t)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>17.4</strong><br>在17.3节中，如果我们想把Pair[Person]的第一个组件替换成Student，为什么不需要给replaceFirst方法定一个下界？</p>
+<p>因为Student是Person的子类，是可以转成T类型的，不必定义下界</p>
+<p><strong>17.5</strong><br>为什么RichInt实现的是Comparable[Int]而不是Comparable[RichInt]?</p>
+<p>T &lt;% Comparable[T] ,是隐含参数转化的，T是Int的时候将自动调用RichInt中的Comparable[RichInt]</p>
+<p><strong>17.6</strong><br>编写一个泛型方法middle，返回任何Iterable[T]的中间元素。举例来说，middle(“World”)应得到’r’。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> middle[T](iter:Iterable[T]):T={</div><div class="line">  <span class="keyword">val</span> seq = iter.toArray</div><div class="line">  seq(seq.length/<span class="number">2</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>17.7</strong><br>查看Iterable[+A]特质。哪些方法使用了类型参数A？为什么在这些方法中类型参数位于协变点？</p>
+<p>如min, max, last 等。这些方法都会返回A类型，所以位于协变点。</p>
+<p><strong>17.8</strong><br>在17.10节中，replaceFirst方法带有一个类型界定。为什么你不能对可变的Pair[T]定义一个等效的方法？<br>def replaceFirst<a href="newFirst: R" target="_blank" rel="external">R &gt;: T</a> { first = newFirst } //错误</p>
+<p>因为first是子类，newFirst是超类，超类不能被赋值给子类。</p>
+<p><strong>17.9</strong><br>在一个不可变类Pair[+T]中限制方法参数看上去可能有些奇怪。不过，先假定你可以在Pair[+T]定义<br>def replaceFirst(newFirst: T)<br>问题在于，该方法可能会被重写（以某种不可靠的方式）。构造出这样的一个示例。定义一个Pair[Double]的类型NastyDoublePair，重写replaceFirst方法，用newFirst的平方根来做新对偶。然后对实际类型为NastyDoublePair的Pair[Any]调用replaceFirst(“Hello”)。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Anyone resolve this, please contact me</span></div><div class="line"><span class="keyword">package</span> _1709 {</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[+<span class="title">T</span>]<span class="params">(val t:T, val s:T)</span> </span>{</div><div class="line">  <span class="keyword">def</span> replaceFirst[T](newFirst: T) {}</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NastyDoublePair</span>[<span class="title">Double</span>]<span class="params">(t1:Double, s1:Double)</span> <span class="keyword">extends</span> <span class="title">Pair</span>[<span class="title">Double</span>]<span class="params">(t1,s1)</span> </span>{</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> replaceFirst(newFirst: Double) ={</div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     *  error: type mismatch;</div><div class="line">       found   : Double(in class NastyDoublePair)</div><div class="line">       required: scala.Double</div><div class="line">                 new NastyDoublePair(newFirst,math.sqrt(newFirst))</div><div class="line">     */</div><div class="line">    <span class="keyword">new</span> NastyDoublePair(newFirst,math.sqrt(newFirst))</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">test</span> <span class="keyword">extends</span> <span class="title">App</span> </span>{</div><div class="line">  <span class="keyword">val</span> p: Pair[Any] = <span class="keyword">new</span> NastyDoublePair(<span class="number">1.0</span>, <span class="number">2.0</span>)</div><div class="line">  p.replaceFirst(<span class="string">"Hello"</span>)</div><div class="line">}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>17.10</strong><br>给定可变类Pair[S,T]，使用类型约束定义一个swap方法，当类型参数相同时可以被调用。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">S</span>,<span class="title">T</span>]<span class="params">(val s:S, val t:T)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap(implicit env: S =:= T) = <span class="keyword">new</span> Pair(t,s)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[开源分布式配置中心选型]]></title>
@@ -119,66 +172,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[《快学scala》习题解答-第十六章-XML处理]]></title>
-    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0-XML%E5%A4%84%E7%90%86/"/>
-    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十六章-XML处理/</id>
-    <published>2015-02-08T09:51:42.000Z</published>
-    <updated>2015-02-10T15:31:20.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
-<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
-<h2 id="第十六章_XML处理">第十六章 XML处理</h2>
-<p><strong>16.1</strong></p>
-<p><fred>(0)得到什么？<fred>(0)(0)呢？为什么？</fred></fred></p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div><div class="line"></div><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>)(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div></pre></td></tr></table></figure>
-
-<p>因为都是scala.xml.Node，是NodeSeq的子类，等同于长度为1的序列。</p>
-<p><strong>16.2</strong><br>如下代码的值是什么？</p>
-<p><ul><br>  <li>Opening bracket:[</li><br>  <li>Closing bracket:]</li><br>  <li>Opening bracket:{</li><br>  <li>Closing bracket:}</li><br></ul><br>你如何修复它？</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; &lt;ul&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:\{\{&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:\}\}&lt;/li&gt;</div><div class="line">     | &lt;/ul&gt;</div><div class="line">res9: scala.xml.Elem =</div><div class="line">&lt;ul&gt;</div><div class="line">  &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">  &lt;li&gt;Opening bracket:{&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:}&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
-
-<p>花括号作为字面量，需要连写两个</p>
-<p><strong>16.3</strong><br>对比<br>  <li>Fred</li> match { case <li>{Text(t)}</li> =&gt; t }<br>和<br>  <li>{“Fred”}</li> match { case <li>{Text(t)}</li> =&gt; t}<br>为什么它们的行为不同？</p>
-<p>scala 2.11.4查不到Text api。。略</p>
-<p><strong>16.4</strong><br>读取一个XHTML文件并打印所有不带alt属性的img元素</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).filterNot(_.attributes(<span class="string">"alt"</span>).isDefined)</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; <span class="keyword">if</span> (!n.attributes(<span class="string">"alt"</span>)) =&gt; n</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.5</strong><br>打印XHTML文件中所有图像的名称，即打印所有位于img元素内的src属性值</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).flatMap(_.attributes(<span class="string">"src"</span>))</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; =&gt; Some(n.attributes(<span class="string">"src"</span>))</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.6</strong><br>读取XHTML文件并打印一个包含了文件中给出的所有超链接及其url的表格。即，打印所有a元素的child文本和href属性。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> links = (html \\ <span class="string">"a"</span>) map { (x: Node) =&gt; (x.attribute(<span class="string">"href"</span>).getOrElse(<span class="string">""</span>).toString, x.text) } filter {_._1.startsWith(<span class="string">"http"</span>)}</div><div class="line"></div><div class="line">println(links.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.7</strong><br>编写一个函数，带一个类型为Map[String,String]的参数，返回一个dl元素，其中针对映射中每个键对应有一个dt，每个值对应有一个dd，例如：<br>Map(“A”-&gt;”1”,”B”-&gt;”2”)<br>应产出<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl></p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> mapToHTML(map: Map[String, String]) = {</div><div class="line">  &lt;dl&gt;{<span class="keyword">for</span> ((k,v) &lt;- map) <span class="keyword">yield</span> &lt;dt&gt;{k}&lt;/dt&gt;&lt;dd&gt;{v}&lt;/dd&gt;}&lt;/dl&gt;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = Map(<span class="string">"A"</span> -&gt; <span class="string">"1"</span>, <span class="string">"B"</span> -&gt; <span class="string">"2"</span>)</div><div class="line"></div><div class="line">println(mapToHTML(x))</div></pre></td></tr></table></figure>
-
-<p><strong>16.8</strong><br>编写一个函数，接受dl元素，将它转成Map[String,String]。该函数应该是前一个练习中的<br>反向处理，前提是所有dt后代都是唯一的。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> htmlToMap(str:String):Map[String,String] = {</div><div class="line">  <span class="keyword">val</span> dtMap = (str \\ <span class="string">"dt"</span>).toMap</div><div class="line">  <span class="keyword">val</span> ddMap = (str \\ <span class="string">"dd"</span>).toMap</div><div class="line">  dtMap.zip(ddMap)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = &lt;dl&gt;&lt;dt&gt;A&lt;/dt&gt;&lt;dd&gt;<span class="number">1</span>&lt;/dd&gt;&lt;dt&gt;B&lt;/dt&gt;&lt;dd&gt;<span class="number">2</span>&lt;/dd&gt;&lt;/dl&gt;</div><div class="line">println(htmlToMap(html).mkString(<span class="string">","</span>))</div></pre></td></tr></table></figure>
-
-<p><strong>16.9</strong><br>对一个XHTML文档进行变换，对所有不带alt属性的img元素添加一个alt=”TODO”属性，其他内容完全不变。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(_.attribute(alt)==<span class="string">"NONE"</span>) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">  <span class="keyword">case</span> _ =&gt; html</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
-
-<p><strong>16.10</strong><br>编写一个函数，读取XHTML文档，执行前一个练习中的变换，并保存结果。确保保留了DTD以及所有CDATA内容。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> xml._</div><div class="line"><span class="keyword">import</span> xml.transform._</div><div class="line"><span class="keyword">import</span> xml.parsing.ConstructingParser</div><div class="line"><span class="keyword">import</span> xml.dtd.DocType</div><div class="line"><span class="keyword">import</span> java.io.File</div><div class="line"></div><div class="line"><span class="keyword">val</span> doc = ConstructingParser.fromFile(<span class="keyword">new</span> File(<span class="string">"./test.xml"</span>),</div><div class="line">  <span class="keyword">true</span>).document</div><div class="line"><span class="keyword">val</span> a = doc.docElem</div><div class="line"></div><div class="line"><span class="keyword">val</span> imgRule = <span class="keyword">new</span> RewriteRule {</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> transform(n:Node) = n <span class="keyword">match</span> {</div><div class="line">    <span class="keyword">case</span> i @ &lt;img&gt;{_*}&lt;/img&gt; <span class="keyword">if</span>(i.attribute(<span class="string">"alt"</span>) == None) =&gt;</div><div class="line">      i % Attribute(<span class="keyword">null</span>, <span class="string">"alt"</span>, <span class="string">"TODO"</span>, Null)</div><div class="line">    <span class="keyword">case</span> _ =&gt; n</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> result = <span class="keyword">new</span> RuleTransformer(imgRule).transform(a)</div><div class="line">XML.save(<span class="string">"./test.xml"</span>, result(<span class="number">0</span>), <span class="string">"UTF-8"</span>, <span class="keyword">false</span>,</div><div class="line">  DocType(<span class="string">"html"</span>, doc.dtd.externalID, Nil))</div></pre></td></tr></table></figure>
-
-<hr>
-<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><]]>
-    </summary>
-    
-      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
-    
-      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
-    
-      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[《快学scala》习题解答-第十五章-注解]]></title>
     <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0-%E6%B3%A8%E8%A7%A3/"/>
     <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十五章-注解/</id>
@@ -231,6 +224,66 @@
 
 <p>禁用assert<br>-Xelide-below 2011<br>反编译此类javap -c Test$ 得到</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">factorial</span>(<span class="keyword">int</span>);</div><div class="line">  Code:</div><div class="line">   <span class="number">0</span>:   getstatic       #<span class="number">19</span>; <span class="comment">//Field scala/Predef$.MODULE$:Lscala/Predef$;</span></div><div class="line">   <span class="number">3</span>:   iload_1</div><div class="line">   <span class="number">4</span>:   iconst_0</div><div class="line">   <span class="number">5</span>:   if_icmple       <span class="number">12</span></div><div class="line">   <span class="number">8</span>:   iconst_1</div><div class="line">   <span class="number">9</span>:   goto    <span class="number">13</span></div><div class="line">   <span class="number">12</span>:  iconst_0</div><div class="line">   <span class="number">13</span>:  invokevirtual   #<span class="number">23</span>; <span class="comment">//Method scala/Predef$.assert:(Z)V</span></div><div class="line">   <span class="number">16</span>:  iload_1</div><div class="line">   <span class="number">17</span>:  ireturn</div><div class="line">......</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[《快学scala》习题解答-第十六章-XML处理]]></title>
+    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0-XML%E5%A4%84%E7%90%86/"/>
+    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十六章-XML处理/</id>
+    <published>2015-02-08T09:51:42.000Z</published>
+    <updated>2015-02-10T15:31:20.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十六章_XML处理">第十六章 XML处理</h2>
+<p><strong>16.1</strong></p>
+<p><fred>(0)得到什么？<fred>(0)(0)呢？为什么？</fred></fred></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div><div class="line"></div><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>)(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div></pre></td></tr></table></figure>
+
+<p>因为都是scala.xml.Node，是NodeSeq的子类，等同于长度为1的序列。</p>
+<p><strong>16.2</strong><br>如下代码的值是什么？</p>
+<p><ul><br>  <li>Opening bracket:[</li><br>  <li>Closing bracket:]</li><br>  <li>Opening bracket:{</li><br>  <li>Closing bracket:}</li><br></ul><br>你如何修复它？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; &lt;ul&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:\{\{&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:\}\}&lt;/li&gt;</div><div class="line">     | &lt;/ul&gt;</div><div class="line">res9: scala.xml.Elem =</div><div class="line">&lt;ul&gt;</div><div class="line">  &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">  &lt;li&gt;Opening bracket:{&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:}&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+
+<p>花括号作为字面量，需要连写两个</p>
+<p><strong>16.3</strong><br>对比<br>  <li>Fred</li> match { case <li>{Text(t)}</li> =&gt; t }<br>和<br>  <li>{“Fred”}</li> match { case <li>{Text(t)}</li> =&gt; t}<br>为什么它们的行为不同？</p>
+<p>scala 2.11.4查不到Text api。。略</p>
+<p><strong>16.4</strong><br>读取一个XHTML文件并打印所有不带alt属性的img元素</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).filterNot(_.attributes(<span class="string">"alt"</span>).isDefined)</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; <span class="keyword">if</span> (!n.attributes(<span class="string">"alt"</span>)) =&gt; n</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.5</strong><br>打印XHTML文件中所有图像的名称，即打印所有位于img元素内的src属性值</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).flatMap(_.attributes(<span class="string">"src"</span>))</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; =&gt; Some(n.attributes(<span class="string">"src"</span>))</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.6</strong><br>读取XHTML文件并打印一个包含了文件中给出的所有超链接及其url的表格。即，打印所有a元素的child文本和href属性。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> links = (html \\ <span class="string">"a"</span>) map { (x: Node) =&gt; (x.attribute(<span class="string">"href"</span>).getOrElse(<span class="string">""</span>).toString, x.text) } filter {_._1.startsWith(<span class="string">"http"</span>)}</div><div class="line"></div><div class="line">println(links.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.7</strong><br>编写一个函数，带一个类型为Map[String,String]的参数，返回一个dl元素，其中针对映射中每个键对应有一个dt，每个值对应有一个dd，例如：<br>Map(“A”-&gt;”1”,”B”-&gt;”2”)<br>应产出<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> mapToHTML(map: Map[String, String]) = {</div><div class="line">  &lt;dl&gt;{<span class="keyword">for</span> ((k,v) &lt;- map) <span class="keyword">yield</span> &lt;dt&gt;{k}&lt;/dt&gt;&lt;dd&gt;{v}&lt;/dd&gt;}&lt;/dl&gt;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = Map(<span class="string">"A"</span> -&gt; <span class="string">"1"</span>, <span class="string">"B"</span> -&gt; <span class="string">"2"</span>)</div><div class="line"></div><div class="line">println(mapToHTML(x))</div></pre></td></tr></table></figure>
+
+<p><strong>16.8</strong><br>编写一个函数，接受dl元素，将它转成Map[String,String]。该函数应该是前一个练习中的<br>反向处理，前提是所有dt后代都是唯一的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> htmlToMap(str:String):Map[String,String] = {</div><div class="line">  <span class="keyword">val</span> dtMap = (str \\ <span class="string">"dt"</span>).toMap</div><div class="line">  <span class="keyword">val</span> ddMap = (str \\ <span class="string">"dd"</span>).toMap</div><div class="line">  dtMap.zip(ddMap)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = &lt;dl&gt;&lt;dt&gt;A&lt;/dt&gt;&lt;dd&gt;<span class="number">1</span>&lt;/dd&gt;&lt;dt&gt;B&lt;/dt&gt;&lt;dd&gt;<span class="number">2</span>&lt;/dd&gt;&lt;/dl&gt;</div><div class="line">println(htmlToMap(html).mkString(<span class="string">","</span>))</div></pre></td></tr></table></figure>
+
+<p><strong>16.9</strong><br>对一个XHTML文档进行变换，对所有不带alt属性的img元素添加一个alt=”TODO”属性，其他内容完全不变。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(_.attribute(alt)==<span class="string">"NONE"</span>) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">  <span class="keyword">case</span> _ =&gt; html</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
+
+<p><strong>16.10</strong><br>编写一个函数，读取XHTML文档，执行前一个练习中的变换，并保存结果。确保保留了DTD以及所有CDATA内容。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> xml._</div><div class="line"><span class="keyword">import</span> xml.transform._</div><div class="line"><span class="keyword">import</span> xml.parsing.ConstructingParser</div><div class="line"><span class="keyword">import</span> xml.dtd.DocType</div><div class="line"><span class="keyword">import</span> java.io.File</div><div class="line"></div><div class="line"><span class="keyword">val</span> doc = ConstructingParser.fromFile(<span class="keyword">new</span> File(<span class="string">"./test.xml"</span>),</div><div class="line">  <span class="keyword">true</span>).document</div><div class="line"><span class="keyword">val</span> a = doc.docElem</div><div class="line"></div><div class="line"><span class="keyword">val</span> imgRule = <span class="keyword">new</span> RewriteRule {</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> transform(n:Node) = n <span class="keyword">match</span> {</div><div class="line">    <span class="keyword">case</span> i @ &lt;img&gt;{_*}&lt;/img&gt; <span class="keyword">if</span>(i.attribute(<span class="string">"alt"</span>) == None) =&gt;</div><div class="line">      i % Attribute(<span class="keyword">null</span>, <span class="string">"alt"</span>, <span class="string">"TODO"</span>, Null)</div><div class="line">    <span class="keyword">case</span> _ =&gt; n</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> result = <span class="keyword">new</span> RuleTransformer(imgRule).transform(a)</div><div class="line">XML.save(<span class="string">"./test.xml"</span>, result(<span class="number">0</span>), <span class="string">"UTF-8"</span>, <span class="keyword">false</span>,</div><div class="line">  DocType(<span class="string">"html"</span>, doc.dtd.externalID, Nil))</div></pre></td></tr></table></figure>
 
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
@@ -1448,241 +1501,6 @@
       <category term="书单" scheme="http://vernonzheng.com/tags/%E4%B9%A6%E5%8D%95/"/>
     
       <category term="日记" scheme="http://vernonzheng.com/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[NodeJS实战经验总结]]></title>
-    <link href="http://vernonzheng.com/2014/12/28/NodeJS%E5%AE%9E%E6%88%98%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/"/>
-    <id>http://vernonzheng.com/2014/12/28/NodeJS实战经验总结/</id>
-    <published>2014-12-28T05:07:57.000Z</published>
-    <updated>2014-12-29T01:17:18.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>看完《Node.js 实战》，整理总结了觉得比较有价值的内容。
-</code></pre><h2 id="1、require">1、require</h2>
-<p>require是少有的同步i/o操作，请只在模块初始化时候使用require。</p>
-<h2 id="2、exports与module-exports的区别">2、exports与module.exports的区别</h2>
-<p>最终程序里导出的都是module.exports。<br>而exports只是对module.exports的一个<strong>全局引用</strong>，如exports.myFunc为module.exports.myFunc的简写。<br>为了不破坏exports对module.exports的引用，不能设置exports。<br>如果破坏了，修复方式：<br>module.exports = exports = Currency;</p>
-<h2 id="3、模块缓存与猴子补丁：">3、模块缓存与猴子补丁：</h2>
-<p>Node 能把模块作为对象缓存起来。<br>如果程序中的两个文件引入了相同的模块，第一个文件会把模块返回的数据存到程序的内存中，这样第二个文件就不用再去访问和计算模块的源文件了。<br>实际上在第二个引入是有机会修改缓存数据的。这种方式称为“猴子补丁”（monkey patching ）：让一个模块可以改变另一个模块的行为，开发人员可以不用创建它的新版本。</p>
-<h2 id="4、Node两种常用的响应逻辑组织方式">4、Node两种常用的响应逻辑组织方式</h2>
-<p><strong>一次性为回调函数，绑定的为事件</strong>（继承event emitter事件发射器，emit发射消息）</p>
-<p>这里给个event emitter的例子：</p>
-<p>扩展文件监视器</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**Watcher构造器**/</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Watch</span><span class="params">(watchDir, processDir)</span></span>{</div><div class="line">	<span class="keyword">this</span>.watchDir = watchDir;</div><div class="line">	<span class="keyword">this</span>.processedDir = processDir;</div><div class="line">}</div><div class="line"><span class="comment">/**继承eventEmitter行为**/</span></div><div class="line"><span class="keyword">var</span> events = <span class="built_in">require</span>(‘events’);</div><div class="line">util = reuqire(‘util’);</div><div class="line">util = util.inherits(Watcher, event.EventEmitter);</div><div class="line"></div><div class="line"><span class="comment">/**相当于Watcher.prototype = new events.EventEmitter();**/</span></div><div class="line"></div><div class="line"><span class="comment">/**再增加两个功能**/</span></div><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(‘fs’)</div><div class="line">, watchDir = ‘./watch’</div><div class="line">, processedDir = ‘./done’</div><div class="line"></div><div class="line">Watcher.prototype.watch = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">	<span class="keyword">var</span> watcher = <span class="keyword">this</span>;</div><div class="line">	fs.readdir(<span class="keyword">this</span>.watchDir, <span class="function"><span class="keyword">function</span><span class="params">(err, files)</span></span>{</div><div class="line">		<span class="keyword">if</span>(err) <span class="keyword">throw</span> err;</div><div class="line">		<span class="keyword">for</span>( <span class="keyword">var</span> index <span class="keyword">in</span> files){</div><div class="line">			watcher.emit(‘process’, files[index]);</div><div class="line">		}</div><div class="line">	}</div><div class="line">}</div><div class="line">Watcher.prototype.start = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">	<span class="keyword">var</span> watcher = <span class="keyword">this</span>;</div><div class="line">	fs.watchFile(watchDir, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">		watcher.watch();</div><div class="line">	});</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h2 id="5、减少if/else引起的回调嵌套">5、减少if/else引起的回调嵌套</h2>
-<p>有两种方式，可以结合到一起用：</p>
-<ul>
-<li>（1）嵌套间引入中间函数，通过函数调用拆分嵌套</li>
-<li>（2）尽早从函数中返回</li>
-</ul>
-<h2 id="6、Node的异步回调惯例">6、Node的异步回调惯例</h2>
-<p>Node大多数内置模块使用回调会带两个参数，一个是err或者er，一个是存放结果。</p>
-<h2 id="7、进程退出会等待事件异步完成">7、进程退出会等待事件异步完成</h2>
-<p>Node的事件轮询会跟踪还没有完成的异步逻辑，只要有未完成的异步逻辑，Node进程就不会退出。事件轮询会跟踪所有数据库连接，知道它们关闭，以防止Node退出。</p>
-<h2 id="8、在Node中使用闭包保留全局变量示例">8、在Node中使用闭包保留全局变量示例</h2>
-<p>示例，用闭包私有化color值：<br>这里有一个asyncFunction函数，对它的调用被封装到一个匿名函数里，参数为color。<br>这样你就可以马上执行这个匿名函数，把当前的 color 的值传给它。而color 变成了匿名函数内部的本地变量，当 匿名函数外面的color 值发生变化时，本地版的color 不会受影响。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncFunction</span><span class="params">(callback)</span></span>{</div><div class="line">     setTimeout(callback, <span class="number">200</span>);</div><div class="line">}</div><div class="line"><span class="keyword">var</span> color = ‘blue’;</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(color)</span></span>{</div><div class="line">     asyncFunction(<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">         <span class="built_in">console</span>.log(’The color is ‘ + color);</div><div class="line">     })(color);</div><div class="line">color = ‘green’;</div></pre></td></tr></table></figure>
-
-<h2 id="9、Node的content-length与chunk">9、Node的content-length与chunk</h2>
-<p>Node默认是chunk方式传输（块编码）。当设置content-length时，会隐含禁用Node的块编码。设置content-length传输，数据更少，提升性能。</p>
-<p><strong>注意</strong>：<br>content-length是字节长度，不是字符长度，一般用Buffer.byteLength(body)</p>
-<h2 id="10、__dirname">10、__dirname</h2>
-<p>__dirname表示文件所在目录的路径，在开发时，这个目录和当前工作目录（CWD）是同个目录，但是生产环境可能是从另外一个目录运行。</p>
-<h2 id="11、中间件设计惯例">11、中间件设计惯例</h2>
-<p>中间件一般有三个参数：请求，响应，回调函数next<br>为了提供可配置能力，中间件遵循一个惯例：用函数返回另一个函数（闭包）</p>
-<p>可配置中间件的<strong>基本结构</strong>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setup</span><span class="params">(options)</span></span>{</div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(req,res,next)</span></span>{</div><div class="line">	<span class="comment">//中间件逻辑</span></div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>使用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(setup({some:’options’}))</div></pre></td></tr></table></figure>
-
-<h2 id="12、错误处理中间件">12、错误处理中间件</h2>
-<p>错误处理中间件与普通中间三个参数不同，多了第一个参数err，如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">errorHandler</span><span class="params">()</span></span>{</div><div class="line">	<span class="keyword">var</span> env = process.env.NODE_ENV || ‘development’;</div><div class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">(err, req, res, next)</span></span>{</div><div class="line">		res.statusCode = <span class="number">500</span>;</div><div class="line">		<span class="keyword">switch</span>(env){</div><div class="line">		<span class="keyword">case</span> ‘development’:</div><div class="line">			res.setHeader(‘content-type’, ‘application/json’);</div><div class="line">			res.end(<span class="built_in">JSON</span>.stringify(err));</div><div class="line">			<span class="keyword">break</span>;</div><div class="line">		<span class="keyword">default</span>:</div><div class="line">			res.end(’Server error’);</div><div class="line">		}</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>当Connect遇到错误，它会跳过后续的中间件，只调用错误处理中间件。</strong></p>
-<p>在使用connect时，错误处理有三种方式：</p>
-<ul>
-<li>（1）使用Connect 默认的错误处理器；</li>
-<li>（2）自己处理程序错误；</li>
-<li>（3）使用多个错误处理中间件组件。</li>
-</ul>
-<p>第三种给个示例：<br>多个错误处理器的实现：<br>api挂载在/api上：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> api = connect()</div><div class="line">	.use(users)</div><div class="line">	.use(pets)</div><div class="line">	.use(errorHandler);</div><div class="line"></div><div class="line"><span class="keyword">var</span> app = connec()</div><div class="line">	.use(hello)</div><div class="line">	.use(<span class="string">'/api'</span>, api)</div><div class="line">	.use(errorPage)</div><div class="line">	.listen(<span class="number">3000</span>);</div></pre></td></tr></table></figure>
-
-<p><img src="http://7te9ul.com1.z0.glb.clouddn.com/nodejs_in_action_duplicate_error_handle.png" alt="connect_dumplicate_error"><br>其中errorHandler处理来自api的所有错误，error处理来自app的所有错误。</p>
-<h2 id="13、connect中间件">13、connect中间件</h2>
-<p>包括：</p>
-<ul>
-<li>（1）cookieParser：为后续中间件提供req.cookies和req.signedCookies，<br>设置cookie这样用：res.setHeader(’Set-Cookie’,’’)</li>
-<li>（2）bodyParser：为后续中间件提供req.body和req.files</li>
-<li>（3）limit：基于给定字节长度限制请求主体的大小。必须用在bodyParser中间件之前，防止攻击。<br>更灵活的使用：</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">app.use(type(‘application/x-www-form-urlencoded’, connect.limit(‘<span class="number">64</span>kb’))</div><div class="line">app.use(type(‘appication/json’, connect.limit(‘<span class="number">32</span>kb’)))</div></pre></td></tr></table></figure>
-
-<ul>
-<li>（4）query：为后续中间件提供req.query</li>
-<li>（5）logger：将http请求的信息输出到stdout或日志文件之类的流中</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.user(connect.logger(‘dev’))</div></pre></td></tr></table></figure>
-
-<p>输出有颜色区分的日志，便于开发调试<br><strong>两种输出日志频率</strong><br>immediate，表示一收到请求，就写日志。<br>buffer，以毫秒为单位，指定缓冲区刷新的时间间隔。</p>
-<ul>
-<li>（6）favicon：响应/favicon.ico http请求。通常放在中间件logger前面，这样它就不会出现在你的日志中了</li>
-<li>（7）methodOverride：可以替不能使用正确请求方法的浏览器仿造req.method,依赖于bodyParser</li>
-<li>（8）vhost：根据制定的主机名（如nodejs.org)使用给定的中间件和http服务器实例<br>可以做反向代理，缺点：一个网站崩溃，他的所有网站都会崩溃，一个都在同一个进程</li>
-<li>（9）session：为用户设置一个http回话，并提供一个可以跨域请求的持久化req.session对象，依赖于cookieParser</li>
-<li>（10）basicAuth：为程序提供http基础认证</li>
-<li>（11）csrf：防止http表单中的跨站请求仿造攻击，依赖于session</li>
-<li>（12）errorHandler：当出现错误时把堆栈跟踪信息返回给客户端。在开发时使用，不要在生产环境中使用</li>
-<li>（13）static：把制定目录中的文件发给http客户端，跟connect的挂在功能配合得很好<br>返回./public目录下的静态资源文件：</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(connect.static(‘public’));</div></pre></td></tr></table></figure>
-
-<p>默认请求/js/test.js，会去.public/js/test.js去查找。<br>使用带挂载的static</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(‘/app/files’, connect.static(‘public’));</div></pre></td></tr></table></figure>
-
-<ul>
-<li>（14）compress：用gzip压缩优化http响应</li>
-<li>（15）directory：为http客户端提供目录清单服务，基于客户端的accept请求（普通文件，son或html）提供经过优化的结果</li>
-</ul>
-<h2 id="14、_Express中两种渲染视图方式">14、 Express中两种渲染视图方式</h2>
-<ul>
-<li>（1）在程序中使用app.render（）</li>
-<li>（2）在请求或者响应层用res.render()</li>
-</ul>
-<h3 id="14-1_视图的查找设置">14.1 视图的查找设置</h3>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.set(‘views’,__dirname+’/views’);</div></pre></td></tr></table></figure>
-
-<h3 id="14-2_设置模板引擎">14.2 设置模板引擎</h3>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">app.set(‘view engine’, ‘jade’);</div><div class="line">app.get(‘/‘, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">     <span class="comment">/**假定为.jade**/</span>    </div><div class="line">     res.render(‘index’);</div><div class="line">});</div><div class="line">app.get(‘/feed’, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">     <span class="comment">/**因为扩展名为.ejs,所以使用EJS**/</span></div><div class="line">     res.render(‘rss.ejs’);</div><div class="line">});</div></pre></td></tr></table></figure>
-
-<h3 id="14-3_视图缓存">14.3 视图缓存</h3>
-<p>默认会开启view cache，模板修改，需要重启生效。</p>
-<h3 id="14-4_视图查找">14.4 视图查找</h3>
-<p>如photos为复数，暗示是一个资源列表。<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/blognodejs_in_action_express_view_search.png" alt="express_search"></p>
-<h2 id="15、单元测试与验收测试">15、单元测试与验收测试</h2>
-<p>有两种形态：测试驱动（TDD）和行为驱动开发（BDD）</p>
-<ul>
-<li>单元测试有Node的assert，Mocha，node unit，Vows以及should.js框架</li>
-<li>验收测试，Tobi和Soda框架。<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/nodejs_in_action_test_soda.png" alt="test-modules-summary"></li>
-</ul>
-<h3 id="15-1_nodeunit：">15.1 nodeunit：</h3>
-<p>例子：创建一个目录，每个测试脚本都应该用测试组装exports对象，</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">exports.testPony = <span class="function"><span class="keyword">function</span><span class="params">(test)</span></span>{</div><div class="line">     <span class="keyword">var</span> isPony = <span class="literal">true</span>;</div><div class="line">     test.ok(isPony, ’This is not a pony.’);</div><div class="line">     test.done();</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p>nodeunit会自动给传入它的对象中引入assert模块。<br>nodeunit提供test.epect验证断言执行数量是否符合预期。</p>
-<h3 id="15-2_mocha">15.2 mocha</h3>
-<p>只支持串行测试，默认2s的timeout，并行请用vows：<br>BDD风格：describe,it,before,after,beforeEach,afterEach.<br>TDD风格：suite，test，setup，teardown替换上述</p>
-<p>执行mocha，会执行./test目录下的javascript文件。</p>
-<ul>
-<li><strong>BDD风格</strong></li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> memdb = <span class="built_in">require</span>(‘..’);</div><div class="line"><span class="keyword">var</span> assert = <span class="built_in">require</span>(‘assert’);</div><div class="line"></div><div class="line">describe(‘memdb’, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">     describe(‘.save(doc)’, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">         it(’should save the documment’, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">              <span class="keyword">var</span> pey = { name: ’Tobi’ );</div><div class="line">               memdb.save(pet);</div><div class="line">               <span class="keyword">var</span> ret = memdb.first({ name: ’Tobi’ });</div><div class="line">               assert(ret == pet);</div><div class="line">          }</div><div class="line">     )</div><div class="line">)</div></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>TDD风格</strong></li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = {</div><div class="line">     ‘memdb’ : {</div><div class="line">          ‘.save(doc)’ : {</div><div class="line">               ’should save the <span class="built_in">document</span>’ : <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">               }</div><div class="line">           }</div><div class="line">       }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>测试异步</strong><br>增加done（）</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">describe(‘.save(doc)’, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">     it(’should save the <span class="built_in">document</span>’, <span class="function"><span class="keyword">function</span><span class="params">(done)</span></span>{</div><div class="line">         <span class="keyword">var</span> pey = { name: ’Tobi’};</div><div class="line">          memdb.save(pet, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">              <span class="keyword">var</span> ret = memdb.first({ name: ’Tobi’ });</div><div class="line">               assert(ret == pet);</div><div class="line">               done();</div><div class="line">          }</div><div class="line">     }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h3 id="15-3_vows">15.3 vows</h3>
-<p>支持并行测试</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> vows = <span class="built_in">require</span>(‘vows’);</div><div class="line"><span class="keyword">var</span> assert = <span class="built_in">require</span>(‘assert’);</div><div class="line"><span class="keyword">var</span> Todo = <span class="built_in">require</span>(‘./todo’);</div><div class="line"></div><div class="line">vows.describe(’Todo’).addBatch({</div><div class="line">     ‘when adding an item’:{</div><div class="line">          topic: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">               <span class="keyword">var</span> todo = <span class="keyword">new</span> Todo();</div><div class="line">               todo.add(‘Feed my cat’);</div><div class="line">               <span class="keyword">return</span> todo;</div><div class="line">          }</div><div class="line">     },</div><div class="line">     ‘it should exit <span class="keyword">in</span> my todos’: <span class="function"><span class="keyword">function</span><span class="params">(er, todo)</span></span>{</div><div class="line">         assert.equal(todo.getCount(), <span class="number">1</span>);</div><div class="line">     }</div><div class="line">}).run();</div></pre></td></tr></table></figure>
-
-<p>如果你想把这段代码放到测试文件夹下，放在可以由Vows测试运行期运行，<br>run.()改成export(module);<br>然后<br>vows test/*</p>
-<h3 id="15-4_should-js">15.4 should.js</h3>
-<p>断言库，它有一个Object .prototype属性：可以写表达能力很强的断言。</p>
-<h3 id="15-5_Tobi和Soda">15.5 Tobi和Soda</h3>
-<p>Tobi模拟浏览器测试，可以结合should.js<br>Soda远程控制真实的浏览器：<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/blognodejs_in_action_test_soda.png" alt="test_tobi"></p>
-<h2 id="16、使用EJS过滤器处理模板数据">16、使用EJS过滤器处理模板数据</h2>
-<p><strong>格式</strong></p>
-<p>&lt;%=:用在转义的EJS输出上的过滤器<br>&lt;%-:用在非转义的EJS输出上的过滤器</p>
-<p>例子</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var ejs = require(‘ejs’);</div><div class="line">var template = ‘&lt;%=: movies | sort | first %&gt;’;</div><div class="line">var context = {‘movies’: [</div><div class="line">     ‘Bambi’,</div><div class="line">     ‘Babe: Pig in the city’,</div><div class="line">     ‘Enter the Void'</div><div class="line">]};</div></pre></td></tr></table></figure>
-
-<p>看来上就是linux的管道符处理，</p>
-<p><strong>各种常用处理</strong></p>
-<ul>
-<li>（1）处理选择：last，first，get:N</li>
-<li>（2）处理大小写：capitalize把第一个字母变大写，还有upcase，downcase</li>
-<li>（3）处理文本：把文本截成一定数量的单词truncate:20,替换replace:’A’,’B’,<br>排序sort，sort_by:’name’，其中sort返回的是对象，要返回属性的话：|get:’name’</li>
-<li>（4）map：不用sort_by，再get。直接用map创建一个包含对象属性的数组，<br>map ’name’| sort|</li>
-</ul>
-<p>其他模板引擎：<br>Hotgan：实现mustache语法。<br>Jade：特点是空格的作用，缩进表示HTML的嵌入关系。</p>
-<h2 id="17、fs-watchfile()与fs-watch()">17、fs.watchfile()与fs.watch()</h2>
-<p>fs.watchfile()与fs.watch()是 Node.js中的两个监测文件API。</p>
-<ul>
-<li>比较老的是fs.watchFile,使用轮询的方式检查文件，不断的stat()，比较mtime时间戳.</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(‘fs’);</div><div class="line">fs.watchFile(‘/<span class="keyword">var</span>/log/system.log’, <span class="function"><span class="keyword">function</span><span class="params">(curr, prev)</span></span>{</div><div class="line">     <span class="keyword">if</span>(cur.mtime.getTime() !== prev.mtime.getTime()){</div><div class="line">          <span class="built_in">console</span>.log(‘“System.log” has been modified’);</div><div class="line">     }</div><div class="line">});</div></pre></td></tr></table></figure>
-
-<ul>
-<li>新的api是fs.watch()，根据平台本地的文件修改通知API监测文件，性能更优，但是不如watchFile可靠。在OSX监测目录不会报告参数filename，其他见： 档<a href="http://nodejs.org/api/fs.html#fs_caveats" target="_blank" rel="external">http://nodejs.org/api/fs.html#fs_caveats</a></li>
-</ul>
-<h2 id="18、Process模块">18、Process模块</h2>
-<ul>
-<li>process.argv 存储了Node运行当前脚本时传入的参数</li>
-<li>process.env 获取或设定环境变量</li>
-<li>process不是eventEmitter实例，却可以发出exit和uncaughtException事件</li>
-</ul>
-<p><strong>注意点：</strong><br>其中exit是在事件循环（event loop）停止之后才激发的，所以你没有机会在exit事件启动任何异步任务。</p>
-<h3 id="18-1_Process的信号处理">18.1 Process的信号处理</h3>
-<p>UINX有信号的概念，是进程间通信（IPC）的基础形式，它是一组固定的名称，不能传递参数。</p>
-<p><strong>信号举例如下</strong></p>
-<ul>
-<li>SIGUSR1：Node进入它内置的调试器</li>
-<li>SIGWINCH：调试终端大小，由shell发送</li>
-<li>SIGINT:ctrl+c，由shell发送，Node默认行为是杀死进程。如果你希望在杀掉服务器前，完成所有连接的处理，可以</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">process.on(’SIGINT’, <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">     <span class="built_in">console</span>.log(‘Got Ctrl-C!’);</div><div class="line">     server.close();</div><div class="line">});</div></pre></td></tr></table></figure>
-
-<ul>
-<li>还有SIGUSR2和SIGKILL等等</li>
-</ul>
-<h2 id="19、子进程">19、子进程</h2>
-<p>在NODE中创建子进程三种</p>
-<ul>
-<li>高层api，exec：在回调中创建命令并缓存结果的高层api。</li>
-<li>底层api，spawn：将单例命令创建Child-Process对象中的底层API。</li>
-<li>内置的特殊IPC通道fork：用内置的IPC通道创建额外Node进程的特殊方法。</li>
-</ul>
-<p><strong>三者比较</strong></p>
-<ul>
-<li><p>cp.exec()：只关心结果，不用从子进程的stdio流中访问数据（IRC协议模块有很多，irc，irc-js等等），结果需要转义，可以用execFile（）</p>
-</li>
-<li><p>cp.spawn()：返回一个可以交互的ChildProcess对象，允许你跟每个子进程的stdio流交互。（node-cgi范例模块）</p>
-</li>
-<li><p>cp.fork()：也返回一个ChildProcess对象，区别是这个API是用IPC通道添加的， 子进程现在有一个child.send(message) 函数，并且用fork() 调用的脚本能够监听process.on(‘message’) 事件。fork出来的子进程可以参与运算。</p>
-</li>
-</ul>
-<h2 id="20、其他推荐的社区模块">20、其他推荐的社区模块</h2>
-<ul>
-<li>表单提交：foridable。</li>
-<li>redis：hiredis，升级node时候，需要重新编译一下hiredis，npm rebuild hiredis。</li>
-<li>mongodb：mongoose，使用时有个{safe：ture}选项表明你想让数据库操作在执行回调之前完成。</li>
-</ul>
-<hr>
-<p>参考：<br>《Node.js 实战》：<a href="http://book.douban.com/subject/25870705/" target="_blank" rel="external">http://book.douban.com/subject/25870705/</a><br>《Node.js in action》：<a href="http://book.douban.com/subject/6805117/" target="_blank" rel="external">http://book.douban.com/subject/6805117/</a></p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>看完《Node.js 实战》，整理总结了觉得比较有价值的内容。
-</code></pre><h2 id="1、require">1、require</h2>
-<p>require是少有的同步i/o操作，请只在模块初始化时候使用require。</p>
-<h2]]>
-    </summary>
-    
-      <category term="nodejs" scheme="http://vernonzheng.com/tags/nodejs/"/>
-    
-      <category term="经验总结" scheme="http://vernonzheng.com/tags/%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/"/>
-    
-      <category term="nodejs" scheme="http://vernonzheng.com/categories/nodejs/"/>
     
   </entry>
   
