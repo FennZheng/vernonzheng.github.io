@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-11T03:47:31.801Z</updated>
+  <updated>2015-02-12T15:22:29.203Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -13,6 +13,62 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[《快学scala》习题解答-第十八章-高级类型]]></title>
+    <link href="http://vernonzheng.com/2015/02/11/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%85%AB%E7%AB%A0-%E9%AB%98%E7%BA%A7%E7%B1%BB%E5%9E%8B/"/>
+    <id>http://vernonzheng.com/2015/02/11/《快学scala》习题解答-第十八章-高级类型/</id>
+    <published>2015-02-11T14:44:42.000Z</published>
+    <updated>2015-02-12T15:21:59.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十八章_高级类型">第十八章 高级类型</h2>
+<p><strong>18.1</strong><br>实现一个Bug类，对沿着水平线爬行的虫子建模。move方法向当前方向移动，turn方法让虫子转身，show方法打印出当前的位置。让这些方法可以被串接调用。例如：<br>bugsy.move(4).show().move(6).show().turn().move(5).show()<br>上述代码应显示4 10 5。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> _1801 {</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bug</span><span class="params">(var pos: Int = 0)</span> </span>{</div><div class="line">  <span class="keyword">var</span> forword: Int = <span class="number">1</span></div><div class="line"></div><div class="line">  <span class="keyword">def</span> move(up: Int):<span class="keyword">this</span>.<span class="keyword">type</span> = {</div><div class="line">    pos += forword * up</div><div class="line">    <span class="keyword">this</span></div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> show():<span class="keyword">this</span>.<span class="keyword">type</span> = {</div><div class="line">    print(pos + <span class="string">" "</span>)</div><div class="line">    <span class="keyword">this</span></div><div class="line">  }</div><div class="line"></div><div class="line">  <span class="keyword">def</span> turn():<span class="keyword">this</span>.<span class="keyword">type</span> = {</div><div class="line">    forword = -forword</div><div class="line">    <span class="keyword">this</span></div><div class="line">  }</div><div class="line">}</div><div class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span> </span>{</div><div class="line">   <span class="keyword">val</span> bugsy = <span class="keyword">new</span> Bug</div><div class="line">   bugsy.move(<span class="number">4</span>).show().move(<span class="number">6</span>).show().turn().move(<span class="number">5</span>).show()</div><div class="line"> }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>18.2</strong><br>为前一个练习中的Bug类提供一个流利接口，达到能编写如下代码的效果：<br>bugsy move 4 and show and then move 6 and show turn around move 5 and show</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> _1802 {</div><div class="line">  <span class="comment">//非动词 non-verb</span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">then</span></span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">show</span></span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">around</span></span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bug</span><span class="params">(var pos: Int = 0)</span> </span>{</div><div class="line">  <span class="keyword">var</span> forword: Int = <span class="number">1</span></div><div class="line"></div><div class="line">  <span class="keyword">def</span> move(num: Int): <span class="keyword">this</span>.<span class="keyword">type</span> = { pos += num; <span class="keyword">this</span> }</div><div class="line">  <span class="keyword">def</span> and(obj: then.<span class="keyword">type</span>): <span class="keyword">this</span>.<span class="keyword">type</span> = <span class="keyword">this</span></div><div class="line">  <span class="keyword">def</span> and(obj: show.<span class="keyword">type</span>): <span class="keyword">this</span>.<span class="keyword">type</span> = { print(pos + <span class="string">" "</span>); <span class="keyword">this</span>}</div><div class="line">  <span class="keyword">def</span> turn(obj: around.<span class="keyword">type</span>): <span class="keyword">this</span>.<span class="keyword">type</span> = { pos = <span class="number">0</span>; <span class="keyword">this</span>}</div><div class="line">}</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">App</span> </span>{</div><div class="line">  <span class="keyword">val</span> bugsy = <span class="keyword">new</span> Bug</div><div class="line">  bugsy move <span class="number">4</span> and show and then move <span class="number">6</span> and show turn around move <span class="number">5</span> and show</div><div class="line">}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>18.3</strong><br>完成18.1节中的流利接口，以便我们可以做出如下调用：<br>book set Title to “Scala for the Impatient” set Author to “Cay Horstmann”</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Document</span> </span>{</div><div class="line">  <span class="keyword">var</span> title: String = <span class="string">""</span></div><div class="line">  <span class="keyword">var</span> author: String = <span class="string">""</span></div><div class="line">  <span class="keyword">def</span> setTitle(title: String):<span class="keyword">this</span>.<span class="keyword">type</span> = {<span class="keyword">this</span>.title = title; <span class="keyword">this</span>}</div><div class="line">  <span class="keyword">def</span> setAuthor(author: String):<span class="keyword">this</span>.<span class="keyword">type</span> = {<span class="keyword">this</span>.author= author; <span class="keyword">this</span>}</div><div class="line">}</div><div class="line"><span class="comment">//可枚举</span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Title</span></span></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Author</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> <span class="keyword">extends</span> <span class="title">Document</span></span>{</div><div class="line">  <span class="keyword">private</span> <span class="keyword">var</span> useNextArgAs:Any = <span class="keyword">null</span></div><div class="line">  <span class="keyword">def</span> set(obj: Any): <span class="keyword">this</span>.<span class="keyword">type</span> = {useNextArgAs = obj; <span class="keyword">this</span>}</div><div class="line">  <span class="keyword">def</span> to(obj:String) = {</div><div class="line">    useNextArgAs <span class="keyword">match</span>{</div><div class="line">      <span class="keyword">case</span> Title =&gt; setTitle(obj)</div><div class="line">      <span class="keyword">case</span> Author =&gt; setAuthor(obj)</div><div class="line">      <span class="keyword">case</span> _ =&gt;</div><div class="line">    }</div><div class="line">    <span class="keyword">this</span></div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">Main</span> <span class="keyword">extends</span> <span class="title">App</span> </span>{</div><div class="line">  <span class="keyword">val</span> book = <span class="keyword">new</span> Book</div><div class="line">  book set Title to <span class="string">"Scala for the Impatient"</span> set Author to <span class="string">"Cay Horstmann"</span></div><div class="line">  println(book.title)</div><div class="line">  println(book.author)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>18.4</strong><br>实现18.2节中被嵌套在Network类中的Member类的equals方法。两个成员要想相等，必须属于同一个网络。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.collection.mutable.ArrayBuffer</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Network</span> </span>{</div><div class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Member</span><span class="params">(val name: String)</span> </span>{</div><div class="line">    <span class="keyword">val</span> contacts = <span class="keyword">new</span> ArrayBuffer[Member]</div><div class="line"></div><div class="line">    <span class="keyword">def</span> canEqual(other: Any): Boolean = other.isInstanceOf[Member]</div><div class="line"></div><div class="line">    <span class="keyword">override</span> <span class="keyword">def</span> equals(other: Any): Boolean = other <span class="keyword">match</span> {</div><div class="line">      <span class="keyword">case</span> that: Member =&gt;</div><div class="line">        (that canEqual <span class="keyword">this</span>) &&</div><div class="line">          name == that.name</div><div class="line">      <span class="keyword">case</span> _ =&gt; <span class="keyword">false</span></div><div class="line">    }</div><div class="line">  }</div><div class="line">  <span class="keyword">private</span> <span class="keyword">val</span> members = <span class="keyword">new</span> ArrayBuffer[Member]</div><div class="line"></div><div class="line">  <span class="keyword">def</span> join(name: String) = {</div><div class="line">    <span class="keyword">val</span> m = <span class="keyword">new</span> Member(name)</div><div class="line">    members += m</div><div class="line">    m</div><div class="line">  }</div><div class="line"></div><div class="line">}</div><div class="line"><span class="keyword">val</span> network1 = <span class="keyword">new</span> Network().join(<span class="string">"1"</span>)</div><div class="line"><span class="keyword">val</span> network2 = <span class="keyword">new</span> Network().join(<span class="string">"1"</span>)</div><div class="line">println(network1.equals(network2))</div></pre></td></tr></table></figure>
+
+<p><strong>18.5</strong><br>考虑如下类型别名<br>type NetworkMember = n.Member forSome { val n : Network }<br>和函数<br>def process(m1: NetworkMember, m2: NetworkMember) = (m1, m2)<br>这与18.8节中的process函数有什么不同？</p>
+<p>与18.8不同，允许不同网络作为参数</p>
+<p><strong>18.6</strong><br>Scala类库中的Either类型可以被用于要么返回结果，要么返回某种失败信息的算法。编写一个带有两个参数的函数：一个已排序整数数组和一个整数值。要么返回该整数值在数组中的下标，要么返回最接近该值的元素的下标。使用一个中置类型作为返回类型。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> getIndex(arr: Seq[Int], v: Int): Int Either Int = {</div><div class="line">  <span class="keyword">if</span> (arr.contains(v)) {</div><div class="line">    Left(arr.indexOf(v))</div><div class="line">  } <span class="keyword">else</span> {</div><div class="line">    Right(arr.indexOf(arr.reduce((a,b) =&gt; <span class="keyword">if</span> (math.abs(v - a) &gt; math.abs(v - b)) b <span class="keyword">else</span> a)))</div><div class="line">  }</div><div class="line">}</div><div class="line">println(getIndex(Seq(<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,-<span class="number">2</span>,-<span class="number">3</span>),<span class="number">1</span>))</div></pre></td></tr></table></figure>
+
+<p><strong>18.7</strong><br>实现一个方法，接受任何具备如下方法的类的对象和一个处理该对象的函数。<br>调用该函数，并在完成或有任何异常发生时调用close方法。<br>def close(): Unit</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> tryWithClose[T&lt;:{<span class="keyword">def</span> close():Unit}](obj:T,func: T =&gt; Unit)={</div><div class="line">  <span class="keyword">try</span>{</div><div class="line">    func(obj)</div><div class="line">  }<span class="keyword">finally</span> {</div><div class="line">    obj.close()</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>18.8</strong><br>编写一个函数printValues，带有三个参数f、from和to，打印出所有给定区间范围内的输入值经过f计算后的结果。这里的f应该是任何带有接受Int产出Int的apply方法的对象。例如：<br>printValues((x: Int) =&gt; x*x, 3, 6) //将打印 9 16 25 36<br>printValues(Array(1, 1, 2, 3, 5, 8, 13, 21, 34, 55), 3, 6) //将打印 3 5 8 13</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> printValues(f:{<span class="keyword">def</span> apply(param:Int):Int}, from:Int, to:Int)={</div><div class="line">  <span class="keyword">for</span>(i &lt;- from to to) {</div><div class="line">    print(f.apply(i) + <span class="string">" "</span>)</div><div class="line">  }</div><div class="line">}</div><div class="line">printValues((x: Int) =&gt; x*x, <span class="number">3</span>, <span class="number">6</span>) <span class="comment">//将打印 9 16 25 36</span></div><div class="line">printValues(Array(<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span>, <span class="number">34</span>, <span class="number">55</span>), <span class="number">3</span>, <span class="number">6</span>) <span class="comment">//将打印 3 5 8 13</span></div></pre></td></tr></table></figure>
+
+<p><strong>18.9</strong><br>考虑如下对物理度量建模的类：<br>abstract class Dim<a href="val value: Double, val name: String">T</a>{<br>    protected def create(v: Double): T<br>    def + (other: Dim[T]) = create(value + other.value)<br>    override def toString() = value + “ “ + name<br>}<br>以下是具体子类：<br>class Seconds(v: Double) extends Dim<a href="v," title="s">Seconds</a>{<br>    override def create(v: Double) = new Seconds(v)<br>}<br>但现在不清楚状况的人可能会定义<br>class Meters(v: Double) extends Dim<a href="v," title="m">Seconds</a>{<br>    override def create(v: Double) = new Seconds(v)<br>}<br>允许米（Meters）和秒（Seconds）相加。使用自身类型来防止发生这样的情况。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Dim</span>[<span class="title">T</span>]<span class="params">(val value: Double, val name: String)</span></span>{</div><div class="line">  <span class="keyword">this</span>: T =&gt;</div><div class="line">  <span class="keyword">protected</span> <span class="keyword">def</span> create(v: Double): T</div><div class="line">  <span class="keyword">def</span> + (other: Dim[T]) = create(value + other.value)</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> toString() = value + <span class="string">" "</span> + name</div><div class="line">}</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Seconds</span><span class="params">(v: Double)</span> <span class="keyword">extends</span> <span class="title">Dim</span>[<span class="title">Seconds</span>]<span class="params">(v, <span class="string">"s"</span>)</span></span>{</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> create(v: Double) = <span class="keyword">new</span> Seconds(v)</div><div class="line">}</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Meters</span><span class="params">(v: Double)</span> <span class="keyword">extends</span> <span class="title">Dim</span>[<span class="title">Seconds</span>]<span class="params">(v, <span class="string">"m"</span>)</span></span>{</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> create(v: Double) = <span class="keyword">new</span> Seconds(v)</div><div class="line">}</div><div class="line"><span class="comment">//Meters can not extends Dim[Seconds] and compile fail</span></div></pre></td></tr></table></figure>
+
+<p><strong>18.10</strong><br>自身类型通常可以被扩展自身的特质替代，但某些情况下使用自身类型会改变初始化和重写的顺序。构造出这样的一个示例。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">A</span> </span>{</div><div class="line">  <span class="keyword">def</span> sing() = <span class="string">"from a"</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">trait</span> <span class="title">C</span> </span>{</div><div class="line">  <span class="keyword">this</span>: A =&gt;</div><div class="line">  <span class="keyword">val</span> w = sing + <span class="string">"from c"</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span></span>{</div><div class="line">  <span class="keyword">this</span>: C =&gt;</div><div class="line">  <span class="keyword">val</span> k = w</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> b = <span class="keyword">new</span> B <span class="keyword">with</span> C <span class="keyword">with</span> A</div><div class="line">println(b.k)</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[《快学scala》习题解答-第十七章-类型参数]]></title>
@@ -1372,135 +1428,6 @@
       <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
     
       <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[2014年终小结与书单]]></title>
-    <link href="http://vernonzheng.com/2014/12/28/2014%E5%B9%B4%E7%BB%88%E5%B0%8F%E7%BB%93%E4%B8%8E%E4%B9%A6%E5%8D%95/"/>
-    <id>http://vernonzheng.com/2014/12/28/2014年终小结与书单/</id>
-    <published>2014-12-28T08:36:23.000Z</published>
-    <updated>2014-12-28T11:10:11.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>年初觉得可能发生的事情，大多数都发生了。
-</code></pre><h2 id="一、2014小结">一、2014小结</h2>
-<p>去了青岛，舟山，上海，路过香港，台湾12天环岛。（台湾之行，加大我对环球游梦的‘执念’）</p>
-<p>11月份，根据地从杭州搬到了北京。（搬家是件痛苦的事情，特别是书都得处理掉，好处是杂乱的东西都可以丢了）</p>
-<p>工作换了两家，经历了一些波折，11月连续两周的面试，第一次体会了面霸的感觉，这也是大北京的优势，公司多。离年初和同学戏称的30岁金钱目标，意外的跨了一大步，同时又觉得路程还很远，养成习惯和身体健康的重要性。</p>
-<p>学习方面，英语没有任何质变。。唯一欣慰的是今年读了39本书。</p>
-<p>附：<br>我的足迹：<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/2014_year_foot_print" alt="2014_foot_print"></p>
-<h2 id="二、2015目标">二、2015目标</h2>
-<p>既然是总结，就不得不写一些2015的目标。</p>
-<ul>
-<li>英语：为了环球游的‘执念’，蹩脚的英语得加把劲了，每天90分钟的听说练习，至少日常口语没问题，流利的聊天更好。</li>
-<li>刷书，积累：技术类30本，其他类20本，英语原版书3本以上。</li>
-<li>坚持锻炼：养成每天早上起床锻炼的习惯，《囚徒健身》。</li>
-<li>旅行：精神和身体都得奔跑在路上。既然base在北京，周边几个省的旅游机会别浪费了。</li>
-<li>职业：写的像招聘信息。。熟练掌握scala，nodejs，仔细阅读kafka，nignx源码，了解下大数据处理相关（spark，hadoop），分析问题能追到c实现，能写点基于unix的偏底层的网络程序，用scala写一些中间件。技能水平，从应用级别高级开发到类库框架级别的高级开发吧。</li>
-</ul>
-<h2 id="三、2014书单">三、2014书单</h2>
-<p>我的2014书单，书封面就不贴了，可以参考我的豆瓣读书：<a href="http://book.douban.com/people/vernonzheng/" target="_blank" rel="external">http://book.douban.com/people/vernonzheng/</a></p>
-<h3 id="3-1_IT技术类">3.1 IT技术类</h3>
-<ul>
-<li><p>《深入理解Java虚拟机：JVM高级特性与最佳实践》<br>周志明<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/深入理解Java虚拟机.jpg" alt="深入理解Java虚拟机"><br>5星，非常推荐。</p>
-</li>
-<li><p>《Java并发编程实践》<br>Brian Goetz、Tim Peierls、Joshua Bloch、Joseph Bowbeer、David Holmes、Doug Lea / 童云兰<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/Java并发编程实战.jpg" alt="Java并发编程实践"><br>5星，非常推荐，有点理论程度的。</p>
-</li>
-<li><p>《高性能MySQL》<br>Baron Schwartz、Peter Zaitsev、Vadim Tkachenko、Jeremy D.Zawodny、Arjen Lent、Derek J.Ballin / 王小东、李军、康建勋<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/高性能MySQL.jpg" alt="高性能MySQL"><br>5星，非常推荐，特别是4，5，6章的索引，查询优化等等讲的很透彻。</p>
-</li>
-<li><p>《领域特定语言》<br>Martin Fowler / ThoughtWorks中国<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/领域特定语言.jpg" alt="领域特定语言"><br>5星，Martin难得出那么厚的书，写的很好，只看了前几章理论部分，后面的实用性挺高。</p>
-</li>
-<li><p>《设计模式：可复用面向对象软件的基础》<br>GOF<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/设计模式 - 可复用面向对象软件的基础.jpg" alt="设计模式"><br>5星，不是很推荐，惜字如金，有点难度，以后还得翻。</p>
-</li>
-<li><p>《点石成金：访客至上的网页设计秘笈》<br>[美] 史蒂夫·克鲁克 / De Dream’<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/点石成金.jpg" alt="点石成金"><br>5星，推荐，英文名是Don’t make me think，特点是很薄，147页。</p>
-</li>
-<li><p>《大型网站系统与Java中间件开发实践》<br>曾宪杰<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/大型网站系统与Java中间件开发实践.jpg" alt="大型网站系统与Java中间件开发实践"><br>5星，没有特别高深的概念，能学会解决这类问题的思路，结合非常实际的案例在讲。</p>
-</li>
-<li><p>《人月神话》<br>弗雷德里克.布鲁克斯 / UMLChina翻译组、汪颖<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/人月神话.jpg" alt="人月神话"><br>4星，多少年前的书，却相当经典。</p>
-</li>
-<li><p>《MySQL技术内幕：SQL编程》<br>姜承尧<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/MySQL技术内幕 - SQL编程.jpg" alt="MySQL技术内幕：SQL编程"><br>4星，对于有一些数据库设计开发经验的人，有许多技巧性和细节性的建议和提高。</p>
-</li>
-<li><p>《测试驱动开发：实战与模式解析》<br>Kent Beck / 白云鹏<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/测试驱动开发.jpg" alt="测试驱动开发"><br>4星，翻译不太好，kent beck的书实在少，只能看个经典旧书了。</p>
-</li>
-<li><p>《The Little Book on CoffeeScript》<br>Alex MacCaw<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/The Little Book on CoffeeScript.jpg" alt="The Little Book on CoffeeScript"><br>4星，实用，简短，快速上手。</p>
-</li>
-<li><p>《Node.js实战》<br>[美] Mike Cantelon、[美] TJ Holowaychuk、[美] Nathan Rajlich<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/node.js 实战.jpg" alt="Node.js实战"><br>4星，有些翻译问题，适合做nodejs的前两本入门书。</p>
-</li>
-<li><p>《Spring实战》<br>沃尔斯 (Craig Walls) / 耿渊、张卫滨<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/Spring实战.jpg" alt="Spring实战"><br>4星，过一下基础。</p>
-</li>
-<li><p>《Maven实战》<br>许晓斌<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/Maven实战.jpg" alt="Maven实战"><br>4星，内容比较全，稍微有点拖沓。</p>
-</li>
-<li><p>《Robust Java中文版：Java异常处理、测试与调试》<br>史德汀<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/Robust Java 中文版 - Java异常处理、测试与调试.jpg" alt="Robust Java中文版"><br>3星，介绍了java异常的体系结构，设计，开发，测试，架构，比较基础和全面。</p>
-</li>
-<li><p>《Java 7 Concurrency Cookbook》<br>Fernandez Javier / Packt Publishing<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/Java 7 Concurrency Cookbook.jpg" alt="Java 7 Concurrency Cookbook"><br>3星，就当查漏补缺了。</p>
-</li>
-<li><p>《Netty权威指南》<br>李林峰<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/Netty权威指南.jpg" alt="Netty权威指南"><br>3星，作者没有用心写感觉。。</p>
-</li>
-</ul>
-<h3 id="3-2_IT非技术类">3.2 IT非技术类</h3>
-<ul>
-<li><p>《重来》<br>[美] 贾森·弗里德、[丹] 戴维·海涅迈尔·汉森 / 李瑜偲<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/重来.jpg" alt="重来"><br>5星，推荐，设计商业，创业，软件设计，需求，技术等，触发思考的内容远超一个创业书的范围。</p>
-</li>
-<li><p>《黑客与画家》<br>[美] Paul Graham / 阮一峰<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/黑客与画家.jpg" alt="黑客与画家"><br>5星，硅谷创业之父Paul Graham文集，黑客精神，创业，lisp等。</p>
-</li>
-<li><p>《暗时间》<br>刘未鹏<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/暗时间.jpg" alt="暗时间"><br>5星，知识密度相当大</p>
-</li>
-<li><p>《MacTalk 人生元编程》<br>池建强<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/MacTalk 人生元编程.jpg" alt="MacTalk 人生元编程"><br>3星，如果你喜欢编程的乐趣和mac相关内容，可以翻一翻。</p>
-</li>
-<li><p>《软件架构师的12项修炼》<br>Dave Hendricksen / 张菲<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/软件架构师的12项修炼.jpg" alt="软件架构师的12项修炼"><br>2星，讲的太泛了，没啥实用性</p>
-</li>
-</ul>
-<h3 id="3-3_其他杂类">3.3 其他杂类</h3>
-<ul>
-<li><p>《人间词话》<br>王国维<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/人间词话.jpg" alt="人间词话"><br>5星，有一半是对古人词的赏析，之外对于境界的理解部分收获很多。</p>
-</li>
-<li><p>《正见：佛陀的证悟》<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/正见.jpg" alt="正见"><br>宗萨蒋扬钦哲仁波切 / 姚仁喜<br>5星，有兴趣的人可以看看，讲佛家四见地的。因为书中“佛陀看一个人，是看到他的圆熟和衰朽同时在发生。”这句话，去看了这本书。</p>
-</li>
-<li><p>《囚徒健身》<br>保罗·威德<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/囚徒健身.jpg" alt="囚徒健身"><br>5星，简单，实用。</p>
-</li>
-<li><p>《少有人走过的路：心智成熟的旅程》<br>[美] M·斯科特·派克 / 于海生<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/少有人走的路 - 心智成熟的旅程.jpg" alt="少有人走过的路：心智成熟的旅程"><br>5星，推荐前半部分</p>
-</li>
-<li><p>《撒哈拉的故事》<br>三毛<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/撒哈拉的故事.jpg" alt="撒哈拉的故事"><br>5星，echo作品里最喜欢的一本。她的文字和独特壮阔的生活方式，有一种特别的魅力，无论是孤独还是爱的追寻，真实＆真挚的让人感动。</p>
-</li>
-<li><p>《穷游锦囊：骑行台湾》<br>穷游网<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/穷游锦囊：骑行台湾.jpg" alt="穷游锦囊"><br>5星，穷游系列的书都很不错。台湾环岛攻略就靠这个系列。</p>
-</li>
-<li><p>《如何阅读一本书》<br>[美] 莫提默·J. 艾德勒、查尔斯·范多伦 / 郝明义、朱衣<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/如何阅读一本书.jpg" alt="如何阅读一本书"><br>4星，推荐，多读书，多总结适合自己的方式。</p>
-</li>
-<li><p>《女人的性爱动机》<br>【美】辛迪•梅斯顿、【美】戴维•巴斯 / 海兰、插画师：顾爷<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/女人的性爱动机.jpg" alt="女人的性爱动机"><br>4星，生理和心理角度看待问题，前几章不错。</p>
-</li>
-<li><p>《我所理解的生活》<br>韩寒<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/我所理解的生活.jpg" alt="我所理解的生活"><br>4星，多年没读韩寒，变化挺大。</p>
-</li>
-<li><p>《天才在左，疯子在右》<br>高铭<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/天才在左 疯子在右.jpg" alt="天才在左，疯子在右"><br>4星，国内第一本精神病人访谈手记，你可以把它当做故事书，很有趣。</p>
-</li>
-<li><p>《慢慢来，一切都来得及》<br>meiya<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/慢慢来.一切都来得及.jpg" alt="慢慢来，一切都来得及"><br>4星，被打动的一本书，讲述奋斗路上作者的生命体验。</p>
-</li>
-<li><p>《魔鬼约会学》<br>魔鬼咨询师<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/魔鬼约会学.jpg" alt="魔鬼约会学"><br>4星，男女思考行为的差距，还有一些活泼的例子。</p>
-</li>
-<li><p>《5分钟和陌生人成为朋友-101个瞬间化解尴尬的沟通技巧-II : 101个瞬间化解尴尬的沟通技巧》<br>唐·加博尔 / 何云<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/5分钟和陌生人成为朋友-101个瞬间化解尴尬的沟通技巧-II - 101个瞬间化解尴尬的沟通技巧.jpg" alt="5分钟和陌生人成为朋友"><br>3星，例子比较实用，先有心，后有术。</p>
-</li>
-<li><p>《二十五岁的世界：我在25座城市，遇见的25个人》<br>(西)马克•塞雷纳 / 吴娴敏<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/二十五岁的世界.jpg" alt="二十五岁的世界"><br>3星，印度，菲利宾，津巴布韦到日本寺庙。。有许多细节被震撼到。</p>
-</li>
-<li><p>《我是个算命先生》<br>易之<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/我是个算命先生.jpg" alt="我是个算命先生"><br>3星，amazon上卖的很火，但是和盗墓笔记比差太多，是纯小说。</p>
-</li>
-<li><p>《潜伏职场心理学》<br>张超<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/职场潜伏心理学.jpg" alt="潜伏职场心理学"><br>3星，茶语饭后翻一番，还是有收获的。</p>
-</li>
-<li><p>《软件架构师的12项修炼》<br>Dave Hendricksen / 张菲<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/软件架构师的12项修炼.jpg" alt="软件架构师的12项修炼"><br>2星，讲的太泛了，没啥实用性</p>
-</li>
-</ul>
-<p>完。</p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>年初觉得可能发生的事情，大多数都发生了。
-</code></pre><h2 id="一、2014小结">一、2014小结</h2>
-<p>去了青岛，舟山，上海，路过香港，台湾12天环岛。（台湾之行，加大我对环球游梦的‘执念’）</p>
-<p>11月份，根据地]]>
-    </summary>
-    
-      <category term="日记" scheme="http://vernonzheng.com/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-      <category term="书单" scheme="http://vernonzheng.com/tags/%E4%B9%A6%E5%8D%95/"/>
-    
-      <category term="日记" scheme="http://vernonzheng.com/categories/%E6%97%A5%E8%AE%B0/"/>
     
   </entry>
   
