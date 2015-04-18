@@ -4,7 +4,7 @@
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-02-12T15:22:29.203Z</updated>
+  <updated>2015-04-18T02:18:50.664Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
@@ -13,6 +13,76 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[《快学scala》习题解答-第十九章-解析]]></title>
+    <link href="http://vernonzheng.com/2015/03/19/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%B9%9D%E7%AB%A0-%E8%A7%A3%E6%9E%90/"/>
+    <id>http://vernonzheng.com/2015/03/19/《快学scala》习题解答-第十九章-解析/</id>
+    <published>2015-03-19T15:36:42.000Z</published>
+    <updated>2015-03-19T15:38:28.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十九章_解析">第十九章 解析</h2>
+<p><strong>19.1</strong><br>为算术表达式求值器添加/和%操作符。</p>
+<p><strong>19.2</strong><br>为算术表达式求值器添加^操作符。在数学运算当中，^应该比乘法的优先级更高，并且它应该是右结合的。也就是说，4^2^3应该得到4^(2^3)，即65536。</p>
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[《快学scala》习题解答-第二十章-Actor]]></title>
+    <link href="http://vernonzheng.com/2015/02/15/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%BA%8C%E5%8D%81%E7%AB%A0-Actor/"/>
+    <id>http://vernonzheng.com/2015/02/15/《快学scala》习题解答-第二十章-Actor/</id>
+    <published>2015-02-15T09:56:42.000Z</published>
+    <updated>2015-02-16T07:31:42.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第二十章_Actor">第二十章 Actor</h2>
+<p><strong>20.1</strong><br>编写一个程序，生成由n个随机数组成的数组（其中n是一个很大的值，比如1000000），然后通过将工作分发给多个actor的同时计算这些数的平均值，每个actor计算区间内的值之和，将结果发送给一个能组合出结果的actor。<br>如果你在双核或四核处理器上运行这个程序，和单线程的解决方案相比，会快多少？<br>双核上差不多</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.actors.Actor</div><div class="line"><span class="keyword">import</span> scala.actors.Actor._</div><div class="line"><span class="keyword">val</span> taskCount = Runtime.getRuntime().availableProcessors()</div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">SumPart</span><span class="params">(items:Array[Int],partCount:Int)</span></span></div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">CollectSum</span><span class="params">(sum:Int,partCount:Int)</span></span></div><div class="line"></div><div class="line"><span class="keyword">def</span> randomArray(num:Int):Array[Int] = {</div><div class="line">  <span class="keyword">val</span> result = <span class="keyword">new</span> Array[Int](num)</div><div class="line">  <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to num-<span class="number">1</span>) {</div><div class="line">    result(i) = (Math.random() * num).toInt</div><div class="line">  }</div><div class="line">  result</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> ReduceActor = actor {</div><div class="line">  <span class="keyword">var</span> result = <span class="number">0</span>D</div><div class="line">  <span class="keyword">var</span> receiveCount = <span class="number">0</span></div><div class="line">  loop{</div><div class="line">    receive{</div><div class="line">      <span class="keyword">case</span> CollectSum(sum,partCount)=&gt;</div><div class="line">        receiveCount += <span class="number">1</span></div><div class="line">        result += sum</div><div class="line">        println(sum)</div><div class="line">        <span class="keyword">if</span>(receiveCount&gt;=partCount){</div><div class="line">          result = result/partCount</div><div class="line">          println(<span class="string">"Actor result:"</span>+result)</div><div class="line">          exit()</div><div class="line">        }</div><div class="line">    }</div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="keyword">val</span> MapActor = actor{</div><div class="line">  loop{</div><div class="line">    react{</div><div class="line">      <span class="keyword">case</span> SumPart(items,partCount) =&gt;</div><div class="line">        ReduceActor ! CollectSum(items.sum, partCount)</div><div class="line">        exit()</div><div class="line">    }</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">def</span> actorMain(num:Int, partCount:Int) = {</div><div class="line">  <span class="keyword">val</span> array = randomArray(num)</div><div class="line">  <span class="keyword">val</span> startTime = System.currentTimeMillis()</div><div class="line">  <span class="keyword">var</span> range = <span class="number">1</span></div><div class="line">  <span class="keyword">if</span>(array.length&gt;=partCount)</div><div class="line">    range = array.length/partCount</div><div class="line">  <span class="keyword">var</span> start = <span class="number">0</span></div><div class="line">  <span class="keyword">var</span> end = <span class="number">0</span></div><div class="line">  <span class="keyword">var</span> flag = <span class="keyword">false</span></div><div class="line">  MapActor.start()</div><div class="line">  <span class="keyword">while</span>(!flag){</div><div class="line">    <span class="keyword">if</span>(end+range&gt;=array.length-<span class="number">1</span>){</div><div class="line">      end = array.length - <span class="number">1</span></div><div class="line">      flag = <span class="keyword">true</span></div><div class="line">    }<span class="keyword">else</span>{</div><div class="line">      end = end+range</div><div class="line">    }</div><div class="line">    MapActor ! SumPart(array.slice(start,end),partCount)</div><div class="line">    start = start+range</div><div class="line">  }</div><div class="line">  println(<span class="string">"Actor cost:"</span>+(System.currentTimeMillis()-startTime))</div><div class="line">}</div><div class="line"><span class="keyword">def</span> main(num:Int)={</div><div class="line">  <span class="keyword">val</span> array = randomArray(num)</div><div class="line">  <span class="keyword">val</span> startTime = System.currentTimeMillis()</div><div class="line">  println(<span class="string">"No-Actor result:"</span>+array.sum/array.length)</div><div class="line">  println(<span class="string">"No-Actor cost:"</span>+(System.currentTimeMillis()-startTime))</div><div class="line">}</div><div class="line"><span class="keyword">for</span>(i&lt;- <span class="number">1</span> to <span class="number">20</span>) {</div><div class="line">  actorMain(<span class="number">100000</span>, taskCount)</div><div class="line">  actorMain(<span class="number">100000</span>, <span class="number">100</span>)</div><div class="line">}</div><div class="line"><span class="keyword">for</span>(i&lt;- <span class="number">1</span> to <span class="number">20</span>) {</div><div class="line">  main(<span class="number">100000</span>)</div><div class="line">  main(<span class="number">100000</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><strong>20.2</strong><br>编写一个程序，读取一个大型图片到BufferedImage对象中，用javax.imageio.ImangeIo.read方法。使用多个actor，每一个actor对图形的某一个条带区域进行反色处理。当所有条带都被反色后，输出结果。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.awt.image.BufferedImage</div><div class="line"><span class="keyword">import</span> java.io.File</div><div class="line"><span class="keyword">import</span> javax.imageio.ImageIO</div><div class="line"><span class="keyword">import</span> scala.actors.Actor</div><div class="line"><span class="keyword">import</span> scala.actors.Actor._</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">InversePart</span><span class="params">(bufImage:BufferedImage, imageRGB:Array[Int], start:Int, end:Int)</span></span></div><div class="line"><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">WriteImage</span><span class="params">(result:BufferedImage, imageRGB:Array[Int])</span></span></div><div class="line"></div><div class="line"><span class="keyword">val</span> inputPng = <span class="keyword">new</span> File(<span class="string">"./pic.png"</span>)</div><div class="line"><span class="keyword">val</span> outPng = <span class="keyword">new</span> File(<span class="string">"./pic_reverse.png"</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageActor</span><span class="params">(var count:Int = 0)</span> <span class="keyword">extends</span> <span class="title">Actor</span></span>{</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> act()={</div><div class="line">    loop{</div><div class="line">      react{</div><div class="line">        <span class="keyword">case</span> InversePart(bufImage, imageRGB, start, end) =&gt;</div><div class="line">          <span class="keyword">for</span>(i &lt;- start to end){</div><div class="line">            imageRGB(i) = imageRGB(i)^<span class="number">0xffffffff</span></div><div class="line">          }</div><div class="line">          self ! WriteImage(bufImage, imageRGB)</div><div class="line">        <span class="keyword">case</span> WriteImage(bufImage, imageRGB) =&gt;</div><div class="line">          count -= <span class="number">1</span></div><div class="line">          <span class="keyword">if</span>(count==<span class="number">1</span>) {</div><div class="line">            <span class="keyword">val</span> width = bufImage.getWidth</div><div class="line">            <span class="keyword">val</span> height = bufImage.getHeight</div><div class="line">            <span class="keyword">val</span> resultImage = <span class="keyword">new</span> BufferedImage(bufImage.getWidth, bufImage.getHeight, BufferedImage.TYPE_INT_RGB)</div><div class="line">            resultImage.setRGB(<span class="number">0</span>, <span class="number">0</span>, width, height, imageRGB, <span class="number">0</span>, width)</div><div class="line">            ImageIO.write(resultImage , <span class="string">"png"</span>, outPng)</div><div class="line">            exit()</div><div class="line">          }</div><div class="line">      }</div><div class="line">    }</div><div class="line">  }</div><div class="line">}</div><div class="line"><span class="keyword">def</span> inverse = {</div><div class="line">  <span class="keyword">val</span> bufImage = ImageIO.read(inputPng)</div><div class="line">  <span class="keyword">if</span> (bufImage != <span class="keyword">null</span>) {</div><div class="line">    <span class="keyword">val</span> width = bufImage.getWidth</div><div class="line">    <span class="keyword">val</span> height = bufImage.getHeight</div><div class="line">    <span class="keyword">val</span> imageRGB = <span class="keyword">new</span> Array[Int](width * height)</div><div class="line">    bufImage.getRGB(<span class="number">0</span>, <span class="number">0</span>, width, height, imageRGB, <span class="number">0</span>, width)</div><div class="line">    <span class="keyword">var</span> step = <span class="number">5</span></div><div class="line">    <span class="keyword">var</span> start = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> end = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> flag = <span class="keyword">false</span></div><div class="line">    <span class="keyword">val</span> count = imageRGB.length / step + <span class="number">1</span></div><div class="line">    <span class="keyword">val</span> imageActor = <span class="keyword">new</span> ImageActor(count)</div><div class="line">    imageActor.start()</div><div class="line">    <span class="keyword">while</span> (!flag) {</div><div class="line">      <span class="keyword">if</span> (end + step &gt;= imageRGB.length) {</div><div class="line">        end = imageRGB.length - <span class="number">1</span></div><div class="line">        flag = <span class="keyword">true</span></div><div class="line">      } <span class="keyword">else</span> {</div><div class="line">        end += step</div><div class="line">      }</div><div class="line">      imageActor ! InversePart(bufImage, imageRGB, start, end)</div><div class="line">      start += step</div><div class="line">    }</div><div class="line">  }</div><div class="line">}</div><div class="line">inverse</div></pre></td></tr></table></figure>
+
+<p><strong>20.3</strong><br>编写一个程序，对给定目录下所有子目录的所有文件中匹配某个给定的正则表达式的单词进行计数。对每一个文件各采用一个actor，另外再加上一个actor用来遍历所有子目录，还有一个actor将结果汇总到一起。</p>
+<p><strong>20.4</strong><br>修改前一个练习的程序，显示所有匹配的单词。</p>
+<p><strong>20.5</strong><br>修改前一个练习的程序，显示所有匹配的单词，每一个都带有一个包含它的文件的列表。</p>
+<p><strong>20.6</strong><br>编写一个程序，构造100个actor，这些actor使用while(true)/receive循环，当接收到‘Hello消息时，调用println(Thread.currentThread)，同时构造另外100个actor，他们做同样的事，不过采用loop/react。将它们全部启动，给它们全部都发送一个消息。第一种actor占用了多少线程，第二种actor占用了多少线程？</p>
+<p><strong>20.7</strong><br>给练习3的程序添加一个监管actor，监控读取文件的actor并记录任何因IOException退出的actor。尝试通过移除那些计划要被处理的文件的方式触发IOException。</p>
+<p><strong>20.8</strong><br>展示一个基于actor的程序是如何在发送同步消息时引发死锁的。</p>
+<p><strong>20.9</strong><br>做出一个针对练习3的程序的有问题的实现，在这个实现当中，actor将更新一个共享的计数器。你能展现出程序运行是错误的吗？</p>
+<p><strong>20.10</strong><br>重写练习1的程序，使用消息通道来进行通信。</p>
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[《快学scala》习题解答-第十八章-高级类型]]></title>
@@ -228,6 +298,66 @@
   </entry>
   
   <entry>
+    <title><![CDATA[《快学scala》习题解答-第十六章-XML处理]]></title>
+    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0-XML%E5%A4%84%E7%90%86/"/>
+    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十六章-XML处理/</id>
+    <published>2015-02-08T09:51:42.000Z</published>
+    <updated>2015-02-10T15:31:20.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
+<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
+<h2 id="第十六章_XML处理">第十六章 XML处理</h2>
+<p><strong>16.1</strong></p>
+<p><fred>(0)得到什么？<fred>(0)(0)呢？为什么？</fred></fred></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div><div class="line"></div><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>)(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div></pre></td></tr></table></figure>
+
+<p>因为都是scala.xml.Node，是NodeSeq的子类，等同于长度为1的序列。</p>
+<p><strong>16.2</strong><br>如下代码的值是什么？</p>
+<p><ul><br>  <li>Opening bracket:[</li><br>  <li>Closing bracket:]</li><br>  <li>Opening bracket:{</li><br>  <li>Closing bracket:}</li><br></ul><br>你如何修复它？</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; &lt;ul&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:\{\{&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:\}\}&lt;/li&gt;</div><div class="line">     | &lt;/ul&gt;</div><div class="line">res9: scala.xml.Elem =</div><div class="line">&lt;ul&gt;</div><div class="line">  &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">  &lt;li&gt;Opening bracket:{&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:}&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+
+<p>花括号作为字面量，需要连写两个</p>
+<p><strong>16.3</strong><br>对比<br>  <li>Fred</li> match { case <li>{Text(t)}</li> =&gt; t }<br>和<br>  <li>{“Fred”}</li> match { case <li>{Text(t)}</li> =&gt; t}<br>为什么它们的行为不同？</p>
+<p>scala 2.11.4查不到Text api。。略</p>
+<p><strong>16.4</strong><br>读取一个XHTML文件并打印所有不带alt属性的img元素</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).filterNot(_.attributes(<span class="string">"alt"</span>).isDefined)</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; <span class="keyword">if</span> (!n.attributes(<span class="string">"alt"</span>)) =&gt; n</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.5</strong><br>打印XHTML文件中所有图像的名称，即打印所有位于img元素内的src属性值</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).flatMap(_.attributes(<span class="string">"src"</span>))</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; =&gt; Some(n.attributes(<span class="string">"src"</span>))</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.6</strong><br>读取XHTML文件并打印一个包含了文件中给出的所有超链接及其url的表格。即，打印所有a元素的child文本和href属性。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> links = (html \\ <span class="string">"a"</span>) map { (x: Node) =&gt; (x.attribute(<span class="string">"href"</span>).getOrElse(<span class="string">""</span>).toString, x.text) } filter {_._1.startsWith(<span class="string">"http"</span>)}</div><div class="line"></div><div class="line">println(links.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
+
+<p><strong>16.7</strong><br>编写一个函数，带一个类型为Map[String,String]的参数，返回一个dl元素，其中针对映射中每个键对应有一个dt，每个值对应有一个dd，例如：<br>Map(“A”-&gt;”1”,”B”-&gt;”2”)<br>应产出<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> mapToHTML(map: Map[String, String]) = {</div><div class="line">  &lt;dl&gt;{<span class="keyword">for</span> ((k,v) &lt;- map) <span class="keyword">yield</span> &lt;dt&gt;{k}&lt;/dt&gt;&lt;dd&gt;{v}&lt;/dd&gt;}&lt;/dl&gt;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = Map(<span class="string">"A"</span> -&gt; <span class="string">"1"</span>, <span class="string">"B"</span> -&gt; <span class="string">"2"</span>)</div><div class="line"></div><div class="line">println(mapToHTML(x))</div></pre></td></tr></table></figure>
+
+<p><strong>16.8</strong><br>编写一个函数，接受dl元素，将它转成Map[String,String]。该函数应该是前一个练习中的<br>反向处理，前提是所有dt后代都是唯一的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> htmlToMap(str:String):Map[String,String] = {</div><div class="line">  <span class="keyword">val</span> dtMap = (str \\ <span class="string">"dt"</span>).toMap</div><div class="line">  <span class="keyword">val</span> ddMap = (str \\ <span class="string">"dd"</span>).toMap</div><div class="line">  dtMap.zip(ddMap)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = &lt;dl&gt;&lt;dt&gt;A&lt;/dt&gt;&lt;dd&gt;<span class="number">1</span>&lt;/dd&gt;&lt;dt&gt;B&lt;/dt&gt;&lt;dd&gt;<span class="number">2</span>&lt;/dd&gt;&lt;/dl&gt;</div><div class="line">println(htmlToMap(html).mkString(<span class="string">","</span>))</div></pre></td></tr></table></figure>
+
+<p><strong>16.9</strong><br>对一个XHTML文档进行变换，对所有不带alt属性的img元素添加一个alt=”TODO”属性，其他内容完全不变。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(_.attribute(alt)==<span class="string">"NONE"</span>) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">  <span class="keyword">case</span> _ =&gt; html</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
+
+<p><strong>16.10</strong><br>编写一个函数，读取XHTML文档，执行前一个练习中的变换，并保存结果。确保保留了DTD以及所有CDATA内容。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> xml._</div><div class="line"><span class="keyword">import</span> xml.transform._</div><div class="line"><span class="keyword">import</span> xml.parsing.ConstructingParser</div><div class="line"><span class="keyword">import</span> xml.dtd.DocType</div><div class="line"><span class="keyword">import</span> java.io.File</div><div class="line"></div><div class="line"><span class="keyword">val</span> doc = ConstructingParser.fromFile(<span class="keyword">new</span> File(<span class="string">"./test.xml"</span>),</div><div class="line">  <span class="keyword">true</span>).document</div><div class="line"><span class="keyword">val</span> a = doc.docElem</div><div class="line"></div><div class="line"><span class="keyword">val</span> imgRule = <span class="keyword">new</span> RewriteRule {</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> transform(n:Node) = n <span class="keyword">match</span> {</div><div class="line">    <span class="keyword">case</span> i @ &lt;img&gt;{_*}&lt;/img&gt; <span class="keyword">if</span>(i.attribute(<span class="string">"alt"</span>) == None) =&gt;</div><div class="line">      i % Attribute(<span class="keyword">null</span>, <span class="string">"alt"</span>, <span class="string">"TODO"</span>, Null)</div><div class="line">    <span class="keyword">case</span> _ =&gt; n</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> result = <span class="keyword">new</span> RuleTransformer(imgRule).transform(a)</div><div class="line">XML.save(<span class="string">"./test.xml"</span>, result(<span class="number">0</span>), <span class="string">"UTF-8"</span>, <span class="keyword">false</span>,</div><div class="line">  DocType(<span class="string">"html"</span>, doc.dtd.externalID, Nil))</div></pre></td></tr></table></figure>
+
+<hr>
+<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
+</code></pre><p><]]>
+    </summary>
+    
+      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
+    
+      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
+    
+      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[《快学scala》习题解答-第十五章-注解]]></title>
     <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0-%E6%B3%A8%E8%A7%A3/"/>
     <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十五章-注解/</id>
@@ -280,66 +410,6 @@
 
 <p>禁用assert<br>-Xelide-below 2011<br>反编译此类javap -c Test$ 得到</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">......</div><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">factorial</span>(<span class="keyword">int</span>);</div><div class="line">  Code:</div><div class="line">   <span class="number">0</span>:   getstatic       #<span class="number">19</span>; <span class="comment">//Field scala/Predef$.MODULE$:Lscala/Predef$;</span></div><div class="line">   <span class="number">3</span>:   iload_1</div><div class="line">   <span class="number">4</span>:   iconst_0</div><div class="line">   <span class="number">5</span>:   if_icmple       <span class="number">12</span></div><div class="line">   <span class="number">8</span>:   iconst_1</div><div class="line">   <span class="number">9</span>:   goto    <span class="number">13</span></div><div class="line">   <span class="number">12</span>:  iconst_0</div><div class="line">   <span class="number">13</span>:  invokevirtual   #<span class="number">23</span>; <span class="comment">//Method scala/Predef$.assert:(Z)V</span></div><div class="line">   <span class="number">16</span>:  iload_1</div><div class="line">   <span class="number">17</span>:  ireturn</div><div class="line">......</div></pre></td></tr></table></figure>
-
-<hr>
-<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><]]>
-    </summary>
-    
-      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
-    
-      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
-    
-      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[《快学scala》习题解答-第十六章-XML处理]]></title>
-    <link href="http://vernonzheng.com/2015/02/08/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0-XML%E5%A4%84%E7%90%86/"/>
-    <id>http://vernonzheng.com/2015/02/08/《快学scala》习题解答-第十六章-XML处理/</id>
-    <published>2015-02-08T09:51:42.000Z</published>
-    <updated>2015-02-10T15:31:20.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
-<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
-<h2 id="第十六章_XML处理">第十六章 XML处理</h2>
-<p><strong>16.1</strong></p>
-<p><fred>(0)得到什么？<fred>(0)(0)呢？为什么？</fred></fred></p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div><div class="line"></div><div class="line">scala&gt; println(&lt;fred/&gt;(<span class="number">0</span>)(<span class="number">0</span>))</div><div class="line">&lt;fred/&gt;</div></pre></td></tr></table></figure>
-
-<p>因为都是scala.xml.Node，是NodeSeq的子类，等同于长度为1的序列。</p>
-<p><strong>16.2</strong><br>如下代码的值是什么？</p>
-<p><ul><br>  <li>Opening bracket:[</li><br>  <li>Closing bracket:]</li><br>  <li>Opening bracket:{</li><br>  <li>Closing bracket:}</li><br></ul><br>你如何修复它？</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">scala&gt; &lt;ul&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Opening bracket:\{\{&lt;/li&gt;</div><div class="line">     |   &lt;li&gt;Closing bracket:\}\}&lt;/li&gt;</div><div class="line">     | &lt;/ul&gt;</div><div class="line">res9: scala.xml.Elem =</div><div class="line">&lt;ul&gt;</div><div class="line">  &lt;li&gt;Opening bracket:[&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:]&lt;/li&gt;</div><div class="line">  &lt;li&gt;Opening bracket:{&lt;/li&gt;</div><div class="line">  &lt;li&gt;Closing bracket:}&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
-
-<p>花括号作为字面量，需要连写两个</p>
-<p><strong>16.3</strong><br>对比<br>  <li>Fred</li> match { case <li>{Text(t)}</li> =&gt; t }<br>和<br>  <li>{“Fred”}</li> match { case <li>{Text(t)}</li> =&gt; t}<br>为什么它们的行为不同？</p>
-<p>scala 2.11.4查不到Text api。。略</p>
-<p><strong>16.4</strong><br>读取一个XHTML文件并打印所有不带alt属性的img元素</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).filterNot(_.attributes(<span class="string">"alt"</span>).isDefined)</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; <span class="keyword">if</span> (!n.attributes(<span class="string">"alt"</span>)) =&gt; n</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.5</strong><br>打印XHTML文件中所有图像的名称，即打印所有位于img元素内的src属性值</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml.XML</div><div class="line"></div><div class="line"><span class="keyword">var</span> html = <span class="string">"&lt;html&gt;&lt;head&gt;&lt;title&gt;第一个网页&lt;/title&gt;&lt;/head&gt;&lt;body&gt;&lt;p&gt;&lt;img alt='a'&gt;&lt;img src='1'&gt;&lt;/img&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"</span></div><div class="line"><span class="keyword">val</span> images = (html \\ <span class="string">"img"</span>).flatMap(_.attributes(<span class="string">"src"</span>))</div><div class="line"><span class="keyword">val</span> images1 = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> n @ &lt;img/&gt; =&gt; Some(n.attributes(<span class="string">"src"</span>))</div><div class="line">}</div><div class="line"></div><div class="line">println(images.mkString(<span class="string">"\n"</span>));</div><div class="line">println(images1.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.6</strong><br>读取XHTML文件并打印一个包含了文件中给出的所有超链接及其url的表格。即，打印所有a元素的child文本和href属性。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> links = (html \\ <span class="string">"a"</span>) map { (x: Node) =&gt; (x.attribute(<span class="string">"href"</span>).getOrElse(<span class="string">""</span>).toString, x.text) } filter {_._1.startsWith(<span class="string">"http"</span>)}</div><div class="line"></div><div class="line">println(links.mkString(<span class="string">"\n"</span>));</div></pre></td></tr></table></figure>
-
-<p><strong>16.7</strong><br>编写一个函数，带一个类型为Map[String,String]的参数，返回一个dl元素，其中针对映射中每个键对应有一个dt，每个值对应有一个dd，例如：<br>Map(“A”-&gt;”1”,”B”-&gt;”2”)<br>应产出<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl></p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> mapToHTML(map: Map[String, String]) = {</div><div class="line">  &lt;dl&gt;{<span class="keyword">for</span> ((k,v) &lt;- map) <span class="keyword">yield</span> &lt;dt&gt;{k}&lt;/dt&gt;&lt;dd&gt;{v}&lt;/dd&gt;}&lt;/dl&gt;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> x = Map(<span class="string">"A"</span> -&gt; <span class="string">"1"</span>, <span class="string">"B"</span> -&gt; <span class="string">"2"</span>)</div><div class="line"></div><div class="line">println(mapToHTML(x))</div></pre></td></tr></table></figure>
-
-<p><strong>16.8</strong><br>编写一个函数，接受dl元素，将它转成Map[String,String]。该函数应该是前一个练习中的<br>反向处理，前提是所有dt后代都是唯一的。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> htmlToMap(str:String):Map[String,String] = {</div><div class="line">  <span class="keyword">val</span> dtMap = (str \\ <span class="string">"dt"</span>).toMap</div><div class="line">  <span class="keyword">val</span> ddMap = (str \\ <span class="string">"dd"</span>).toMap</div><div class="line">  dtMap.zip(ddMap)</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> html = &lt;dl&gt;&lt;dt&gt;A&lt;/dt&gt;&lt;dd&gt;<span class="number">1</span>&lt;/dd&gt;&lt;dt&gt;B&lt;/dt&gt;&lt;dd&gt;<span class="number">2</span>&lt;/dd&gt;&lt;/dl&gt;</div><div class="line">println(htmlToMap(html).mkString(<span class="string">","</span>))</div></pre></td></tr></table></figure>
-
-<p><strong>16.9</strong><br>对一个XHTML文档进行变换，对所有不带alt属性的img元素添加一个alt=”TODO”属性，其他内容完全不变。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.xml._</div><div class="line"><span class="keyword">val</span> html = <span class="string">""</span></div><div class="line"><span class="keyword">val</span> replaceNoneAlt = html <span class="keyword">match</span>{</div><div class="line">  <span class="keyword">case</span> img @ &lt;img/&gt; <span class="keyword">if</span>(_.attribute(alt)==<span class="string">"NONE"</span>) =&gt; img % Attribute(<span class="keyword">null</span>,<span class="string">"alt"</span>,<span class="string">"TODO"</span>,<span class="keyword">null</span>)</div><div class="line">  <span class="keyword">case</span> _ =&gt; html</div><div class="line">}</div><div class="line">println(replaceNoneAlt)</div></pre></td></tr></table></figure>
-
-<p><strong>16.10</strong><br>编写一个函数，读取XHTML文档，执行前一个练习中的变换，并保存结果。确保保留了DTD以及所有CDATA内容。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> xml._</div><div class="line"><span class="keyword">import</span> xml.transform._</div><div class="line"><span class="keyword">import</span> xml.parsing.ConstructingParser</div><div class="line"><span class="keyword">import</span> xml.dtd.DocType</div><div class="line"><span class="keyword">import</span> java.io.File</div><div class="line"></div><div class="line"><span class="keyword">val</span> doc = ConstructingParser.fromFile(<span class="keyword">new</span> File(<span class="string">"./test.xml"</span>),</div><div class="line">  <span class="keyword">true</span>).document</div><div class="line"><span class="keyword">val</span> a = doc.docElem</div><div class="line"></div><div class="line"><span class="keyword">val</span> imgRule = <span class="keyword">new</span> RewriteRule {</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> transform(n:Node) = n <span class="keyword">match</span> {</div><div class="line">    <span class="keyword">case</span> i @ &lt;img&gt;{_*}&lt;/img&gt; <span class="keyword">if</span>(i.attribute(<span class="string">"alt"</span>) == None) =&gt;</div><div class="line">      i % Attribute(<span class="keyword">null</span>, <span class="string">"alt"</span>, <span class="string">"TODO"</span>, Null)</div><div class="line">    <span class="keyword">case</span> _ =&gt; n</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">val</span> result = <span class="keyword">new</span> RuleTransformer(imgRule).transform(a)</div><div class="line">XML.save(<span class="string">"./test.xml"</span>, result(<span class="number">0</span>), <span class="string">"UTF-8"</span>, <span class="keyword">false</span>,</div><div class="line">  DocType(<span class="string">"html"</span>, doc.dtd.externalID, Nil))</div></pre></td></tr></table></figure>
 
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
@@ -1117,303 +1187,6 @@
 <p>答：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> getPower(x:Double, n:Int):Double = {</div><div class="line">  <span class="keyword">if</span> (n == <span class="number">0</span> ) <span class="number">1</span></div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> ( n&gt;<span class="number">0</span> && n % <span class="number">2</span> != <span class="number">0</span> ) x * getPower(x, n-<span class="number">1</span>)</div><div class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (n &gt;<span class="number">0</span> && n % <span class="number">2</span> == <span class="number">0</span> ) getPower (x, n/<span class="number">2</span>) * getPower (x, n/<span class="number">2</span>)</div><div class="line">  <span class="keyword">else</span> <span class="number">1</span>/getPower( x, -n) </div><div class="line">}</div></pre></td></tr></table></figure>
 
-<hr>
-<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><]]>
-    </summary>
-    
-      <category term="scala" scheme="http://vernonzheng.com/tags/scala/"/>
-    
-      <category term="习题答案" scheme="http://vernonzheng.com/tags/%E4%B9%A0%E9%A2%98%E7%AD%94%E6%A1%88/"/>
-    
-      <category term="scala" scheme="http://vernonzheng.com/categories/scala/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[《MongoDB实战》笔记]]></title>
-    <link href="http://vernonzheng.com/2015/01/19/%E3%80%8AMongoDB%E5%AE%9E%E6%88%98%E3%80%8B%E7%AC%94%E8%AE%B0/"/>
-    <id>http://vernonzheng.com/2015/01/19/《MongoDB实战》笔记/</id>
-    <published>2015-01-19T08:26:23.000Z</published>
-    <updated>2015-01-21T06:36:21.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>《MongoDB实战》的学习笔记。
-</code></pre><h2 id="第一章_为现代Web而生的数据库">第一章 为现代Web而生的数据库</h2>
-<p><em>特性</em><br>mongodb适合做水平扩展的数据库。<br>mongodb把文档组织成集合，无schema。</p>
-<p><strong>索引</strong><br>mongodb的二级索引是B树实现。<br>每个集合最多可以创建64个索引，</p>
-<p><strong>副本集</strong><br>mongodb通过副本集（replication set）的结构提供了复制功能。<br>副本集有一个主节点(primary node)和一个或多个从节点(secondary node)构成。主节点支持读写，从节点只读。而且副本集支持自动故障转移：如果主节点出了问题，集群会选一个从节点自动将它提升为主节点，在先前的主节点恢复之后，它就变成一个从节点。</p>
-<p><strong>journaling日志</strong><br>mongodb中，用户可以选择写入语义，决定是否开启Journaling日志记录，控制写入速度与持久性的之间的平衡，Journaling日志是默认开启的，所有写操作都会被提交到一个只能追加的日志里。</p>
-<p><strong>fire-and-forget</strong><br>mongodb默认是fire-and-forget，即写操作通过TCP套接字发送，不要求数据库应答。如果需要应该，需要开启特殊的安全模式。安全模式可配置，还可以用于阻塞操作，知道写操作被复制到特定数量的服务器。</p>
-<p><strong>自动分片</strong><br>mongodb是基于范围的分片方式，自动分片（auto-sharding)。单个分片由一个副本集组成，每个副本集至少三个节点，两个携带数据的副本，就能保证自动恢复，没有单点失败。</p>
-<p><strong>副本集</strong><br>通常副本集由两个副本组成，再加上一个部署在第三台服务器上的仲裁进程（arbiter process）。对于mongodb的自动分片架构而言，其组建包含配置为预先分片的副本集的mongod进程，以及特殊的元数据服务器，称为配置服务器（config server），另外还有单独名为mongos的路由服务器向适当的分片发送请求。</p>
-<p><strong>_id</strong><br>所有文档都要有一个主键，存储在_id字段里，只要保证唯一性，也可以输入自定义_id.如果省略了_id，会自动插入一个mongo对象ID。</p>
-<h2 id="第二章_MongoDB_Javascript_Shell">第二章 MongoDB Javascript Shell</h2>
-<p><strong>针对性更新（targeted modification)</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.users.update({“favorites.movies”:”sxxx”},{$addToSet:{“favorites.movies”:”ssff”},<span class="literal">false</span>,<span class="literal">true</span>)</div></pre></td></tr></table></figure>
-
-<p>第四个参数为多项更新，如果为false，则更新（默认）只应用于查询选择器匹配的第一个文档。</p>
-<p><strong>创建索引</strong><br>ensureIndex({num:1}),其中1表示升序，getIndexes()验证。<br>在查询语句后面紧跟.explain()可以看到查询计划。</p>
-<p><strong>db.stats</strong><br>获取数据库与集合更底层的信息，db.stats()。<br>stats只是辅助方法，他封装了shell的命令调用方法，等同于<br>db.runCommand({dbstats:1})，往runCommand传递文档定义。<br>看下文档定义，执行去掉无括号的版本，db.runCommand。</p>
-<h2 id="第三章_使用MongoDB编程程序">第三章 使用MongoDB编程程序</h2>
-<p><strong>mongo数据驱动</strong><br>mongodb数据驱动三个功能：</p>
-<ul>
-<li>生成mongodb对象ID，即所有文档_id字段的默认值。</li>
-<li>将所有语言特定的文档表述和BSON（mongodb的二级制数据格式）互相转化。</li>
-<li>使用mongodb的网络协议通过TCP套接字与数据库通信。</li>
-</ul>
-<p><strong>对象ID</strong><br>mongodb对象ID是全局唯一的标识符，不会重复。<br>它由12个字节构成，<br>4字节时间戳，3字节机器ID，2字节进程ID，3字节计数器<br>如：4c291856 238d3b 19b2 000001<br>可以看到对象ID包含了时间戳，从而提供对象创建时间（秒）</p>
-<p><strong>BSON数据类型</strong><br>BSON规范包含了19种数据类型，如UTF-8字符串，32位和64位整数，双精度浮点数，布尔值，时间戳，UTC时间（datetime），针对模糊对象的大数据（opaque blob），部分语言支持的符号类型（symbol type）</p>
-<p><em>BSON格式</em><br>文档转化为BSON：头部4字节表明文档的大小，接下来N个键值对，<br>每对都由一个表示其类型的字节开头，随后由null结尾的字符串表示键名，然后是被存储的值，最后是一个null字节表示文档结束。如图：<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/mongoinaction1.png" alt="BSON格式"></p>
-<p><strong>对象ID请使用BSON对象</strong><br>如果要存储mongodb对象id，应该使用mongodb对象ID，<br>而不是字符串，除了遵循对象ID的存储惯例，BSON对象还能比字符串省一半以上的空间。</p>
-<p><strong>安全模式</strong><br>mongodb安全模式写入时，驱动会在插入消息后追加一条getlaterror命令。它做了两件事，getlasterror命令需要与服务器做一次通信，它确保写操作已经送达服务器。第二，验证服务器在当前链接中没有抛出任何错误。</p>
-<h2 id="第四章_面向文档的数据">第四章 面向文档的数据</h2>
-<p><strong>事务与原子性</strong><br>mongodb不支持事务，但它支持多种原子更新操作，用于复杂文档。</p>
-<p><strong>数据库文件</strong><br>mongodb创建数据库时候，会在磁盘上分配一组数据文件，所有集合，索引和数据库其他元数据都保存在这个文件里。数据文件都被放在启动mongod时指定的dbpath里，如未指定，则保存在/data/db里。<br>如图：<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/mongoinaction2.png" alt="数据库文件"><br>各文件说明：<br>mongod.lock文件，其中存储了服务器进程ID（不要删除，会影响异常恢复）。<br>数据库文件本身依赖所属的数据库命令，garden.ns是第一个生成的文件，ns后缀表示namespaces，数据库每个集合和索引都有自己的namespace，namespace的元数据都放在这个文件里。</p>
-<p>默认情况下.ns文件固定在16MB，大约可以存24000个命令空间，也就是数据库索引和集合总数不能超过24000，通过—nssize配置。<br>看文件大小garden.0 64mb,garden.1 128mb,这些是mongoldb预先分配的数据文件，新数据文件大小是前一个的两倍，直达上限2G，通过—noprealloc和—small files配置。</p>
-<p><strong>空间使用</strong><br>stats命令检查已使用空间和已分配空间。<br>如图:<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/mongoinaction3.png" alt="空间使用"><br>其中fileSize字段表示数据分配文件空间的总和。也就是前面garden数据库两个文件之和。<br>dataSize是数据库BSON对象的实际大小，storageSize是dataSize加上集合增长预留的额外空间和未分配的已删除空间。<br>indexSize是索引大小的总和。<br>另：集合的每个数据文件里按照块分配文件，这些块称为区段（extent）。storageSize就是集合区段所分配空间的总和。</p>
-<p><strong>固定集合capped collection</strong><br>原本只针对高性能日志场景设计的。大小固定，满了以后，后续插入会覆盖集合最先插入的文档。<br>与标准集合的区别：</p>
-<ul>
-<li>固定集合默认不为_id创建索引，插入更快，也可以自己构建。（不定义索引情况下，最好把固定集合用于顺序处理的数据结构，而非用于随机查询，为此，mongodb提供了一个特殊的排序操作符$natural，按照文档的插入顺序返回文档。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.user.actions.find().sort({“$natural”:-<span class="number">1</span>})）</div></pre></td></tr></table></figure>
-
-<ul>
-<li>固定集合不能删除文档，不能执行任何增加文档大小的更新操作。</li>
-</ul>
-<p>mongodb使用固定集合来完成复制，每个副本集的成员都会把所有的写操作记录到一个特殊的oplog.rs固定集合里。从节点顺序读取这个集合内容，然后应用到自己数据库内。</p>
-<p><strong>BSON数字类型</strong><br>BSON只定义了三种数字类型，double，int，long。而javascript只支持一种数据类型Number，等价于IEEE的双精度浮点数。如果要存储为整数，需要NumberLong()或者NumberInt</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.numbers.save({n:NumberLong(<span class="number">5</span>)})</div></pre></td></tr></table></figure>
-
-<p><strong>BSON type</strong><br>每种BSON类型有一个整数标识，<br>db.numbers.find({n:{$type:18}});<br>{“_id”: ObjectId(“4c581c9bd5bbeb2365a838fa”)}</p>
-<p>BSON缺少对小数的支持</p>
-<p><strong>BSON 日期与时间</strong><br>javascript里月份是从零开始<br>new Date(2011,5,11)是2011年6月11号</p>
-<p><strong>文档大小限制</strong><br>v2.0中BSON文档大小限制在16MB，不同版本输入db.isMaster查看maxBsonObjectSize字段。<br>大小限制的原因，一是防止设计深层嵌套，二是性能，在服务器端查询大文档，在讲结果发送给客户端前需要将文档复制到缓冲区里，同时驱动反序列化开销很大。</p>
-<h2 id="第五章_查询与聚合">第五章 查询与聚合</h2>
-<p><strong>find与findOne</strong><br>find返回的是游标对象，findOne返回一个文档</p>
-<p><strong>分页</strong><br>分页可以使用：skip，limit，sort，如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">products = db.products.find({‘category_id’:category[‘_id<span class="string">']}).skip((page_number-1)*12).limit(12).sort({helpful_votes:-1})</span></div></pre></td></tr></table></figure>
-
-<p><strong>集合操作</strong><br>$in,$all,$nin,接受数组参数</p>
-<p><strong>布尔操作符</strong><br>$ne,$not,$or,$and,$exists<br>如:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.products.find(‘details.manufacturer’:’ACME’,tags:{$ne:”gardening”})</div></pre></td></tr></table></figure>
-
-<p>or可以应用于条件选择器数组</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.products.find({$or:[{‘details.color’:’blue’},{‘details.manufacturer’:’ACME<span class="string">'}]})</span></div></pre></td></tr></table></figure>
-
-<p><strong>数组下标表示</strong><br>db.users.find({‘address.0.state’:’NY’})<br>其中0表示数组的第一个</p>
-<p><strong>$elemMatch</strong><br>用于子文档的多个条件限制查询<br>db.users.find({address: {$elemMatch: {name: ‘home’,state: ’NY’}})</p>
-<p><strong>size</strong><br>根据数组大小查询，$size，不走索引，只支持精确查找。推荐将数组大小作为一个字段放入集合中。</p>
-<p><strong>$where</strong><br>可以手动编写javacript执行<br>db.reviews.find({$where: “function(){ return this.helpful_votes &gt; 3;}”})<br>this指向当前文档，不走索引，性能低。<br>可以配合一般查询语句缩小遍历集合后使用，</p>
-<p><strong>正则表达式</strong><br>使用了忽略大小写的选项则无法在查询中使用索引，就算在前缀匹配中也是如此。原生正则表达式例子：<br>db.reviews.find({user_id: ObjectId(“xxxx”), text: /best|worst/i})<br>不能用原生，则用$regex和$options</p>
-<p><strong>投影</strong><br>返回结果中去掉不需要的字段，如<br>db.users.find({}, {address:0, payment_method:0})</p>
-<p><strong>$slince</strong><br>返回头多少条或者尾多少条信息，也可以接受两参数的形式，一个是跳过多少，一个是返回元素个数限制。</p>
-<p><strong>$skip</strong><br>类似于offset ,最好省略skip，添加一个范围条件，提高性能。</p>
-<p><strong>min与max</strong><br>不提供min(),max()，自己实现，按照某字段降序排序，再limit。</p>
-<p><strong>distinct</strong><br>默认覆盖整个集合，返回字段的不同值集合，也可传入查询器。</p>
-<p><strong>group</strong><br>group最少需要三个参数，第一个参数定义对key怎么分组，第二个参数是聚合的js函数，叫reduce函数，第三个参数为reduce函数初始文档。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">results = db.views.group({key:{user_id:<span class="literal">true</span>}, initial = {review:<span class="number">0</span>, vote:<span class="number">0.0</span>},</div><div class="line">    reduce = <span class="function"><span class="keyword">function</span><span class="params">(doc, aggregator)</span></span>{</div><div class="line">        aggregator.views += <span class="number">1.0</span>;</div><div class="line">        aggregator.votes += doc.votes;</div><div class="line">    },</div><div class="line">    finalize: <span class="function"><span class="keyword">function</span><span class="params">(doc)</span></span>{</div><div class="line">        doc.average_votes = doc.votes /doc.reviews;</div><div class="line">   }</div><div class="line">});</div></pre></td></tr></table></figure>
-
-<p><strong>distinct与group结果集合大小限制</strong><br>distinct和group返回结果集合不能超过16MB，因为这两个命令是对特殊$cmd集合的查询。同时group不会处理多余10000个唯一键，不能满足的情况，使用map-reduce。</p>
-<p><strong>map-reduce</strong><br>定义一个map函数，内部调用emit()，emit方法第一个参数是分组依据的key，第二个参数是包含执行reduce的文档。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">map = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">	<span class="keyword">var</span> shipping_moth = <span class="keyword">this</span>.purchase_date.getMonth() + ‘-‘+<span class="keyword">this</span>.purchase_data.getFullYear();</div><div class="line">	<span class="keyword">var</span> items = <span class="number">0</span>;</div><div class="line">	<span class="keyword">this</span>.line_items.forEach(<span class="function"><span class="keyword">function</span><span class="params">(item)</span></span>{</div><div class="line">		tmpItems += item.qunatity;</div><div class="line">	});</div><div class="line">	emit(shipping_month,{order_total:<span class="keyword">this</span>.sub_total, item_total:<span class="number">0</span>})</div><div class="line">}</div><div class="line">reduce = <span class="function"><span class="keyword">function</span><span class="params">(key,values)</span></span>{</div><div class="line">	<span class="keyword">var</span> tmpTotal = <span class="number">0</span>;</div><div class="line">	<span class="keyword">var</span> tmpItems = <span class="number">0</span>;</div><div class="line">	tmpTotal += doc.order_total;</div><div class="line">	tmpItems += doc.items_total;</div><div class="line">	<span class="keyword">return</span> ({total: tmpTotal, items:tmpItems)});</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<h2 id="第六章_更新、原子操作与删除">第六章 更新、原子操作与删除</h2>
-<p><strong>原子性</strong><br>所有发往核心服务器的更新都是原子的，以文档为单位进行隔离。说更新操作符是原子性的是因为他们能在不先查询的前提下完成更新。</p>
-<p><strong>findAndModify</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">db.orders.findAndModify({</div><div class="line">	query:{}</div><div class="line">	update:{}</div><div class="line">})</div></pre></td></tr></table></figure>
-
-<p>默认情况下findAndModify返回更新前的文档，要返回更新后的文档，要制定{new:true}</p>
-<p><strong>多文档更新</strong><br>db.products.update({},{$addToSet:{tags:’cheap’’}}, false,true)</p>
-<p><strong>upsert</strong><br>如果查询选择器匹配到文档则更新，无匹配则新增。一次只插入或更新一个文档。</p>
-<p><strong>$inc</strong><br>递增，递减操作</p>
-<p><strong>$unset</strong><br>能删除文档中特定的键，但作用在数组上，只是置为null，要删除删除，调用$pull和$pop.</p>
-<p><strong>$addToSet和$each</strong><br>如果想在一个操作里向数组添加多个唯一的值，必须结合$each操作符来使用$addToSet</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.products.update({slug:’shovel’},{$addToSet: {’tags’: {$each: [’tools’,’dirts<span class="string">']}})</span></div></pre></td></tr></table></figure>
-
-<p><strong>$pop</strong><br>删除最后添加的内容</p>
-<p><strong>$pull</strong><br>与$pop类似，但更高级，可以明确制定删除哪个数组元素，而不是位置。</p>
-<p><strong>基于位置的更新</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">query = {_id: ObjectId(“<span class="number">4</span>c4d1476238d3b4dd5003981”),</div><div class="line">‘line_items.sku’:”<span class="number">10027</span>”}</div><div class="line">update = {$set: {‘line_items.$.quantity’:<span class="number">5</span>}}</div><div class="line">db.orders.update(query,update)</div></pre></td></tr></table></figure>
-
-<p>在line_items.$quantity字符串中$表示位置操作符,如果查询选择器匹配到了这个文档，那么有10027这个sku的文档的下标就会替换位置操作符，从而正确更新文档。</p>
-<p><strong>mongodb锁策略</strong><br>全局锁，已废弃,具体参考mongodb jira<br>写锁让步，可以使用$atomic参数控制隔离执行，不被暂停</p>
-<p><strong>更新性能</strong><br>文档更新三种：</p>
-<ul>
-<li>BSON大小不改变</li>
-<li>BSON大小改变，头四个字节需要修改，或者增加字段</li>
-<li>重写文档，预分配磁盘放不下，需要移动，为降低这类开销，mongodb会根据每个集合的情况动态调整填充因子(padding factor),也就是如果一个集合会发生很多重新分配的情况，会自动增加填充因子。填充因子*插入文档的大小后，为要额外创建的空间。</li>
-</ul>
-<h2 id="第七章_索引与查询优化">第七章 索引与查询优化</h2>
-<p><strong>$or与索引</strong><br>$or查询里，每个$or查询子句，都能使用不同的索引，但每个子句本身只能使用一个索引。</p>
-<p><strong>tip</strong><br>就算拥有正确索引，还是可能得不到快速的查询，索引和数据集无法完全加入内存，是要考虑的问题。</p>
-<p><strong>标准索引</strong><br>索引是B树，集合存储为双向列表<br>mongodb的B树实现里，新节点会被分配8192字节，也就是说实际上每个节点能包含几百个键。请牢记，默认情况下，B节点内容有意维持在60%左右。</p>
-<p><strong>稀疏索引</strong><br>当集合中大量文档都不包含被索引键。创建时指定{sparse:true}。在稀疏索引中，只会出现被索引键有值的情况。</p>
-<p><strong>声明索引要小心</strong><br>构建会花很长时间，则无法中止。最明智的建议，将索引构建当成某类数据库迁移来看。</p>
-<p><strong>后台索引</strong><br>不暂停数据库访问，在后台构建索引，对读操作主动让步。{background:true}</p>
-<p><strong>备份</strong><br>如果想在备份中包含索引，需要直接备份mongodb的数据文件。</p>
-<p><strong>reIndex</strong><br>reIndex，重建索引，占写锁，实例暂时无法使用。</p>
-<p><strong>慢查询</strong><br>mongod服务器启动，—slowms 50会把筛选日志。</p>
-<p><strong>剖析器</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use stocks</div><div class="line">db.setProfilingLevel(<span class="number">2.50</span>)</div></pre></td></tr></table></figure>
-
-<p>第一个参数，2表示读写，第二参数表示超过50ms都写日志。</p>
-<p><strong>查询优化器的三个规则</strong></p>
-<ul>
-<li>避免scanAndOrder，使用索引排序</li>
-<li>通过有效索引约束来满足所有字段</li>
-<li>如果查询包含范围查询或者排序，对于选择的索引，其中最后用到的键需能满足该范围查询或者索引</li>
-</ul>
-<p><strong>查询计划</strong><br>explain，传入true，输出查询计划</p>
-<p><strong>查询计划器的缓存</strong><br>在发现了一个成功的计划之后，会记录下查询模式(query pattern)/nscanned的值以及索引说明，如<br>{pattern: {stock_symbol:’equality’, close: ‘bound’}, index:{stock_symbol:1}, scanned:894}<br>查询模式记录下每个键匹配的类型，你正请求对stock_symbol的精确匹配（相等），对close的范围匹配，就会使用这个索引。</p>
-<p><strong>查询计划期缓存过期</strong></p>
-<ul>
-<li>对集合执行了100次写操作</li>
-<li>在集合上增加或删除了索引</li>
-<li>虽然使用了缓存的查询计划，但工作量大于预期，及nscanned超过缓存nsscanned的10倍</li>
-</ul>
-<h2 id="第八章_复制">第八章 复制</h2>
-<p><strong>两种复制风格</strong><br>mongodb提供了两种复制风格：主从复制，副本集。都是主节点写，异步同步到从节点。<br>推荐使用副本集，因为支持自动故障转移，只有mongodb需要超过11个从节点，则需要主从复制。</p>
-<p>虽然副本是冗余的，但副本不是备份的替代品。</p>
-<p><strong>副本集</strong><br>副本集，至少三个节点，包括一个仲裁节点，选主。<br>启服务略<br>isMaster查看副本信息，rs.status()更详细信息，启动完成stateStr字段会从revocering到primary，secondary，arbiter。</p>
-<p><strong>测试选主</strong><br>ctrl-c,kill -2或者连接上主节点，db.shutdownServer()</p>
-<p><strong>副本集的基础机制</strong><br>副本集依赖于两个基础机制，oplog和心跳。<br>oplog是个固定集合，位于每个复制节点的local数据库里，记录所有对数据的变更。查看当前副本状态的基本信息，db.getReplicationInfo()</p>
-<p><strong>local库</strong><br>replset.minvalid指定副本集成员的初始同步信息<br>system.replset保存了副本集配置文档<br>me和slaves实现写专注<br>system.indeses标准索引</p>
-<p><strong>副本同步</strong><br>从节点从主节点赋值oplog，做三件事</p>
-<ul>
-<li>查看oplog最后一条的时间戳</li>
-<li>查询主节点oplog里所有大于此时间戳的记录</li>
-<li>将这些记录添加到自己库里</li>
-</ul>
-<p><strong>心跳检测</strong><br>默认情况下，每个副本集成员每两秒ping一下其他所有成员。<br>如果没有多数节点，主节点会自动降为从节点。</p>
-<p><strong>回滚</strong><br>当mongodb从节点升为主节点，会触发其他从节点回滚。略<br>在数据路径下rollback子目录保存了呗回滚的写操作，对每个回滚写操作集合，创建独立BSON文件，通过bsondump查询，mongorestore恢复。</p>
-<p><strong>重新配置副本集</strong><br>无论何时，重新配置副本集导致重新选举新的主节点，那么所有客户端的链接都会被关闭，防止fire-and-forget风格的写操作。</p>
-<p><strong>配置文件</strong></p>
-<ul>
-<li>arbiterOnly：仲裁节点只存储配置数据。</li>
-<li>priority，决定了选举的权重，设置为0，表示被动节点，永远不会被选为主节点，可以用于灾难恢复节点。</li>
-<li>buildIndex：如果永远不会成为主节点，priority为0，可以设置。</li>
-<li>slaveDelay：如果要设置大于0，务必保证priority为0.<br>其他略</li>
-</ul>
-<p><strong>写关注</strong><br>getlastError(w,timeout，j:true)<br>第一个参数为需要同步到服务器的数量,w可以等于”majority”。<br>第二参数为超时时间。<br>j表示强制同步到journaing日志。</p>
-<p><strong>读扩展</strong><br>Mongo:: ReplSetConnection.new([‘arete’, 40000], [‘arete’,40001], :read =&gt; :secondary)<br>read的设置，读会从选择附近一个从节点读取。</p>
-<p>副本扩展无法处理一致性读，需要将一致性读的部分抽取出来。</p>
-<h2 id="第九章_分片">第九章 分片</h2>
-<p><strong>分片集群</strong><br>分片集群由分片，mongos路由器和配置服务器组成。<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/mongoinaction4.png" alt="分片集群"></p>
-<p><strong>mongos路由器</strong><br>通常运行于应用服务器相同的机器上，提供所有读写请求的统一系统视图。mongos进程是轻量级非持久化的。</p>
-<p><strong>配置服务器</strong><br>持久化分片集群的元数据，包括集群配置，每个数据库集合特定范围数据的位置，一份变更记录，保证数据在分片之间迁移的历史。</p>
-<p>mongos对配置服务器写入时候，使用二阶段提交。配置服务器最好三个以上，同时存在于不同机器实现冗余。</p>
-<p><strong>分片与块</strong><br>分片是基于范围的，分片建(shared key)。<br>块（chunk），位于分片种的一段连续的分片范围，如<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/mongoinaction5.png" alt="块与分片"></p>
-<p>分片的重点是块的拆分和迁移，拆分是对元数据的逻辑操作，迁移是均衡器(balancer)处理的物理操作。</p>
-<p><strong>分片索引</strong><br>每个分片都维护了自己的索引，分片集合上的索引声明，会对所有分片起效。<br>分片集合只允许在_id和分片键上添加唯一索引。</p>
-<p>分片键无法修改。</p>
-<p><strong>拓扑结构</strong><br>运行mongodb两分片集群，一共要启动九个进程，每个副本集三个mongod，外加三个配置服务器。其中副本集是资源密集型，需要暂用独立的机器，仲裁节点不需要，配置服务器间不共用机器。如图：<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/mongoinaction6.png" alt="两分片集群"></p>
-<p>考虑到灾难恢复<br><img src="http://7te9ul.com1.z0.glb.clouddn.com/mongoinaction7.png" alt="两分片集群+容灾"></p>
-<p><strong>监控</strong><br>mongos上运行serverStatus和currentOp看到所有分片的聚合统计信息，或者查询config数据库，对于不均衡的块，进行split，movechunk。</p>
-<p><strong>增加分片</strong><br>考虑向新分片移动的时间，预计每分钟100-200MB。在现有索引和工作集达到分片的90%就要开始计划。</p>
-<p><strong>移除分片</strong><br>removeshard，会删除块，重新分配到其他分片上。</p>
-<p><strong>集合去分片</strong><br>导出集合，再用不同名字将数据恢复到一个新的集合里。用mongodump连接mongos导出。</p>
-<h2 id="第十章_部署与管理">第十章 部署与管理</h2>
-<p><strong>时钟</strong><br>不同服务器见都是用NTP，网络时间，在linux上使用ntpd守护进程。</p>
-<p><strong>journaling日志</strong></p>
-<ul>
-<li>会降低写操作性能</li>
-<li>不保证不丢失写操作，只保证恢复一致状态。每100ms将写缓冲同步到磁盘。</li>
-</ul>
-<p><strong>副本集验证</strong><br>启动—keyfile指定密码文件，为至少6个base64字符集。</p>
-<p><strong>服务器监控</strong></p>
-<ul>
-<li>serverStatus<br>输出页错误，B树访问率，打开连接数，总的插入，更新，查询和删除等。globalLock会显示所有锁的时间，currentQueue显示读写队列。mem部分是内存，理想状况下所有工作集都应该放到内存中。</li>
-<li>top<br>操作计数器，显示操作的平均耗时。</li>
-<li>db.currentOp()<br>返回正在运行的所有操作。要杀掉，db.killOp(opid)</li>
-<li>mongostat<br>显示实时活动视图，以固定时间查询服务器信息，显示统计数据的矩阵，从每秒插入数到常驻内存量，再到B树页丢失频率。</li>
-<li>web控制台<br>mongod的端口+1000为web控制台端口，一般为28017.</li>
-</ul>
-<p><strong>诊断工具</strong><br>mongosniff，mongodump略</p>
-<p><strong>数据备份与恢复</strong><br>两种方式</p>
-<ul>
-<li>一个是mongodump，mongorestore</li>
-<li>一个是基于原始数据的备份，大多数情况更快，但是要求锁定数据库，可以选择锁定从节点（可以保留全部索引）。</li>
-</ul>
-<p><strong>锁定数据库</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use admin</div><div class="line">db.rumCommand({fsync:<span class="number">1</span>,lock:<span class="literal">true</span>})</div></pre></td></tr></table></figure>
-
-<p>此时数据库是写锁定的。<br>解锁:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.$cmd.sys.unlock.findOne()</div></pre></td></tr></table></figure>
-
-<p>再查看db.currentOp是否解锁</p>
-<p><strong>压紧与修复</strong><br>mongod —repair<br>或者单个数据库<br>use cloud-docs<br>db.runCommand({repairDatabase:1})</p>
-<p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
-<hr>
-<p>参考：《MongoDB实战》：<a href="http://book.douban.com/subject/19977785/" target="_blank" rel="external">http://book.douban.com/subject/19977785/</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<pre><code>《MongoDB实战》的学习笔记。
-</code></pre><h2 id="第一章_为现代Web而生的数据库">第一章 为现代Web而生的数据库</h2>
-<p><em>特性</em><br>mongodb适合做水平扩展的数据库。<br>mongodb把文]]>
-    </summary>
-    
-      <category term="mongodb" scheme="http://vernonzheng.com/tags/mongodb/"/>
-    
-      <category term="nosql" scheme="http://vernonzheng.com/tags/nosql/"/>
-    
-      <category term="mongodb" scheme="http://vernonzheng.com/categories/mongodb/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[《快学scala》习题解答-第一章-基础]]></title>
-    <link href="http://vernonzheng.com/2015/01/12/%E3%80%8A%E5%BF%AB%E5%AD%A6scala%E3%80%8B%E4%B9%A0%E9%A2%98%E8%A7%A3%E7%AD%94-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%9F%BA%E7%A1%80/"/>
-    <id>http://vernonzheng.com/2015/01/12/《快学scala》习题解答-第一章-基础/</id>
-    <published>2015-01-12T14:20:42.000Z</published>
-    <updated>2015-02-08T07:08:43.000Z</updated>
-    <content type="html"><![CDATA[<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
-<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。 </p>
-<h2 id="第一章_基础">第一章 基础</h2>
-<p><strong>1.1</strong><br>在Scala REPL中键入3,然后按Tab键。有哪些方法可以被应用? </p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">%   +   &gt;    &gt;&gt;&gt;            isInstanceOf   toDouble   toLong     unary_+   |</div><div class="line">&   -   &gt;=   ^              toByte         toFloat    toShort    unary_-</div><div class="line">*   /   &gt;&gt;   asInstanceOf   toChar         toInt      toString   unary_~</div></pre></td></tr></table></figure>
-
-<p><strong>1.2</strong><br>在Scala REPL中，计算3的平方根,然后再对该值求平方。现在，这个结果与3相差多少？(提示:res变量是你的朋友) </p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="keyword">import</span> scala.math._</div><div class="line"><span class="keyword">import</span> scala.math._</div><div class="line"></div><div class="line">scala&gt; sqrt(<span class="number">3</span>)</div><div class="line">res7: Double = <span class="number">1.7320508075688772</span></div><div class="line"></div><div class="line">scala&gt; <span class="number">3</span> - res7</div><div class="line">res8: Double = <span class="number">1.2679491924311228</span></div></pre></td></tr></table></figure>
-
-<p><strong>1.3</strong><br>res变量是val还是var? </p>
-<p>答：<br>res变量是val</p>
-<p><strong>1.4</strong><br>Scala允许你用数字去乘字符串—去REPL中试一下”crazy”*3。这个操作做什么？在Scaladoc中如何找到这个操作? </p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"crazy"</span>*<span class="number">3</span></div><div class="line">res9: String = crazycrazycrazy</div></pre></td></tr></table></figure>
-
-<p>scala docs 去查StringOps:<a href="http://www.scala-lang.org/api/current/#scala.collection.immutable.StringOps" target="_blank" rel="external">http://www.scala-lang.org/api/current/#scala.collection.immutable.StringOps</a></p>
-<p><strong>1.5</strong><br>10 max 2的含义是什么？max方法定义在哪个类中？</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="number">10</span> max <span class="number">2</span></div><div class="line">res10: Int = <span class="number">10</span></div></pre></td></tr></table></figure>
-
-<p>返回两者中比较大的一个<br>max方法定义在RichInt方法中。<a href="http://www.scala-lang.org/api/current/#scala.runtime.RichInt" target="_blank" rel="external">http://www.scala-lang.org/api/current/#scala.runtime.RichInt</a></p>
-<p><strong>1.6</strong><br>用BigInt计算2的1024次方</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; BigInt(<span class="number">2</span>).pow(<span class="number">1024</span>)</div><div class="line">res13: scala.math.BigInt = <span class="number">179769313486231590772930519078902473361797697894230657273430081157732675805500963132708477322407536021120113879871393357658789768814416622492847430639474124377767893424865485276302219601246094119453082952085005768838150682342462881473913110540827237163350510684586298239947245938479716304835356329624224137216</span></div></pre></td></tr></table></figure>
-
-<p><strong>1.7</strong><br>为了在使用probablePrime(100,Random)获取随机素数时不在probablePrime和Radom之前使用任何限定符，你需要引入什么？</p>
-<p>答：<br>import需要的包。Random在scala.util中，而probablePrime是BigInt中的方法。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> scala.math.BigInt._  </div><div class="line"><span class="keyword">import</span> scala.util.Random  </div><div class="line">  </div><div class="line">probablePrime(<span class="number">100</span>,Random) </div><div class="line">res15: scala.math.BigInt = <span class="number">1137139793510393954801305013479</span></div></pre></td></tr></table></figure>
-
-<p><strong>1.8</strong><br>创建随机文件的方式之一是生成一个随机的BigInt，然后将它转换成三十六进制，输出类似”qsnvbevtomcj38o06kul”这样的字符串。查阅Scaladoc，找到在Scala中实现该逻辑的办法。</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">scala&gt; scala.math.BigInt(scala.util.Random.nextInt).toString(<span class="number">36</span>)</div><div class="line">res19: String = -wda3r0</div></pre></td></tr></table></figure>
-
-<p><strong>1.9</strong><br>在Scala中如何获取字符串的首字符和尾字符？</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"Hello"</span>(<span class="number">0</span>)</div><div class="line">res20: Char = H</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello"</span>.take(<span class="number">1</span>)</div><div class="line">res21: String = H</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello"</span>.reverse(<span class="number">0</span>)</div><div class="line">res22: Char = o</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello"</span>.takeRight(<span class="number">1</span>)</div><div class="line">res23: String = o</div></pre></td></tr></table></figure>
-
-<p><strong>1.10</strong><br>take,drop,takeRight和dropRight这些字符串函数是做什么用的？和substring相比，他们的优点和缺点都是哪些？</p>
-<p>答：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">scala&gt; <span class="string">"Hello world"</span>.take(<span class="number">3</span>)</div><div class="line">res26: String = Hel</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.takeRight(<span class="number">3</span>)</div><div class="line">res27: String = rld</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.drop(<span class="number">3</span>)</div><div class="line">res28: String = lo world</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.dropRight(<span class="number">3</span>)</div><div class="line">res29: String = Hello wo</div><div class="line"></div><div class="line">scala&gt; <span class="string">"Hello world"</span>.take(<span class="number">3</span>).drop(<span class="number">1</span>)</div><div class="line">res32: String = el</div></pre></td></tr></table></figure>
-
-<p>take,drop,takeRight,dropRight适合从两边处理字符串，很方便可以配合使用，substring适合处理中间的字符串。</p>
 <hr>
 <p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
