@@ -4,14 +4,16 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>《快学scala》习题解答-第十七章-类型参数 | Vernon Zheng 郑雪峰</title>
+    <title>如何使用zookeeper实现服务发现 | Vernon Zheng 郑雪峰</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Vernon Zheng">
     
-    <meta name="description" content="《快学Scala》（英文版：《Scala for the Impatient》），代码已传github：
-https://github.com/vernonzheng/scala-for-the-Impatient
-书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X ">
+    <meta name="description" content="如何实现服务发现？zookeeper是否真的适合做服务发现？
+Zookeeper是Apache基金会下的一个开源的、高可用的分布式应用协调服务。许多公司都把它用于服务发现。
+是否真是适合做服务发现
+先考虑一个简单的服务注册实现
+使用临时节点来注册服务A，依赖A服务的B服务（b1实例）关注A节点的子节">
     
     
     
@@ -79,14 +81,14 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/10/《快学scala》习题解答-第十七章-类型参数/" title="《快学scala》习题解答-第十七章-类型参数" itemprop="url">《快学scala》习题解答-第十七章-类型参数</a>
+      <a href="/2015/05/20/如何使用zookeeper实现服务发现/" title="如何使用zookeeper实现服务发现" itemprop="url">如何使用zookeeper实现服务发现</a>
   </h1>
   <p class="article-author">By
        
 		<a href="http://vernonzheng.com/about" title="Vernon Zheng" target="_blank" itemprop="author">Vernon Zheng</a>
 		
   <p class="article-time">
-    <time datetime="2015-02-10T15:38:42.000Z" itemprop="datePublished"> 发表于 2月 10 2015</time>
+    <time datetime="2015-05-20T06:31:13.000Z" itemprop="datePublished"> 发表于 5月 20 2015</time>
     
   </p>
 </header>
@@ -95,42 +97,56 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十七章_类型参数"><span class="toc-number">1.</span> <span class="toc-text">第十七章 类型参数</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#是否真是适合做服务发现"><span class="toc-number">1.</span> <span class="toc-text">是否真是适合做服务发现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先考虑一个简单的服务注册实现"><span class="toc-number">1.1.</span> <span class="toc-text">先考虑一个简单的服务注册实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发现问题"><span class="toc-number">1.2.</span> <span class="toc-text">发现问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析问题"><span class="toc-number">1.3.</span> <span class="toc-text">分析问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">1.4.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何实现服务注册"><span class="toc-number">2.</span> <span class="toc-text">如何实现服务注册</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现服务心跳"><span class="toc-number">2.1.</span> <span class="toc-text">实现服务心跳</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加客户端缓存"><span class="toc-number">2.2.</span> <span class="toc-text">增加客户端缓存</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<pre><code>《快学Scala》（英文版：《Scala <span class="keyword">for</span> <span class="operator">the</span> Impatient》），代码已传github：
-</code></pre><p><a href="https://github.com/vernonzheng/scala-for-the-Impatient" target="_blank" rel="external">https://github.com/vernonzheng/scala-for-the-Impatient</a></p>
-<p>书为第一版。scala为2.11.4，jdk1.7.45，操作系统Mac OS X Yosemite 10.10.1。</p>
-<h2 id="第十七章_类型参数">第十七章 类型参数</h2>
-<p><strong>17.1</strong><br>定义一个不可变类Pair[T,S], 带一个swap方法，返回组件交换过位置的新对偶</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">T</span>,<span class="title">S</span>]<span class="params">(val t:T,val s:S)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap() = <span class="keyword">new</span> Pair(s,t)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>17.2</strong><br>定义一个可变类Pair[T]，带一个swap方法，交换对偶中组件的位置。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">T</span>]<span class="params">(val s:T,val t:T)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap() = <span class="keyword">new</span> Pair(t,s)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>17.3</strong><br>给定类Pair[T, S] ，编写一个泛型方法swap，接受对偶作为参数并返回组件交换过位置的新对偶。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">T</span>,<span class="title">S</span>]<span class="params">(val t:T, val s:S)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap[T,S](t:T,s:S) = <span class="keyword">new</span> Pair(s,t)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>17.4</strong><br>在17.3节中，如果我们想把Pair[Person]的第一个组件替换成Student，为什么不需要给replaceFirst方法定一个下界？</p>
-<p>因为Student是Person的子类，是可以转成T类型的，不必定义下界</p>
-<p><strong>17.5</strong><br>为什么RichInt实现的是Comparable[Int]而不是Comparable[RichInt]?</p>
-<p>T &lt;% Comparable[T] ,是隐含参数转化的，T是Int的时候将自动调用RichInt中的Comparable[RichInt]</p>
-<p><strong>17.6</strong><br>编写一个泛型方法middle，返回任何Iterable[T]的中间元素。举例来说，middle(“World”)应得到’r’。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">def</span> middle[T](iter:Iterable[T]):T={</div><div class="line">  <span class="keyword">val</span> seq = iter.toArray</div><div class="line">  seq(seq.length/<span class="number">2</span>)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>17.7</strong><br>查看Iterable[+A]特质。哪些方法使用了类型参数A？为什么在这些方法中类型参数位于协变点？</p>
-<p>如min, max, last 等。这些方法都会返回A类型，所以位于协变点。</p>
-<p><strong>17.8</strong><br>在17.10节中，replaceFirst方法带有一个类型界定。为什么你不能对可变的Pair[T]定义一个等效的方法？<br>def replaceFirst<a href="newFirst: R" target="_blank" rel="external">R &gt;: T</a> { first = newFirst } //错误</p>
-<p>因为first是子类，newFirst是超类，超类不能被赋值给子类。</p>
-<p><strong>17.9</strong><br>在一个不可变类Pair[+T]中限制方法参数看上去可能有些奇怪。不过，先假定你可以在Pair[+T]定义<br>def replaceFirst(newFirst: T)<br>问题在于，该方法可能会被重写（以某种不可靠的方式）。构造出这样的一个示例。定义一个Pair[Double]的类型NastyDoublePair，重写replaceFirst方法，用newFirst的平方根来做新对偶。然后对实际类型为NastyDoublePair的Pair[Any]调用replaceFirst(“Hello”)。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Anyone resolve this, please contact me</span></div><div class="line"><span class="keyword">package</span> _1709 {</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[+<span class="title">T</span>]<span class="params">(val t:T, val s:T)</span> </span>{</div><div class="line">  <span class="keyword">def</span> replaceFirst[T](newFirst: T) {}</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NastyDoublePair</span>[<span class="title">Double</span>]<span class="params">(t1:Double, s1:Double)</span> <span class="keyword">extends</span> <span class="title">Pair</span>[<span class="title">Double</span>]<span class="params">(t1,s1)</span> </span>{</div><div class="line">  <span class="keyword">override</span> <span class="keyword">def</span> replaceFirst(newFirst: Double) ={</div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     *  error: type mismatch;</div><div class="line">       found   : Double(in class NastyDoublePair)</div><div class="line">       required: scala.Double</div><div class="line">                 new NastyDoublePair(newFirst,math.sqrt(newFirst))</div><div class="line">     */</div><div class="line">    <span class="keyword">new</span> NastyDoublePair(newFirst,math.sqrt(newFirst))</div><div class="line">  }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">object</span> <span class="title">test</span> <span class="keyword">extends</span> <span class="title">App</span> </span>{</div><div class="line">  <span class="keyword">val</span> p: Pair[Any] = <span class="keyword">new</span> NastyDoublePair(<span class="number">1.0</span>, <span class="number">2.0</span>)</div><div class="line">  p.replaceFirst(<span class="string">"Hello"</span>)</div><div class="line">}</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>17.10</strong><br>给定可变类Pair[S,T]，使用类型约束定义一个swap方法，当类型参数相同时可以被调用。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pair</span>[<span class="title">S</span>,<span class="title">T</span>]<span class="params">(val s:S, val t:T)</span></span>{</div><div class="line">  <span class="keyword">def</span> swap(implicit env: S =:= T) = <span class="keyword">new</span> Pair(t,s)</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<hr>
-<p>参考：<br>《快学Scala》：<a href="http://book.douban.com/subject/19971952/" target="_blank" rel="external">http://book.douban.com/subject/19971952/</a></p>
+		<pre><code>如何实现服务发现？zookeeper是否真的适合做服务发现？
+</code></pre><p>Zookeeper是Apache基金会下的一个开源的、高可用的分布式应用协调服务。许多公司都把它用于服务发现。</p>
+<h2 id="是否真是适合做服务发现">是否真是适合做服务发现</h2>
+<h3 id="先考虑一个简单的服务注册实现">先考虑一个简单的服务注册实现</h3>
+<p>使用临时节点来注册服务A，依赖A服务的B服务（b1实例）关注A节点的子节点变更，来实现服务动态注册，注销。</p>
+<p>服务A对应的zookeeper节点结构如下：<br>A</p>
+<ul>
+<li>a1(192.168.1.112:9888)</li>
+<li>a2(192.168.1.113:9888)</li>
+<li>a3(192.168.1.113:9988)</li>
+<li>a4(192.168.1.113:9981)</li>
+</ul>
+<p>如果没有什么网络问题发生，想象中方案可行。</p>
+<h3 id="发现问题">发现问题</h3>
+<p>But，back to earch。。我们假设一个问题情况：</p>
+<p>（1）a1与zookeeper网络断开，而a1与b1实例网络连通。</p>
+<p>b1会收到A节点子节点的更新消息，然后重新获取A节点的所有子节点信息，发现a1没了。</p>
+<ul>
+<li>站在a1的角度，b1与a1的连接应该不断开。</li>
+<li>站在b1的角度，是无法判断出是a1与zookeeper的是网络问题还是a1真的下线了。（b1 ping下a1可以排除网络问题，但是a1能被ping通，能正常提供服务和a1在zookeeper上注销没有因果关联，属于设计的缺陷）</li>
+</ul>
+<p>不继续举例了。。</p>
+<h3 id="分析问题">分析问题</h3>
+<p>这是个典型的网络分区问题，系统一开始处于一致性状态，突然网络问题，出现了两个分区，每个分区的状态不一致，即b1+zookeeper和a1两块，修复网络分区问题，就要提供分布式系统的可用性，即保证b1看到的a1状态和通过zookeeper看到a1的状态应该是一致的。</p>
+<p>就是要提升zookeeper集群的可用性。</p>
+<p>再进一步思考，zookeeper集群设计，比如zabs协议等等都是为了保证CP的，一致性+分区容忍性的。按照CAP原理，CA，AP是二选一的。</p>
+<h3 id="结论">结论</h3>
+<p>对，产生矛盾了。</p>
+<p>可以得出结论：zookeeper不适合做服务发现，因为他不能解决网络分区问题。</p>
+<h2 id="如何实现服务注册">如何实现服务注册</h2>
+<p>完了吗？</p>
+<p>没，CAP原理是设计上的原则，不能设计以AP，CP同时都完全满足的系统，如果要实现服务注册发现，那就要增加一定的可用性，牺牲一定的一致性。</p>
+<p>不扯CAP了，具体怎么做呢？</p>
+<p><strong>举两个解决方案</strong></p>
+<h3 id="实现服务心跳">实现服务心跳</h3>
+<p>参考下Etcd（很好用）和Eureka（没用过），两者设计上都是通过服务心跳来解决这个问题。</p>
+<p>服务心跳的概念，类同于普通心跳：如果一个服务长时间没有发送心跳，那么从服务注册中将其删除，避免网络分区问题。如果短时间内丢失过多客户端时，会停用这一机制，进入“自我保护模式”。网络恢复后，它又会自动退出该模式。这样，虽然它保留的数据中可能存在错误，却不会丢失任何有效数据。（也就是没有被误判下线的服务，只有没法连接到服务，是网络分区问题的较优解了，最优还缺少合并不同状态这一步）</p>
+<p>我们利用zookeeper也可以模仿，实现一个pull模式的服务心跳，非push是因为你要去改zookeeper集群设计，还要保证原来的CP，难。</p>
+<p><strong>具体就是</strong></p>
+<p>a1不再注册临时节点，改为注册永久节点，维护一个timer，定时更新a1节点的lastModifyTime，依赖A服务的B服务定时获取A所有子节点，通过校验最后时间来判断是否下线。</p>
+<p>这个方案没有Etcd和Eureka的push方法的服务心跳好用，设计上是绕了一圈求解。</p>
+<h3 id="增加客户端缓存">增加客户端缓存</h3>
+<p>当接到服务下线消息后，校验确实服务不可用，或者一定时间后还是下线状态，再从缓存中移除该服务节点，算是代价比较小的改进。</p>
+<p>完。</p>
+<p>楼主正在用nodejs（coffeescript）写一个分布式配置中心+服务发现开源项目，欢迎关注：<br><a href="https://github.com/vernonzheng/hades-node-client" target="_blank" rel="external">https://github.com/vernonzheng/hades-node-client</a></p>
+<p>另外开源配置中心选型：<br><a href="http://vernonzheng.com/2015/02/09/%E5%BC%80%E6%BA%90%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E9%80%89%E5%9E%8B/" target="_blank" rel="external">http://vernonzheng.com/2015/02/09/%E5%BC%80%E6%BA%90%E5%88%86%E5%B8%83%E5%BC%8F%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E9%80%89%E5%9E%8B/</a></p>
 <p><strong>（转载本站文章请注明作者和出处 Vernon Zheng(郑雪峰) – vernonzheng.com ，请勿用于任何商业用途）</strong></p>
   
 	</div>
@@ -139,13 +155,13 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/scala/">scala</a>
+  <a class="article-category-link" href="/categories/zookeeper/">zookeeper</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/scala/">scala</a><a href="/tags/习题答案/">习题答案</a>
+  <span></span> <a href="/tags/zookeeper/">zookeeper</a><a href="/tags/服务发现/">服务发现</a><a href="/tags/分布式系统设计/">分布式系统设计</a>
   </div>
 
 </div>
@@ -153,7 +169,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 <div class="article-share" id="share">
 
-  <div data-url="http://vernonzheng.com/2015/02/10/《快学scala》习题解答-第十七章-类型参数/" data-title="《快学scala》习题解答-第十七章-类型参数 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
+  <div data-url="http://vernonzheng.com/2015/05/20/如何使用zookeeper实现服务发现/" data-title="如何使用zookeeper实现服务发现 | Vernon Zheng 郑雪峰" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -162,19 +178,11 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/02/11/《快学scala》习题解答-第十八章-高级类型/" title="《快学scala》习题解答-第十八章-高级类型">
-  <strong>上一篇：</strong><br/>
-  <span>
-  《快学scala》习题解答-第十八章-高级类型</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/09/开源分布式配置中心选型/"  title="开源分布式配置中心选型">
+<a href="/2015/03/19/《快学scala》习题解答-第十九章-解析/"  title="《快学scala》习题解答-第十九章-解析">
  <strong>下一篇：</strong><br/> 
- <span>开源分布式配置中心选型
+ <span>《快学scala》习题解答-第十九章-解析
 </span>
 </a>
 </div>
@@ -183,7 +191,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/02/10/《快学scala》习题解答-第十七章-类型参数/" data-title="《快学scala》习题解答-第十七章-类型参数" data-url="http://vernonzheng.com/2015/02/10/《快学scala》习题解答-第十七章-类型参数/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/20/如何使用zookeeper实现服务发现/" data-title="如何使用zookeeper实现服务发现" data-url="http://vernonzheng.com/2015/05/20/如何使用zookeeper实现服务发现/"></div>
 </section>
 
 
@@ -194,7 +202,7 @@ https://github.com/vernonzheng/scala-for-the-Impatient
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第十七章_类型参数"><span class="toc-number">1.</span> <span class="toc-text">第十七章 类型参数</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#是否真是适合做服务发现"><span class="toc-number">1.</span> <span class="toc-text">是否真是适合做服务发现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先考虑一个简单的服务注册实现"><span class="toc-number">1.1.</span> <span class="toc-text">先考虑一个简单的服务注册实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发现问题"><span class="toc-number">1.2.</span> <span class="toc-text">发现问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析问题"><span class="toc-number">1.3.</span> <span class="toc-text">分析问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结论"><span class="toc-number">1.4.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何实现服务注册"><span class="toc-number">2.</span> <span class="toc-text">如何实现服务注册</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现服务心跳"><span class="toc-number">2.1.</span> <span class="toc-text">实现服务心跳</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增加客户端缓存"><span class="toc-number">2.2.</span> <span class="toc-text">增加客户端缓存</span></a></li></ol></li></ol>
  
   </div>
 
