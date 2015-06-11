@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[Vernon Zheng 郑雪峰]]></title>
+  <title><![CDATA[Vern Zheng]]></title>
   <subtitle><![CDATA[tech | life | thinking | note]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://vernonzheng.com/"/>
-  <updated>2015-05-20T13:11:07.033Z</updated>
+  <updated>2015-06-11T10:49:08.519Z</updated>
   <id>http://vernonzheng.com/</id>
   
   <author>
-    <name><![CDATA[Vernon Zheng]]></name>
+    <name><![CDATA[Vern Zheng]]></name>
     <email><![CDATA[kevonzheng@gmail.com]]></email>
   </author>
   
